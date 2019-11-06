@@ -1,29 +1,22 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+// Components
 import Tasks from './components/Tasks/Tasks';
 import AddTask from './components/Tasks/AddTask';
 import Header from './components/layout/Header';
+import About from './components/pages/About';
+// Style
 import './App.css';
 
 class App extends React.Component {
     state = {
-        tasks : [
-            {
-                id : 1,
-                description : "Front end Development",
-                completed : false,
-            },
-            {
-                id : 2,
-                description : "Back end Development",
-                completed : false,
-            },
-            {
-                id : 3,
-                description : "Database Development",
-                completed : false,
-            },
-        ],
-        count : 3,
+        tasks : []
+    }
+
+    componentDidMount() {
+        fetch('/api/tasks')
+            .then(res => res.json())
+            .then(tasks => this.setState({tasks : tasks}));
     }
 
     markComplete = (taskObj) => {
@@ -58,12 +51,19 @@ class App extends React.Component {
 
     render() {
         return(
-            <div className="App">
-                <Header />
-                <AddTask addTask = {this.addTask}/>
-                <h3>STARTING AT SQUARE 1</h3>
-                <Tasks tasks={this.state.tasks} markComplete = {this.markComplete} deleteTask = {this.deleteTask}/>
-            </div>
+            <Router>
+                <div className="App">
+                    <Header />
+                    <Route exact path="/" render={props => (
+                        <React.Fragment>
+                            <AddTask addTask = {this.addTask}/>
+                            <h3>STARTING AT SQUARE 1</h3>
+                            <Tasks tasks={this.state.tasks} markComplete = {this.markComplete} deleteTask = {this.deleteTask}/>
+                        </React.Fragment>
+                    )} />
+                    <Route path="/about" component = {About} />
+                </div>
+            </Router>
         );
     }
 }

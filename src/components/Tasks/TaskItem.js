@@ -26,7 +26,9 @@ class TaskItem extends React.Component {
 
 // propTypes
 TaskItem.propTypes = {
-    task : PropTypes.object.isRequired
+    task : PropTypes.object.isRequired,
+    markComplete : PropTypes.func.isRequired,
+    deleteTask : PropTypes.func.isRequired,
 }
 
 const btnStyle = {

@@ -13,7 +13,9 @@ class Tasks extends React.Component {
 
 // PropTypes
 Tasks.propTypes = {
-    tasks : PropTypes.array.isRequired
+    tasks : PropTypes.array.isRequired,
+    markComplete : PropTypes.func.isRequired,
+    deleteTask : PropTypes.func.isRequired,
 }
 
 export default Tasks;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class AddTask extends React.Component {
 
@@ -7,6 +8,7 @@ class AddTask extends React.Component {
         // testVal1 : '',
         // testVal2 : '',
     }
+
 
     makeTask = (task) => {
         console.log("MAKING THE TASK");
@@ -36,5 +38,11 @@ class AddTask extends React.Component {
         )
     }
 }
+
+// PropTypes
+AddTask.propTypes = {
+    addTask : PropTypes.func.isRequired
+}
+
 
 export default AddTask;
