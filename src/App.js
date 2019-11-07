@@ -10,11 +10,12 @@ import './App.css';
 
 class App extends React.Component {
     state = {
-        tasks : []
+        tasks : [],
+        folders : []
     }
 
     componentDidMount() {
-        fetch('/api/tasks')
+        fetch('/api/tickets')
             .then(res => res.json())
             .then(tasks => this.setState({tasks : tasks}));
     }
