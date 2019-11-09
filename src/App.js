@@ -1,17 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 // Components
 import Tasks from './components/Tasks/Tasks';
 import AddTask from './components/Tasks/AddTask';
 import Header from './components/layout/Header';
 import About from './components/pages/About';
+import Home from './components/Home/Home';
+
 // Style
 import './App.css';
 
 class App extends React.Component {
     state = {
         tasks : [],
-        folders : []
+        folders : [],
     }
 
     componentDidMount() {
@@ -24,7 +27,7 @@ class App extends React.Component {
         console.log("FROM APP.js");
         console.log(taskObj);
         this.setState({tasks : this.state.tasks.map(task => {
-            if (taskObj.id === task.id) {
+            if (taskObj._id === task._id) {
                 task.completed = !task.completed;
             }
             return task;
@@ -34,7 +37,7 @@ class App extends React.Component {
     deleteTask = (taskObj) => {
         console.log("IN APP.JS");
         console.log(taskObj);
-        this.setState({tasks : [...this.state.tasks.filter(task => task.id !== taskObj.id)]});
+        this.setState({tasks : [...this.state.tasks.filter(task => task._id !== taskObj._id)]});
     }
 
     addTask = (taskDescription) => {
@@ -57,6 +60,7 @@ class App extends React.Component {
                     <Header />
                     <Route exact path="/" render={props => (
                         <React.Fragment>
+                            <Home />
                             <AddTask addTask = {this.addTask}/>
                             <h3>STARTING AT SQUARE 1</h3>
                             <Tasks tasks={this.state.tasks} markComplete = {this.markComplete} deleteTask = {this.deleteTask}/>

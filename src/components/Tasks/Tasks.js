@@ -6,7 +6,7 @@ class Tasks extends React.Component {
 
     render() {
         return this.props.tasks.map((task) => (
-            < TaskItem key={task.id} task={task} markComplete = {this.props.markComplete} deleteTask = {this.props.deleteTask} />
+            < TaskItem key={task._id} task={task} markComplete = {this.props.markComplete} deleteTask = {this.props.deleteTask} />
         ));
     }
 }

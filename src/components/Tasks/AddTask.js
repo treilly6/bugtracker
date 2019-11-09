@@ -9,7 +9,6 @@ class AddTask extends React.Component {
         // testVal2 : '',
     }
 
-
     makeTask = (task) => {
         console.log("MAKING THE TASK");
         console.log("TASK");

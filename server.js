@@ -1,11 +1,16 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+
+// eventually separate the route
+// require('./routes/routes')(app)
+
 require("dotenv/config");
 
 // Import Models
 let Ticket = require('./models/Ticket')
 
+// Routes
 app.get('/api/tickets', (req,res) => {
     console.log("HERE THE REQ");
     // let query = { author : "Bobis Poleni"};
@@ -20,10 +25,12 @@ app.get('/api/tickets', (req,res) => {
     }).limit(3);
 });
 
+app.get("/about", (req,res) => {
+    console.log("HERE WE GO");
+    console.log("SERVER ON THE BACKEND ABOIUT THIS SHEIT YALL");
+});
+
 // Connect to DB
-// mongoose.connect(url to the db);
-// mongoose.connect(process.env.DB_CONNECTION)
-// can use dotenv to hide the username and password
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser : true }, (err) =>
     {
         if (err) {
