@@ -16,12 +16,19 @@ class Home extends React.Component {
             .then(tickets => this.setState({tickets : tickets}));
     }
 
+    addTicket = (ticket) => {
+        console.log(ticket);
+        console.log(this.state.tickets);
+        this.setState({tickets : [...this.state.tickets, ticket]});
+        console.log("IN THE HOME JS");
+    }
+
 
     render() {
         return (
             <div>
                 <h1>HOME PAGE</h1>
-                <AddTicket />
+                <AddTicket addTicket = {this.addTicket} />
                 <Tickets tickets={this.state.tickets} />
             </div>
         )
