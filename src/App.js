@@ -7,6 +7,7 @@ import AddTask from './components/Tasks/AddTask';
 import Header from './components/layout/Header';
 import About from './components/pages/About';
 import Home from './components/Home/Home';
+import ProjectItem from './components/Home/Projects/ProjectItem';
 
 // Style
 import './App.css';
@@ -60,12 +61,13 @@ class App extends React.Component {
                     <Header />
                     <Route exact path="/" render={props => (
                         <React.Fragment>
-                            <Home />
                             <AddTask addTask = {this.addTask}/>
                             <h3>STARTING AT SQUARE 1</h3>
                             <Tasks tasks={this.state.tasks} markComplete = {this.markComplete} deleteTask = {this.deleteTask}/>
                         </React.Fragment>
                     )} />
+                    <Route path="/projects" exact component={Home} />
+                    <Route path="/projects/:projectName" component = {ProjectItem} />
                     <Route path="/about" component = {About} />
                 </div>
             </Router>

@@ -1,46 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AddTicket from './Tickets/AddTicket';
-import Tickets from './Tickets/Tickets';
-// import TicketItem from './Tickets/TicketItem';
-import AddFolder from './Folders/AddFolder';
-import Folders from './Folders/Folders';
+import Projects from './Projects/Projects';
+import AddProject from './Projects/AddProject';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
 class Home extends React.Component {
 
     state = {
-        tickets : [],
-        folders : [],
+        projects : [{
+                "title" : "GET OWNSD",
+            },
+            {
+                "title" : "BackEnd Dev",
+            },
+            {
+                "title" : "Front End Dev",
+            },
+            {
+                "title" : "Database management",
+            },
+            {
+                "title" : "maybethus",
+            }
+        ],
     }
 
-    componentDidMount() {
-        fetch('/api/tickets')
-            .then(res => res.json())
-            .then(tickets => this.setState({tickets : tickets}));
+    addProject = (newProject) => {
+        this.setState({projects : [...this.state.projects, newProject]});
     }
-
-    addTicket = (ticket) => {
-        console.log(ticket);
-        console.log(this.state.tickets);
-        this.setState({tickets : [...this.state.tickets, ticket]});
-        console.log("IN THE HOME JS");
-    }
-
-    addFolder = (folder) => {
-        console.log("HOME JS FOLDER SHIT");
-        this.setState({folders : [...this.state.folders, folder]});
-    }
-
 
     render() {
         return (
             <div>
                 <h1>HOME PAGE</h1>
-                <AddFolder addFolder = {this.addFolder} />
-                <AddTicket addTicket = {this.addTicket} />
-                <Folders folders = {this.state.folders} />
-                <Tickets tickets={this.state.tickets} />
+                <Projects projects = {this.state.projects} />
+                <AddProject addProject = {this.addProject} />
             </div>
         )
     }
