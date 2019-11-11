@@ -8,12 +8,16 @@ class Tickets extends React.Component {
 
 
     render() {
-        console.log("TICKETS HEERRE");
-        console.log(this.props);
-        console.log(this.props.tickets);
-        return this.props.tickets.map((ticket) => (
+        console.log("Rendering tickets.js");
+        var ticketItems = this.props.tickets.map((ticket) => (
             < TicketItem key={ticket._id} ticket={ticket} />
         ));
+        return (
+            <div>
+                <h2>Tickets</h2>
+                {ticketItems}
+            </div>
+        );
     }
 }
 

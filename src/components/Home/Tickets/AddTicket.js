@@ -16,7 +16,6 @@ class AddTicket extends React.Component {
 
     submit = (e) => {
         e.preventDefault();
-        console.log("YEET");
         var ticket = {
             "title" : this.state.title,
             "description" : this.state.description,
@@ -34,6 +33,7 @@ class AddTicket extends React.Component {
     render() {
         return (
             <div style={ticketFormDiv}>
+                <h6>Add Tickets</h6>
                 <form onSubmit={this.submit} style={ticketForm}>
                     <input style={formInput} onChange={this.changeInput} value={this.state.title} type="text" name="title" placeholder="Title" />
                     <input style={formInput} onChange={this.changeInput} value={this.state.description} type="text" name="description" placeholder="Description" />
