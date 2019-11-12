@@ -6,27 +6,20 @@ class TicketItem extends React.Component {
     state = {};
 
     render() {
-        const { title, description } = this.props.ticket
+        const title = this.props.match.params.ticketTitle;
+        const description = "TESTING THE DESCRIPTOIOISDFJL";
         return (
-            <div style={ticketDiv} >
-                <div style={ticketCont}>
-                    <div>{ title }</div>
-                    <div>12/9/19 12:38 PM</div>
+            <div>
+                <div>TICKET DESC PAGE</div>
+                <h4>{title}</h4>
+                <p>{description}</p>
+                <div>
+                    <h4>Comments</h4>
                 </div>
             </div>
         )
     }
 }
 
-const ticketDiv = {
-    backgroundColor : "#555",
-    padding : "20px 5px",
-    borderBottom : "1px solid black",
-}
-
-const ticketCont = {
-    display : "flex",
-    justifyContent : "space-between"
-}
 
 export default TicketItem;

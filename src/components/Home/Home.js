@@ -33,7 +33,7 @@ class Home extends React.Component {
     render() {
         return (
             <div>
-                <h1>HOME PAGE</h1>
+                <h1>Projects Home Page</h1>
                 <Projects projects = {this.state.projects} />
                 <AddProject addProject = {this.addProject} />
             </div>

@@ -8,6 +8,7 @@ import Header from './components/layout/Header';
 import About from './components/pages/About';
 import Home from './components/Home/Home';
 import ProjectItem from './components/Home/Projects/ProjectItem';
+import TicketItem from './components/Home/Projects/Tickets/TicketItem';
 
 // Style
 import './App.css';
@@ -61,13 +62,14 @@ class App extends React.Component {
                     <Header />
                     <Route exact path="/" render={props => (
                         <React.Fragment>
+                            <h3>Home Page</h3>
                             <AddTask addTask = {this.addTask}/>
-                            <h3>STARTING AT SQUARE 1</h3>
                             <Tasks tasks={this.state.tasks} markComplete = {this.markComplete} deleteTask = {this.deleteTask}/>
                         </React.Fragment>
                     )} />
                     <Route path="/projects" exact component={Home} />
-                    <Route path="/projects/:projectName" component = {ProjectItem} />
+                    <Route path="/projects/:projectName" exact component = {ProjectItem} />
+                    <Route path="/projects/:projectName/ticket/:ticketTitle" component = {TicketItem}/>
                     <Route path="/about" component = {About} />
                 </div>
             </Router>
