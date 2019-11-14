@@ -21,22 +21,21 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     console.log("ISSA POST");
-    console.log(req.data);
     console.log(req.body);
-    console.log(req.params);
-    console.log(res.data);
-    console.log(res.body);
-    console.log(request.body);
+    console.log(req.body.title);
+    console.log("sope");
     // var newProject = new Project({
     //     title : "Post Topic",
     //     creator : "Bob Nuttdug",
     // });
     var newProject = new Project({
-        title : req.data.title,
+        title : req.body.title,
         creator : "Bob Nuttdug",
     });
 
-    newProject.save().then(project => res.json(project));
+    newProject.save()
+    .then(project => res.json(project))
+    .catch(err => console.log(err));
 })
 
 module.exports = router;

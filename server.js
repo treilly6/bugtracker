@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 
 require("dotenv/config");
 
+app.use(express.json());
+
 const Ticket = require('./routes/api/TicketRoutes');
 const Project = require('./routes/api/ProjectRoutes');
 
