@@ -59,8 +59,10 @@ class Home extends React.Component {
         console.log("HERE");
         axios.delete('/api/projects', {data : data}, config)
         .then((res) => {
-            console.log("success deleted");
-            console.log(res);
+            console.log("sucess shit mans");
+            console.log(res.data);
+            this.setState({projects : this.state.projects.filter((elem) => elem._id != res.data)});
+            console.log("worked");
         })
         .catch((err) => {
             console.log("ON NOEE");

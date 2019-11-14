@@ -42,11 +42,14 @@ router.delete('/', (req, res) => {
     console.log("IN THE DELETE AREA");
     console.log(req.body);
     console.log("body should be above");
-    query = {_id : req.body.id}
+    const id = req.body.id;
+    query = {_id : req.body.id};
     Project.deleteOne(query)
-    .then((res) => {
+    .then((result) => {
         console.log("SUCCESS MANE");
-        console.log(res);
+        console.log(result);
+        console.log(id);
+        res.json(id);
     })
     .catch((err) => {
         console.log("messed uip");
