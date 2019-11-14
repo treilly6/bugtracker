@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ProjectItem from './ProjectItem';
+import axios from 'axios';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 
@@ -12,6 +13,7 @@ class Projects extends React.Component {
         var projectItems = this.props.projects.map((project) => (
             <div style={divStyle}>
                 <Link to={`projects/${project.title}/`}>{project.title}</Link>
+                <button onClick={() => this.props.deleteProject(project._id)}>Click me</button>
             </div>
         ));
 

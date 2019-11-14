@@ -36,6 +36,22 @@ router.post('/', (req, res) => {
     newProject.save()
     .then(project => res.json(project))
     .catch(err => console.log(err));
-})
+});
+
+router.delete('/', (req, res) => {
+    console.log("IN THE DELETE AREA");
+    console.log(req.body);
+    console.log("body should be above");
+    query = {_id : req.body.id}
+    Project.deleteOne(query)
+    .then((res) => {
+        console.log("SUCCESS MANE");
+        console.log(res);
+    })
+    .catch((err) => {
+        console.log("messed uip");
+        console.log(err);
+    });
+});
 
 module.exports = router;
