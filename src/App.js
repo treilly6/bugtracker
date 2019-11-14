@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // Components
@@ -22,9 +23,9 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/api/tickets')
-            .then(res => res.json())
-            .then(tasks => this.setState({tasks : tasks}));
+        axios.get('/api/tickets')
+            .then(tasks => this.setState({tasks : tasks.data}));
+        console.log("mounted api");
     }
 
     markComplete = (taskObj) => {

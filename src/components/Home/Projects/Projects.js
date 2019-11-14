@@ -10,7 +10,9 @@ class Projects extends React.Component {
 
     render() {
         var projectItems = this.props.projects.map((project) => (
-            <div style={divStyle}><Link to={`projects/${project.title}/`}>{project.title}</Link></div>
+            <div style={divStyle}>
+                <Link to={`projects/${project.title}/`}>{project.title}</Link>
+            </div>
         ));
 
         if (projectItems.length == 0) {

@@ -7,27 +7,24 @@ const mongoose = require('mongoose');
 
 require("dotenv/config");
 
+const Ticket = require('./routes/api/TicketRoutes');
+const Project = require('./routes/api/ProjectRoutes');
+
 // Import Models
-let Ticket = require('./models/Ticket')
+// let Ticket = require('./models/Ticket');
+// let Project = require('./models/Project');
 
 // Routes
-app.get('/api/tickets', (req,res) => {
-    console.log("HERE THE REQ");
-    // let query = { author : "Bobis Poleni"};
-    let query = {};
-    Ticket.find(query, function(err, tickets) {
-        if (err) {
-            console.log("ERROR ON THE TICKETS API");
-        } else {
-            console.log("ALL GOOD")
-            res.json(tickets);
-        }
-    }).limit(3);
-});
+app.use('/api/tickets', Ticket);
+app.use('/api/projects', Project);
+
+
+
 
 app.get("/about", (req,res) => {
     console.log("HERE WE GO");
     console.log("SERVER ON THE BACKEND ABOIUT THIS SHEIT YALL");
+
 });
 
 // Connect to DB
