@@ -9,6 +9,8 @@ import About from './components/pages/About';
 import Home from './components/Home/Home';
 import ProjectItem from './components/Home/Projects/ProjectItem';
 import TicketItem from './components/Home/Projects/Tickets/TicketItem';
+import LogIn from './components/Users/LogIn';
+import SignUp from './components/Users/SignUp';
 
 // Style
 import './App.css';
@@ -67,6 +69,8 @@ class App extends React.Component {
                             <Tasks tasks={this.state.tasks} markComplete = {this.markComplete} deleteTask = {this.deleteTask}/>
                         </React.Fragment>
                     )} />
+                    <Route path="/signup" exact component={SignUp} />
+                    <Route path="/login" exact component={LogIn} />
                     <Route path="/projects" exact component={Home} />
                     <Route path="/projects/:projectName" exact component = {ProjectItem} />
                     <Route path="/projects/:projectName/ticket/:ticketTitle" component = {TicketItem}/>

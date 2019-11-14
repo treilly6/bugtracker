@@ -13,7 +13,14 @@ class ProjectItem extends React.Component {
 
     state = {
         tickets : [],
-        folders : [],
+        folders : [
+            {
+                "title":"Folder 1"
+            },
+            {
+                "title":"Folder 2"
+            },
+        ],
     }
 
 
@@ -45,8 +52,8 @@ class ProjectItem extends React.Component {
             <div>
                 <h1>Project PAGE { title }</h1>
                 <AddFolder addFolder = {this.addFolder} />
-                <AddTicket addTicket = {this.addTicket} />
                 <Folders folders = {this.state.folders} />
+                <AddTicket addTicket = {this.addTicket} />                
                 <Tickets tickets={this.state.tickets} />
             </div>
         )

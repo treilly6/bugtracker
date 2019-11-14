@@ -34,8 +34,8 @@ class Home extends React.Component {
         return (
             <div>
                 <h1>Projects Home Page</h1>
-                <Projects projects = {this.state.projects} />
                 <AddProject addProject = {this.addProject} />
+                <Projects projects = {this.state.projects} />
             </div>
         )
     }
