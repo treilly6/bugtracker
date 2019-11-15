@@ -15,7 +15,7 @@ router.post('/signup', (req, res) => {
     console.log("in the use signup");
     console.log(req.body)
 
-    // NEED TO ADD THE HASHING HERE
+    // NEED TO ADD THE HASHING HERE - think i need to use async / await for the hash
     // const salt = bcrypt.genSalt();
     // const hashPassword = bcrypt.hash(req.body.password, salt);
     // const newUser = {username : req.body.username, password : hashPassword};
