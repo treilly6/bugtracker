@@ -24,7 +24,9 @@ router.post('/signup', (req, res) => {
         "password" : req.body.password,
     });
     newUser.save()
-        .then(user => res.json(user))
+        .then((user) => {
+            res.json(user);
+        })
         .catch(err => console.log(err));
 
 });

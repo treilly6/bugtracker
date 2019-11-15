@@ -34,6 +34,7 @@ class SignUp extends React.Component {
             "password" : "",
             "password2" : "",
         });
+        window.location.href = '/';
     }
 
     changeInput = (e) => {
