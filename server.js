@@ -2,9 +2,6 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 
-// eventually separate the route
-// require('./routes/routes')(app)
-
 require("dotenv/config");
 
 app.use(express.json());
@@ -13,17 +10,10 @@ const Ticket = require('./routes/api/TicketRoutes');
 const Project = require('./routes/api/ProjectRoutes');
 const User = require('./routes/api/UserRoutes');
 
-// Import Models
-// let Ticket = require('./models/Ticket');
-// let Project = require('./models/Project');
-
 // Routes
 app.use('/api/tickets', Ticket);
 app.use('/api/projects', Project);
 app.use('/api/user', User);
-
-
-
 
 app.get("/about", (req,res) => {
     console.log("HERE WE GO");
