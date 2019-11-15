@@ -11,6 +11,7 @@ app.use(express.json());
 
 const Ticket = require('./routes/api/TicketRoutes');
 const Project = require('./routes/api/ProjectRoutes');
+const User = require('./routes/api/UserRoutes');
 
 // Import Models
 // let Ticket = require('./models/Ticket');
@@ -19,6 +20,7 @@ const Project = require('./routes/api/ProjectRoutes');
 // Routes
 app.use('/api/tickets', Ticket);
 app.use('/api/projects', Project);
+app.use('/api/user', User);
 
 
 
