@@ -7,6 +7,8 @@ let User = require('../../models/User');
 
 router.post('/login', (req, res) => {
     console.log("In user login API REq");
+    console.log(req.body);
+    res.json(req.body);
 });
 
 router.post('/signup', (req, res) => {
