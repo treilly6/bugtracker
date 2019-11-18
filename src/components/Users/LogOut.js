@@ -12,6 +12,7 @@ class LogOut extends React.Component {
             .then((res) => {
                 console.log("here the res thing");
                 console.log(res);
+                localStorage.clear();
             })
             .catch(err => console.log(err));
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { ProtectedRoute } from './ProtectedRoute';
 
 // Components
 import Tasks from './components/Tasks/Tasks';
@@ -72,9 +73,9 @@ class App extends React.Component {
                     )} />
                     <Route path="/signup" exact component={SignUp} />
                     <Route path="/login" exact component={LogIn} />
-                    <Route path="/projects" exact component={Home} />
-                    <Route path="/projects/:projectName" exact component = {ProjectItem} />
-                    <Route path="/projects/:projectName/ticket/:ticketTitle" component = {TicketItem}/>
+                    <ProtectedRoute path="/projects" exact component={Home} />
+                    <ProtectedRoute path="/projects/:projectName" exact component = {ProjectItem} />
+                    <ProtectedRoute path="/projects/:projectName/ticket/:ticketTitle" component = {TicketItem}/>
                     <Route path="/about" component = {About} />
                 </div>
             </Router>
