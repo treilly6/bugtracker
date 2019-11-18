@@ -8,7 +8,6 @@ module.exports = function(passport) {
     passport.use(
         new LocalStrategy({usernameField : 'username'}, (username, password, done) => {
             // Find the user
-            console.log("passport shit mananandfjhsd");
             User.findOne({username : username})
                 .then(user => {
                     // look for user

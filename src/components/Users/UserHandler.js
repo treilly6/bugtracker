@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import LogOut from './LogOut';
 
 class UserHandler extends React.Component {
 
@@ -12,6 +13,7 @@ class UserHandler extends React.Component {
         <div>
             <Link to="/signup"><div>Sign Up</div></Link>
             <Link to="/login"><div>Log in</div></Link>
+            <LogOut></LogOut>
         </div>
 
         return (

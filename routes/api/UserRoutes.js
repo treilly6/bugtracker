@@ -27,7 +27,13 @@ router.post('/login', (req, res, next) => {
             return
         }
         console.log("theres no error or user issues so i guess do the login")
-        res.json({"success":"did not fial the err or !user block", "redirect" : "/home"});
+        req.logIn(user, (err) => {
+            if (err) {
+                res.json({"error":`User ${req.body.username} failed log in`, "error_msg" : err});
+            }
+            res.json({"success":`User ${req.body.username} is logged in`, "redirect" : "/home"});
+        });
+
     })(req, res, next);
 });
 
@@ -55,8 +61,16 @@ router.post('/signup', async (req, res) => {
 
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', (req, res, next) => {
     console.log("IN the logout");
+    if (req.isAuthenticated()) {
+        const username = req.user.username;
+        req.logout();
+        res.json({"success":`${username} successfully logged out`});
+    } else {
+        res.json({"error":"there is no user logged in atm"});
+    }
+
 });
 
 module.exports = router;
