@@ -2,13 +2,33 @@ const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const passport = require('passport');
 
 let User = require('../../models/User');
 
-router.post('/login', (req, res) => {
-    console.log("In user login API REq");
+router.post('/login', (req, res, next) => {
+    console.log("In user login passport stuff");
     console.log(req.body);
-    res.json(req.body);
+    // res.json({"yah":"yeert", "nice" : "legti"});
+    passport.authenticate('local', (err, user, info) => {
+        console.log("here the user");
+        console.log(user);
+        console.log(err);
+        console.log(info);
+        if (err) {
+            console.log("issa an error");
+            console.log(err);
+            res.json({"error" : err})
+            return
+        }
+        if (!user) {
+            console.log("thers no user mane");
+            res.json({"error" : "Invalid Username or Password"});
+            return
+        }
+        console.log("theres no error or user issues so i guess do the login")
+        res.json({"success":"did not fial the err or !user block", "redirect" : "/home"});
+    })(req, res, next);
 });
 
 router.post('/signup', async (req, res) => {
@@ -26,7 +46,7 @@ router.post('/signup', async (req, res) => {
         "username" : req.body.username,
         "password" : hashPassword,
     });
-    
+
     newUser.save()
         .then((user) => {
             res.json(user);

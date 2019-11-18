@@ -16,10 +16,18 @@ class LogIn extends React.Component {
 
     submit = (e) => {
         e.preventDefault();
-        axios.post('/api/user/login')
-            .then((res) => {
-                console.log(res);
-                console.log("POST LOGIN")
+        axios.post('/api/user/login', {"username": this.state.username, "password" : this.state.password})
+            .then((res) => {                
+                if(res.data.redirect) {
+                    // handle a successful Login
+                    console.log("in if redirect");
+                    console.log(res.data.redirect);
+                    window.location = res.data.redirect;
+                } else {
+                    // handle an unseccessful login
+                    console.log("not a valid login");
+                    console.log(res.data.error)
+                }
             })
             .catch(err => console.log(err));
     }

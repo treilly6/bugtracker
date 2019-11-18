@@ -1,14 +1,36 @@
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
-
 require("dotenv/config");
-
-app.use(express.json());
-
 const Ticket = require('./routes/api/TicketRoutes');
 const Project = require('./routes/api/ProjectRoutes');
 const User = require('./routes/api/UserRoutes');
+const passport = require('passport');
+
+// Not sure if i actually need these
+const session = require('express-session');
+// const flash = require('flash');
+
+const app = express();
+
+// passport config
+require('./config/passport')(passport);
+
+// Body parser
+app.use(express.json());
+
+// Express Session
+app.use(session({
+    secret : "secret",
+    resave : true,
+    saveUninitialized : true,
+}));
+
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Connect Flash
+// app.use(flash());
 
 // Routes
 app.use('/api/tickets', Ticket);
