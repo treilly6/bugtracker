@@ -46,14 +46,15 @@ class ProjectItem extends React.Component {
 
 
     render() {
-        // console.log(this.props.match.params);
-        const title = this.props.match.params.projectName;
+        console.log(this.props);
+        console.log("END OF THE PROPS");
+        const title = this.props.title;
         return (
             <div>
-                <h1>Project PAGE { title }</h1>
+                <h1>Project PAGE for { title }</h1>
                 <AddFolder addFolder = {this.addFolder} />
                 <Folders folders = {this.state.folders} />
-                <AddTicket addTicket = {this.addTicket} />                
+                <AddTicket addTicket = {this.addTicket} />
                 <Tickets tickets={this.state.tickets} />
             </div>
         )

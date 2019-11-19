@@ -10,6 +10,8 @@ class Projects extends React.Component {
     state = {}
 
     render() {
+        console.log("IN THE REMDER FOR THE PRO");
+        console.log(this.props);
         var projectItems = this.props.projects.map((project) => (
             <div style={divStyle}>
                 <Link to={`projects/${project.title}/`}>{project.title}</Link>

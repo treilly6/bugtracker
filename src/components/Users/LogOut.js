@@ -13,6 +13,9 @@ class LogOut extends React.Component {
                 console.log("here the res thing");
                 console.log(res);
                 localStorage.clear();
+                if (res.data.redirect) {
+                    window.location = res.data.redirect;
+                }
             })
             .catch(err => console.log(err));
     }

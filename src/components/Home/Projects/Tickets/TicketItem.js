@@ -15,14 +15,17 @@ class TicketItem extends React.Component {
         ],
     };
 
+    // Need to add an api call herer that sets the state of the comments
+    componentDidMount(){}
+
     addComment = (comment) => {
         console.log("I THE TICKET ITEM JS DOOMMENT CFUIFND");
         this.setState({comments : [...this.state.comments, comment]});
     };
 
     render() {
-        const title = this.props.match.params.ticketTitle;
-        const description = "TESTING THE DESCRIPTOIOISDFJL";
+        const title = this.props.title;
+        const description = "TESTING THE DESCRIPTION AREA";
         return (
             <div style={mainCont}>
                 <div style={ticketDiv}>

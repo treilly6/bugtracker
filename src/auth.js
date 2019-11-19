@@ -1,6 +1,6 @@
-
+// ***Conver this to using a cookie at some point*** //
 module.exports = {
-    ensureAuthenticated : function(req, res, next) {
+    ensureAuthenticated : () => {
         console.log("HERE IN THE ENNSURE AUTHENTICATED METHOD");
         console.log(localStorage);
         if(localStorage.getItem("authenticated")) {

@@ -23,6 +23,9 @@ class SignUp extends React.Component {
             .then((res) => {
                 console.log("YEEET");
                 console.log(res);
+                if(res.data.redirect) {
+                    window.location.href = res.data.redirect;
+                }
             })
             .catch((err) => {
                 console.log("poopsdf");
@@ -34,7 +37,6 @@ class SignUp extends React.Component {
             "password" : "",
             "password2" : "",
         });
-        window.location.href = '/';
     }
 
     changeInput = (e) => {

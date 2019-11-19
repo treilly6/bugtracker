@@ -6,7 +6,7 @@ let Project = require('../../models/Project');
 
 router.get('/', (req, res) => {
     console.log("In Projects API REq");
-    query = {};
+    query = {creator : req.user.username};
     Project.find(query, (err, projects) => {
         if (err) {
             console.log(err);
@@ -23,6 +23,7 @@ router.post('/', (req, res) => {
     console.log("ISSA POST");
     console.log(req.body);
     console.log(req.body.title);
+    console.log(req.user)
     console.log("sope");
     // var newProject = new Project({
     //     title : "Post Topic",
@@ -30,7 +31,7 @@ router.post('/', (req, res) => {
     // });
     var newProject = new Project({
         title : req.body.title,
-        creator : "Bob Nuttdug",
+        creator : req.user.username,
     });
 
     newProject.save()

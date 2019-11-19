@@ -31,7 +31,7 @@ router.post('/login', (req, res, next) => {
             if (err) {
                 res.json({"error":`User ${req.body.username} failed log in`, "error_msg" : err});
             }
-            res.json({"success":`User ${req.body.username} is logged in`, "redirect" : "/home"});
+            res.json({"success":`User ${req.body.username} is logged in`, "redirect" : "/projects"});
         });
 
     })(req, res, next);
@@ -41,7 +41,9 @@ router.post('/signup', async (req, res) => {
     console.log("in the use signup");
     console.log(req.body)
 
-    // NEED TO ADD THE HASHING HERE - think i need to use async / await for the hash
+    // ***** Need to add password check and validation to username ************ //
+    // ** Also need to check for if the username already exists ****** //
+
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(req.body.password, salt);
     console.log("here theencryptions stuff");
@@ -55,9 +57,15 @@ router.post('/signup', async (req, res) => {
 
     newUser.save()
         .then((user) => {
-            res.json(user);
+            res.json({
+                "success" : `${newUser.username} successfully created`,
+                "redirect" : "/projects",
+            });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            err.json();
+        });
 
 });
 
@@ -66,7 +74,7 @@ router.get('/logout', (req, res, next) => {
     if (req.isAuthenticated()) {
         const username = req.user.username;
         req.logout();
-        res.json({"success":`${username} successfully logged out`});
+        res.json({"success":`${username} successfully logged out`, "redirect" : "/"});
     } else {
         res.json({"error":"there is no user logged in atm"});
     }

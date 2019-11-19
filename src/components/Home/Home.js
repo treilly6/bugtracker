@@ -9,27 +9,13 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 class Home extends React.Component {
 
     state = {
-        projects : [{
-                "title" : "GET OWNSD",
-            },
-            {
-                "title" : "BackEnd Dev",
-            },
-            {
-                "title" : "Front End Dev",
-            },
-            {
-                "title" : "Database management",
-            },
-            {
-                "title" : "maybethus",
-            }
-        ],
+        projects : [],
     }
 
     componentDidMount() {
         axios.get('/api/projects')
-            .then(projects => this.setState({projects : projects.data}));
+            .then(projects => this.setState({projects : projects.data}))
+            .catch(err => console.log(err));
         console.log("mounted api for projects");
     }
 
