@@ -4,6 +4,7 @@ const router = express.Router();
 var ObjectId = require('mongodb').ObjectId;
 
 let Project = require('../../models/Project');
+let Folder = require('../../models/Folder');
 
 
 router.get('/', (req, res) => {
@@ -26,15 +27,17 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:projectID', (req, res) => {
+router.get('/:projectId/:folderPath*', (req, res) => {
     console.log("In Projects API REq");
-    console.log(req.params)
+    console.log(req.params);
+    var fullPath = req.params.folderPath + req.params["0"];
+    console.log(fullPath);
 
     var valid = true;
     var objID;
 
     try {
-        objID = new ObjectId(req.params.projectID)
+        objID = new ObjectId(req.params.projectId)
     }
     catch {
         valid = false
@@ -62,6 +65,12 @@ router.get('/:projectID', (req, res) => {
             }
         }
     });
+    console.log("AFTER THE PORJECT SEARCH");
+    if (fullPath != 'undefined') {
+        console.log("HERE WE QUERY FOR THE FOLDERS");
+    } else {
+        console.log("NOT GONNA QUERY FOLDERS");
+    }
 });
 
 router.post('/', (req, res) => {

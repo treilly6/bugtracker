@@ -35,7 +35,12 @@ class ProjectHandler extends React.Component {
         console.log("after shit");
         const itemName = splitArray[splitArray.length - 1];
         var projectID = this.props.match.params.projectID;
-        axios.get(`/api/projects/${projectID}`)
+        var folderPath = this.props.match.params.folders;
+        
+        console.log("CHECKING IF THERE ARE FOLDERS");
+        console.log(folderPath);
+
+        axios.get(`/api/projects/${projectID}/${folderPath}`)
             .then((res) => {
                 console.log("SETTING THE STATE");
                 console.log(res.data);

@@ -5,6 +5,15 @@ const FolderSchema = mongoose.Schema({
         type : String,
         required : true,
     },
+    project_id : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Project',
+        required : true,
+    },
+    path : {
+        type : String,
+        required : true,
+    }
 });
 
-module.exports = mongoose.model("Folder", TicketSchema);
+module.exports = mongoose.model("Folder", FolderSchema);

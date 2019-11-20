@@ -14,15 +14,27 @@ class ProjectItem extends React.Component {
 
     state = {
         projectItem : '',
+        projectId : '',
+        folderPath : '',
         tickets : [],
         folders : [],
+        dataFetched : false,
+    }
+
+    constructor(props) {
+        super(props);
+        console.log("ITEM CONSTRUCTOR");
+        console.log(props);
+        this.state.projectId = this.props.match.params.projectID;
+        this.state.folderPath = this.props.match.params.folders;
     }
 
     // need to add here a method that retrieves the given project record and sets the
     // state to hold all that projects folders and tickets
     componentDidMount() {
         console.log("MOUNTING PROPS OF THE PROJECT ITEM");
-        console.log(this.props);
+        console.log(this.state);
+        console.log(this.props); //This stuff has the params needed to perform necessary shit. Gonna have to move to contructor
         this.setState({projectItem : this.props.location.state});
         axios.get('/api/tickets')
             .then(res => {
@@ -30,7 +42,7 @@ class ProjectItem extends React.Component {
                 this.setState({tickets : res.data.tickets});
             })
             .catch(err => console.log(err));
-        axios.get('/api/folders')
+        axios.get(`/api/folders/${this.state.projectId}/${this.state.folderPath}`)
             .then(res => {
                 console.log("SUCCESSFUL FOLDER LOAD");
                 console.log(res);
@@ -47,7 +59,13 @@ class ProjectItem extends React.Component {
 
     addFolder = (folder) => {
         console.log("HOME JS FOLDER SHIT");
-        this.setState({folders : [...this.state.folders, folder]});
+        console.log(folder);
+        axios.post(`/api/folders/${this.state.projectId}/${this.state.folderPath}`, folder)
+            .then(res => {
+                console.log("her folder");
+                console.log(res);
+            })
+            .catch(err => console.log(err));
     }
 
     render() {
