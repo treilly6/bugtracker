@@ -74,8 +74,9 @@ class App extends React.Component {
                     <Route path="/signup" exact component={SignUp} />
                     <Route path="/login" exact component={LogIn} />
                     <ProtectedRoute path="/projects" exact component={Home} />
-                    {/* <ProtectedRoute path="/projects/:projectComponents" component = {ProjectHandler} /> */}
                     <ProtectedRoute path="/projects/:projectID" component = {ProjectHandler} />
+                    <ProtectedRoute path="/projects/:projectID/:folders*/" exact component = {ProjectHandler} />
+                    <ProtectedRoute path="/projects/:projectID/:folders*/ticket/:ticketName" component = {ProjectHandler} />
                     <Route path="/about" component = {About} />
                 </div>
             </Router>
