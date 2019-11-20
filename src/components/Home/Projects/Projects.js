@@ -14,7 +14,10 @@ class Projects extends React.Component {
         console.log(this.props);
         var projectItems = this.props.projects.map((project) => (
             <div style={divStyle}>
-                <Link to={`projects/${project.title}/`}>{project.title}</Link>
+                <Link to={{
+                    pathname : `projects/${project._id}/`,
+                    state : project,
+                }}>{project.title}</Link>
                 <button onClick={() => this.props.deleteProject(project._id)}>Click me</button>
             </div>
         ));

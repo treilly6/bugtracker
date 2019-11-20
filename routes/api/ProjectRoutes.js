@@ -1,17 +1,47 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
+var ObjectId = require('mongodb').ObjectId;
 
 let Project = require('../../models/Project');
 
+
 router.get('/', (req, res) => {
-    console.log("In Projects API REq");
-    query = {creator : req.user.username};
+    console.log("In Projects API REq no extra url stuff");
+    console.log(req.user);
+    // PROB WANNA CHANGE THE AUTHOR QUERY HERE TO BE A ID AND ALSO INCLUDE IF
+    // NOT JUST A CRAEATOR BUT A CONTRIBUTOR
+    query = {"creator": `${req.user.username}`};
     Project.find(query, (err, projects) => {
         if (err) {
             console.log(err);
             console.log("ERROR IN PROJETS");
         } else {
+            console.log("HERE THE PROJECTS");
+            console.log(projects);
+            res.json(projects);
+            console.log("Working");
+            console.log(projects);
+        }
+    });
+});
+
+router.get('/:projectID', (req, res) => {
+    console.log("In Projects API REq");
+    console.log(req.params)
+    // PROB WANNA CHANGE THE AUTHOR QUERY HERE TO BE A ID AND ALSO INCLUDE IF
+    // NOT JUST A CRAEATOR BUT A CONTRIBUTOR
+    const objID = new ObjectId(req.params.projectID)
+    var query = {"_id": objID};
+    console.log("HERE IS THE QUERY");
+    console.log(query);
+    Project.find(query, (err, projects) => {
+        if (err) {
+            console.log(err);
+            console.log("ERROR IN PROJETS");
+        } else {
+            console.log("HERE THE PROJECTS");
+            console.log(projects);
             res.json(projects);
             console.log("Working");
             console.log(projects);

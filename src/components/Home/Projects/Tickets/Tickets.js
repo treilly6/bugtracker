@@ -10,6 +10,8 @@ class Tickets extends React.Component {
 
     render() {
         console.log("Rendering tickets.js");
+        console.log("TICKET PROPS");
+        console.log(this.props);
         var ticketItems = this.props.tickets.map((ticket) => (
             <div style={ticketDiv} >
                 <div style={ticketCont}>

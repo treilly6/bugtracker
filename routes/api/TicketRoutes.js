@@ -14,7 +14,7 @@ router.get('/', (req,res) => {
             console.log("ERROR ON THE TICKETS API");
         } else {
             console.log("ALL GOOD");
-            res.json(tickets);
+            res.json({"tickets" : tickets});
         }
     });
 });
