@@ -36,7 +36,7 @@ class ProjectHandler extends React.Component {
         const itemName = splitArray[splitArray.length - 1];
         var projectID = this.props.match.params.projectID;
         var folderPath = this.props.match.params.folders;
-        
+
         console.log("CHECKING IF THERE ARE FOLDERS");
         console.log(folderPath);
 

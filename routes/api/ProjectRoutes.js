@@ -27,10 +27,11 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:projectId/:folderPath*', (req, res) => {
+router.get('/:projectId/:folderPath*', async (req, res) => {
     console.log("In Projects API REq");
     console.log(req.params);
     var fullPath = req.params.folderPath + req.params["0"];
+    var queriesComplete = false;
     console.log(fullPath);
 
     var valid = true;
@@ -51,7 +52,8 @@ router.get('/:projectId/:folderPath*', (req, res) => {
     var query = {"_id": objID};
     console.log("HERE IS THE QUERY");
     console.log(query);
-    Project.findOne(query, (err, project) => {
+    var data = {};
+    await Project.findOne(query, (err, project) => {
         if (err) {
             console.log(err);
             console.log("ERROR IN PROJETS");
@@ -59,7 +61,8 @@ router.get('/:projectId/:folderPath*', (req, res) => {
             console.log("HERE THE PROJECTS");
             console.log(project);
             if (project) {
-                res.json(project);
+                data.project = project;
+                // res.json(project);
             } else {
                 res.json({"error" : "Project does not exist"});
             }
@@ -67,10 +70,23 @@ router.get('/:projectId/:folderPath*', (req, res) => {
     });
     console.log("AFTER THE PORJECT SEARCH");
     if (fullPath != 'undefined') {
-        console.log("HERE WE QUERY FOR THE FOLDERS");
+        await Folder.find({"project_id" : objID, "path" : fullPath}, (err, folders) => {
+            if (err) {
+                console.log(err);
+                console.log("Error on the folder query");
+            } else {
+                data.folders = folders
+                // res.json(folders);
+                console.log(folders);
+                console.log("END OF QUERY OF THE FOLDERS");
+            }
+        });
     } else {
         console.log("NOT GONNA QUERY FOLDERS");
     }
+    console.log("END OF THIS SHIT");
+    console.log(data);
+    res.json(data);
 });
 
 router.post('/', (req, res) => {
