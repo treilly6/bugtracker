@@ -29,22 +29,34 @@ router.get('/', (req, res) => {
 router.get('/:projectID', (req, res) => {
     console.log("In Projects API REq");
     console.log(req.params)
-    // PROB WANNA CHANGE THE AUTHOR QUERY HERE TO BE A ID AND ALSO INCLUDE IF
-    // NOT JUST A CRAEATOR BUT A CONTRIBUTOR
-    const objID = new ObjectId(req.params.projectID)
+    var valid = true;
+    try {
+        const objID = new ObjectId(req.params.projectID)
+    }
+    catch {
+        valid = false
+    }
+
+    if(!valid) {
+        res.json({"error":"invalid project query"});
+        return
+    }
+
     var query = {"_id": objID};
     console.log("HERE IS THE QUERY");
     console.log(query);
-    Project.find(query, (err, projects) => {
+    Project.findOne(query, (err, project) => {
         if (err) {
             console.log(err);
             console.log("ERROR IN PROJETS");
         } else {
             console.log("HERE THE PROJECTS");
-            console.log(projects);
-            res.json(projects);
-            console.log("Working");
-            console.log(projects);
+            console.log(project);
+            if (project) {
+                res.json(project);
+            } else {
+                res.json({"error" : "Project does not exist"});
+            }
         }
     });
 });
