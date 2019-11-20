@@ -29,16 +29,19 @@ router.get('/', (req, res) => {
 router.get('/:projectID', (req, res) => {
     console.log("In Projects API REq");
     console.log(req.params)
+
     var valid = true;
+    var objID;
+
     try {
-        const objID = new ObjectId(req.params.projectID)
+        objID = new ObjectId(req.params.projectID)
     }
     catch {
         valid = false
     }
 
     if(!valid) {
-        res.json({"error":"invalid project query"});
+        res.json({"error":"Project Does Not Exist"});
         return
     }
 
