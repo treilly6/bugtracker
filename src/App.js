@@ -25,11 +25,7 @@ class App extends React.Component {
         folders : [],
     }
 
-    componentDidMount() {
-        axios.get('/api/tickets')
-            .then(tasks => this.setState({tasks : tasks.data}));
-        console.log("mounted api");
-    }
+    componentDidMount() {}
 
     markComplete = (taskObj) => {
         console.log("FROM APP.js");

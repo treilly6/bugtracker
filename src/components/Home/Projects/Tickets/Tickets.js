@@ -12,14 +12,21 @@ class Tickets extends React.Component {
         console.log("Rendering tickets.js");
         console.log("TICKET PROPS");
         console.log(this.props);
-        var ticketItems = this.props.tickets.map((ticket) => (
-            <div style={ticketDiv} >
-                <div style={ticketCont}>
-                    <div><Link to={`ticket/${ticket.title}`} >{ ticket.title }</Link></div>
-                    <div>12/9/19 12:38 PM</div>
+        var ticketItems;
+        if (this.props.tickets.length == 0) {
+            ticketItems =
+            <h5>There are no tickets Right Now</h5>
+        } else {
+            ticketItems = this.props.tickets.map((ticket) => (
+                <div style={ticketDiv} >
+                    <div style={ticketCont}>
+                        <div><Link to={`ticket/${ticket.title}`} >{ ticket.title }</Link></div>
+                        <div>12/9/19 12:38 PM</div>
+                    </div>
                 </div>
-            </div>
-        ));
+            ));
+        }
+
         return (
             <div>
                 <h2>Tickets</h2>

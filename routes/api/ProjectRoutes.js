@@ -68,22 +68,24 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
             }
         }
     });
+
     console.log("AFTER THE PORJECT SEARCH");
-    if (fullPath != 'undefined') {
-        await Folder.find({"project_id" : objID, "path" : fullPath}, (err, folders) => {
-            if (err) {
-                console.log(err);
-                console.log("Error on the folder query");
-            } else {
-                data.folders = folders
-                // res.json(folders);
-                console.log(folders);
-                console.log("END OF QUERY OF THE FOLDERS");
-            }
-        });
-    } else {
-        console.log("NOT GONNA QUERY FOLDERS");
+    if (fullPath == 'undefined') {
+        fullPath = '';
     }
+
+    await Folder.find({"project_id" : objID, "path" : fullPath}, (err, folders) => {
+        if (err) {
+            console.log(err);
+            console.log("Error on the folder query");
+        } else {
+            data.folders = folders
+            // res.json(folders);
+            console.log(folders);
+            console.log("END OF QUERY OF THE FOLDERS");
+        }
+    });
+
     console.log("END OF THIS SHIT");
     console.log(data);
     res.json(data);

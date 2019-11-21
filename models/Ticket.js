@@ -17,6 +17,15 @@ const TicketSchema = mongoose.Schema({
         type : Date,
         default : Date.now,
     },
+    project_id : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Project',
+        required : true,
+    },
+    path : {
+        type : String,
+        required : true,
+    },
     closed : {
         type : Boolean,
         default : false,
