@@ -23,7 +23,7 @@ class ProjectItem extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("ITEM CONSTRUCTOR");
+        console.log("ITEM CONSTRUCTOR projectitem.js");
         console.log(props);
         this.state.projectId = this.props.match.params.projectID;
         this.state.folderPath = this.props.match.params.folders;
@@ -40,7 +40,7 @@ class ProjectItem extends React.Component {
         axios.get(`/api/tickets/${this.state.projectId}/${this.state.folderPath}`)
             .then(res => {
                 console.log("SUSSESFULLY LOADED TICKETS");
-                console.log(this.data);
+                console.log(res.data);
                 this.setState({tickets : res.data.tickets});
             })
             .catch(err => console.log(err));
@@ -49,7 +49,17 @@ class ProjectItem extends React.Component {
     addTicket = (ticket) => {
         console.log(ticket);
         console.log(this.state.tickets);
-        this.setState({tickets : [...this.state.tickets, ticket]});
+        // this.setState({tickets : [...this.state.tickets, ticket]});
+        axios.post(`/api/tickets/${this.state.projectId}/${this.state.folderPath}`, ticket)
+            .then(res => {
+                console.log("success post add ticket");
+                console.log(res);
+                this.setState({tickets : [...this.state.tickets, res.data]});
+            })
+            .catch(err => {
+                console.log("error post add ticket");
+                console.log(err);
+            });
         console.log("IN THE HOME JS");
     }
 
@@ -60,8 +70,17 @@ class ProjectItem extends React.Component {
             .then(res => {
                 console.log("her folder");
                 console.log(res);
+                if (res.data.error) {
+                    console.log("Add a display error function here");
+                } else {
+                    console.log("GONNA ADD THIS SHIT TO THE STAE");
+                    this.setState({folders : [...this.state.folders, res.data]});
+                }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log("There an error");
+                console.log(err);
+            })
     }
 
     render() {

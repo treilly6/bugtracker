@@ -18,21 +18,16 @@ class ProjectHandler extends React.Component {
 
     constructor(props){
         super(props);
-        console.log("HERE THE CONSTRUCTOR");
         console.log("CONTRUSTOR PROPS");
         console.log(this.props);
         console.log("HEEELLL YAH");
         var url = this.props.location.pathname;
         if (url[url.length - 1] === "/") {
-            console.log("TRIMMING THE END");
             url = url.substring(0, url.length - 1);
         }
         const splitArray = url.split("/");
         const isTicket = splitArray[splitArray.length - 2] === "ticket" ? true : false;
-        console.log("IS TICKET VALUE");
-        console.log(isTicket);
         (isTicket ? this.state.projectType = "Ticket" : this.state.projectType = "Folder");
-        console.log("after shit");
         const itemName = splitArray[splitArray.length - 1];
         var projectID = this.props.match.params.projectID;
         var folderPath = this.props.match.params.folders;

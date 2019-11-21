@@ -79,9 +79,15 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
             console.log(err);
             console.log("Error on the folder query");
         } else {
-            data.folders = folders
-            // res.json(folders);
+            console.log("IN ELSE");
             console.log(folders);
+            if (folders.length === 0 && fullPath !== '') {
+                console.log("THERE IS NOT A FOLDER");
+                res.json({"error" : "Folder Does Not Exist in This Project"})
+            } else {
+                console.log("TEHRE IS A FOLDER");
+                data.folders = folders;
+            }
             console.log("END OF QUERY OF THE FOLDERS");
         }
     });

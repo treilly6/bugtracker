@@ -12,7 +12,6 @@ const FolderSchema = mongoose.Schema({
     },
     path : {
         type : String,
-        required : true,
     }
 });
 

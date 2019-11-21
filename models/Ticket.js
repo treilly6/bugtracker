@@ -24,7 +24,6 @@ const TicketSchema = mongoose.Schema({
     },
     path : {
         type : String,
-        required : true,
     },
     closed : {
         type : Boolean,

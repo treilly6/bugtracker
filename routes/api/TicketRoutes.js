@@ -9,7 +9,7 @@ router.get('/:projectId/:folderPath*', (req,res) => {
     console.log("HERE THE REQ");
     console.log("COOL TICKET ROUTES");
     console.log(req.params);
-    var fullPath = req.params.folderPath + req.params["0"];
+    const fullPath = (req.params.folderPath == 'undefined' ? '' : req.params.folderPath + req.params["0"]);
     console.log(fullPath);
     // let query = { author : "Bobis Poleni"};
     try {
@@ -30,5 +30,31 @@ router.get('/:projectId/:folderPath*', (req,res) => {
         }
     });
 });
+
+router.post('/:projectId/:folderPath*', (req, res) => {
+    console.log("IN THE POST FOLDER PATH");
+    const fullPath = (req.params.folderPath == 'undefined' ? '' : req.params.folderPath + req.params["0"]);
+    console.log(req.user);
+    console.log(req.params);
+    console.log(req.body);
+    console.log(fullPath);
+    newTicket = new Ticket({
+        title : req.body.title,
+        description : req.body.description,
+        author : req.user.username,
+        project_id : new ObjectId(req.params.projectId),
+        path : fullPath,
+    });
+
+    newTicket.save()
+        .then(ticket => {
+            console.log("saved the ticket");
+            res.json(ticket);
+        })
+        .catch(err => {
+            console.log("theres an error in post ticket route save attempt");
+            console.log(err);
+        });
+})
 
 module.exports = router;
