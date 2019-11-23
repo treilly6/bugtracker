@@ -5,6 +5,7 @@ var ObjectId = require('mongodb').ObjectId;
 
 let Project = require('../../models/Project');
 let Folder = require('../../models/Folder');
+let Ticket = require('../../models/Ticket');
 
 
 router.get('/', (req, res) => {
@@ -85,13 +86,18 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
     if (folderTitle == 'undefined') {
         data.currentItem = data.project;
     } else {
-        await Folder.findOne({"project_id" : objID, "path" : folderPath}, (err, projectItem) => {
+        await Folder.findOne({"project_id" : objID, "path" : folderPath, "title" : folderTitle}, (err, projectItem) => {
             if (err) {
                 console.log("ERROR IN THE FIND ONE PROJECT ITEM");
             } else {
                 console.log("HERE THE PROJECT ITEM");
-                console.log(projectItem);
-                data.currentItem = projectItem;
+                if (!projectItem) {
+                    console.log("NO ITEM IS PRESENT HERE");
+                    res.json({"error":"This path of the project does not exist"});
+                } else {
+                    console.log(projectItem);
+                    data.currentItem = projectItem;
+                }
             }
         });
     }
@@ -103,6 +109,7 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
         fullPath = '';
     }
 
+    // GET THE CHILD FOLDERS OF THE CURRENT ITEM
     await Folder.find({"project_id" : objID, "path" : fullPath}, (err, folders) => {
         if (err) {
             console.log(err);
@@ -114,6 +121,18 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
             console.log("END OF QUERY OF THE FOLDERS");
         }
     });
+
+    await Ticket.find({"project_id" : objID, "path" : fullPath}, (err, tickets) => {
+        if (err) {
+            console.log(err);
+            console.log("Error on the ticket query");
+        } else {
+            console.log("IN ELSE");
+            console.log(tickets);
+            data.tickets = tickets;
+            console.log("END OF QUERY OF THE FOLDERS");
+        }
+    })
 
     console.log("END OF THIS SHIT");
     console.log(data);

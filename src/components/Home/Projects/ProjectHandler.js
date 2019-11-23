@@ -27,6 +27,7 @@ class ProjectHandler extends React.Component {
         }
         const splitArray = url.split("/");
         const isTicket = splitArray[splitArray.length - 2] === "ticket" ? true : false;
+        console.log(isTicket);
         (isTicket ? this.state.projectType = "Ticket" : this.state.projectType = "Folder");
         const itemName = splitArray[splitArray.length - 1];
         var projectID = this.props.match.params.projectID;
@@ -34,30 +35,33 @@ class ProjectHandler extends React.Component {
 
         console.log("CHECKING IF THERE ARE FOLDERS");
         console.log(folderPath);
-
-        axios.get(`/api/projects/${projectID}/${folderPath}`)
-            .then((res) => {
-                console.log("SETTING THE STATE");
-                console.log(res.data);
-                if (res.data.error) {
-                    this.setState({error:res.data.error, dataFetched:true,});
-                } else {
-                    this.setState({data:res.data, dataFetched:true,});
-                }
-            })
-            .catch(err => console.log(err));
+        if(!isTicket) {
+            console.log("IN THE AXIOS CALL");
+            axios.get(`/api/projects/${projectID}/${folderPath}`)
+                .then((res) => {
+                    console.log("SETTING THE STATE");
+                    console.log(res.data);
+                    if (res.data.error) {
+                        this.setState({error:res.data.error, dataFetched:true,});
+                    } else {
+                        this.setState({data:res.data, dataFetched:true,});
+                    }
+                })
+                .catch(err => console.log(err));
+        } else {
+            console.log("IT IS TICKET HERE WE MAKE THE DAT FETCHED TRU");
+            this.state.dataFetched = true;
+            this.state.data = 1;
+        }
     }
 
     componentDidMount() {
         console.log("Project Handler Component Mounted");
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        console.log("PROJECT HANDLER DID UPDATE FUNC");
-    }
-
     render() {
         if(!this.state.dataFetched) {
+            console.log("NULL RENDER");
             return null
         } else {
             console.log("SUPER IMPROTNANT HERE THE RENDER STATE STUFF");

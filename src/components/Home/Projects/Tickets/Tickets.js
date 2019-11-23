@@ -20,7 +20,12 @@ class Tickets extends React.Component {
             ticketItems = this.props.tickets.map((ticket) => (
                 <div style={ticketDiv} >
                     <div style={ticketCont}>
-                        <div><Link to={`ticket/${ticket.title}`} >{ ticket.title }</Link></div>
+                        <div><Link to={{
+                            pathname : `ticket/${ticket.title}`,
+                            state : {
+                                ticketItem : ticket,
+                            }
+                        }} >{ ticket.title }</Link></div>
                         <div>12/9/19 12:38 PM</div>
                     </div>
                 </div>

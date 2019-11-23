@@ -26,8 +26,10 @@ class ProjectItem extends React.Component {
         console.log("ITEM CONSTRUCTOR projectitem.js");
         console.log(props);
         this.state.projectId = this.props.match.params.projectID;
+        this.state.projectItem = this.props.data.currentItem;
         this.state.folderPath = this.props.match.params.folders;
         this.state.folders = this.props.data.folders;
+        this.state.tickets = this.props.data.tickets;
     }
 
     // need to add here a method that retrieves the given project record and sets the
@@ -36,14 +38,6 @@ class ProjectItem extends React.Component {
         console.log("MOUNTING PROPS OF THE PROJECT ITEM");
         console.log(this.state);
         console.log(this.props); //This stuff has the params needed to perform necessary shit. Gonna have to move to contructor
-        this.setState({projectItem : this.props.location.state});
-        axios.get(`/api/tickets/${this.state.projectId}/${this.state.folderPath}`)
-            .then(res => {
-                console.log("SUSSESFULLY LOADED TICKETS");
-                console.log(res.data);
-                this.setState({tickets : res.data.tickets});
-            })
-            .catch(err => console.log(err));
     }
 
     addTicket = (ticket) => {

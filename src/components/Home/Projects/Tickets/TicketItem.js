@@ -8,16 +8,12 @@ class TicketItem extends React.Component {
     constructor(props) {
         super(props);
         console.log("CONTRUCTOR OF TICKET ITEM");
+        console.log(props);
+        this.state.ticketItem = this.props.location.state.ticketItem;
     }
 
     state = {
-        comments : [
-            {"description":"keep getting owned","timestamp":"12:36PM Oct 7",},
-            {"description":"Maybe try this","timestamp":"12:36PM Oct 7",},
-            {"description":"now do this","timestamp":"12:36PM Oct 7",},
-            {"description":"still meedsssed up man","timestamp":"12:36PM Oct 7",},
-            {"description":"some bullshit","timestamp":"12:36PM Oct 7",},
-        ],
+        ticketItem : '',
     };
 
     // Need to add an api call herer that sets the state of the comments
@@ -30,10 +26,6 @@ class TicketItem extends React.Component {
         this.setState({comments : [...this.state.comments, comment]});
     };
 
-    componentDidUpdate(prevProps, prevState) {
-        console.log("TICKTE ITEM DID UPDATE FUNC");
-    }
-
     render() {
         console.log("RENDERING THE TICKET ITEM");
         console.log(this.props);
@@ -43,11 +35,11 @@ class TicketItem extends React.Component {
         return (
             <div style={mainCont}>
                 <div style={ticketDiv}>
-                    <h2 style={titleStyle}>{title}</h2>
-                    <p>{description}</p>
+                    <h2 style={titleStyle}>{this.state.ticketItem.title}</h2>
+                    <p>{this.state.ticketItem.description}</p>
                 </div>
                 <div>
-                    <Comments comments={this.state.comments}></Comments>
+                    <Comments comments={this.state.ticketItem.comments}></Comments>
                 </div>
                 <div>
                     <AddComment addComment = {this.addComment}></AddComment>
