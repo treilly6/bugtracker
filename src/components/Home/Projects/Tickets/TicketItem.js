@@ -5,6 +5,11 @@ import AddComment from '../Comments/AddComment';
 
 class TicketItem extends React.Component {
 
+    constructor(props) {
+        super(props);
+        console.log("CONTRUCTOR OF TICKET ITEM");
+    }
+
     state = {
         comments : [
             {"description":"keep getting owned","timestamp":"12:36PM Oct 7",},
@@ -16,14 +21,23 @@ class TicketItem extends React.Component {
     };
 
     // Need to add an api call herer that sets the state of the comments
-    componentDidMount(){}
+    componentDidMount(){
+        console.log("MOUNTING OF THE TICKET ITEM COMPONENT");
+    }
 
     addComment = (comment) => {
         console.log("I THE TICKET ITEM JS DOOMMENT CFUIFND");
         this.setState({comments : [...this.state.comments, comment]});
     };
 
+    componentDidUpdate(prevProps, prevState) {
+        console.log("TICKTE ITEM DID UPDATE FUNC");
+    }
+
     render() {
+        console.log("RENDERING THE TICKET ITEM");
+        console.log(this.props);
+        console.log("END OF THE PROPS IN RENDERING TICKERT");
         const title = this.props.title;
         const description = "TESTING THE DESCRIPTION AREA";
         return (

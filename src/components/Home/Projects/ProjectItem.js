@@ -83,10 +83,16 @@ class ProjectItem extends React.Component {
             })
     }
 
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log("PROJECT ITEM DID UPDATE FUNC");
+    }
+
     render() {
+        console.log("RENDERING THE PROJECT ITEM");
         console.log(this.props);
-        console.log("END OF THE PROPS");
-        const title = this.props.title;
+        console.log("END OF THE PROPS OF PROJECT ITEM");
+        const title = this.props.data.project.title;
         return (
             <div>
                 <h1>Project PAGE for { title }</h1>

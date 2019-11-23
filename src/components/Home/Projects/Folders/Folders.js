@@ -7,11 +7,16 @@ class Folder extends React.Component {
 
     state = {}
 
+    constructor(props) {
+        super(props);
+        console.log("FOLDER CONTRUCTOR");
+    }
+
 
     render() {
         var path = window.location.pathname;
         var folderItems = this.props.folders.map((folder) => (
-            <Link to={`${path}` + `${folder.title}` + "/"}>< FolderItem key={folder._id} folder = {folder} /></Link>
+            <Link to={`${path}` + `${folder.title}` + "/"}><FolderItem key={folder._id} folder = {folder} /></Link>
         ));
 
         if (folderItems.length == 0) {

@@ -10,7 +10,7 @@ export const ProtectedRoute = ({component : Component, ...rest}) => {
                 console.log(props);
                 console.log({...rest});
                 if(ensureAuthenticated()) {
-                    return <Component {...props} />
+                    return <Component {...props} key={props.match.params.folders} />
                 } else {
                     return <Redirect to={
                         {

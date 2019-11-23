@@ -70,6 +70,7 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
     });
 
     console.log("AFTER THE PORJECT SEARCH");
+    console.log(fullPath);
     if (fullPath == 'undefined') {
         fullPath = '';
     }

@@ -52,12 +52,19 @@ class ProjectHandler extends React.Component {
         console.log("Project Handler Component Mounted");
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        console.log("PROJECT HANDLER DID UPDATE FUNC");
+    }
+
     render() {
         if(!this.state.dataFetched) {
             return null
         } else {
             console.log("SUPER IMPROTNANT HERE THE RENDER STATE STUFF");
             console.log(this.state);
+            console.log("SUPER IMPROTANT PROPS STUFF");
+            console.log(this.props);
+
             var returnElement
 
             if (!this.state.data) {
