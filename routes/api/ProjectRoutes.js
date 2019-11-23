@@ -30,8 +30,19 @@ router.get('/', (req, res) => {
 router.get('/:projectId/:folderPath*', async (req, res) => {
     console.log("In Projects API REq");
     console.log(req.params);
+    // current project chldren folder path
     var fullPath = req.params.folderPath + req.params["0"];
+    var folderPath = fullPath.split("/");
+    // folder title
+    console.log("CURRENT ITEM NAME");
+    var folderTitle = folderPath[folderPath.length - 1];
+    console.log(folderTitle);
+    // Current project item path
+    folderPath = folderPath.slice(0, folderPath.length - 1).join("/");
+    console.log("HERE FOLDER PATH");
+    console.log(folderPath);
     var queriesComplete = false;
+    console.log("HERE THE CHILD FOLDER PATH");
     console.log(fullPath);
 
     var valid = true;
@@ -53,6 +64,7 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
     console.log("HERE IS THE QUERY");
     console.log(query);
     var data = {};
+    // Validate the project is valid
     await Project.findOne(query, (err, project) => {
         if (err) {
             console.log(err);
@@ -69,6 +81,22 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
         }
     });
 
+    // CHECK FOR IF THE CURRENT PROJECT ITEM EXISTS (can be a project or a folder)
+    if (folderTitle == 'undefined') {
+        data.currentItem = data.project;
+    } else {
+        await Folder.findOne({"project_id" : objID, "path" : folderPath}, (err, projectItem) => {
+            if (err) {
+                console.log("ERROR IN THE FIND ONE PROJECT ITEM");
+            } else {
+                console.log("HERE THE PROJECT ITEM");
+                console.log(projectItem);
+                data.currentItem = projectItem;
+            }
+        });
+    }
+
+
     console.log("AFTER THE PORJECT SEARCH");
     console.log(fullPath);
     if (fullPath == 'undefined') {
@@ -82,13 +110,7 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
         } else {
             console.log("IN ELSE");
             console.log(folders);
-            if (folders.length === 0 && fullPath !== '') {
-                console.log("THERE IS NOT A FOLDER");
-                res.json({"error" : "Folder Does Not Exist in This Project"})
-            } else {
-                console.log("TEHRE IS A FOLDER");
-                data.folders = folders;
-            }
+            data.folders = folders;
             console.log("END OF QUERY OF THE FOLDERS");
         }
     });

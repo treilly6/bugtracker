@@ -17,7 +17,7 @@ router.post('/:projectId/:folderPath*', (req,res) => {
     console.log("IN THE FOLDER ROUTES POST REQ");
     console.log(req.body);
     console.log(req.params);
-    const folderPath = (req.params.folderPath == 'undefined' ? req.body.title : req.params.folderPath + req.params["0"] + req.body.title);
+    const folderPath = (req.params.folderPath == 'undefined' ? '' : req.params.folderPath + req.params["0"]);
     console.log("FOLDER PATH AFTER TERNERY");
     console.log(folderPath);
     var objId = new ObjectId(req.params.projectId);
