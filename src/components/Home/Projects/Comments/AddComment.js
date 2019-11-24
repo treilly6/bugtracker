@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 class AddComment extends React.Component {
 
     state = {
-        "description":"",
-        "timestamp":"9:37 AM Oct 9",
+        "body":"",
+        "date":"9:37 AM Oct 9",
     }
 
     changeInput = (e) => {
@@ -15,12 +15,12 @@ class AddComment extends React.Component {
     submit = (e) => {
         e.preventDefault();
         var newComment = {
-            "description" : this.state.description,
-            "timestamp" : this.state.timestamp,
+            "body" : this.state.body,
+            "date" : this.state.date,
         }
         this.props.addComment(newComment);
         this.setState({
-            "description" : "",
+            "body" : "",
         });
         console.log("COOOL");
     }
@@ -30,7 +30,7 @@ class AddComment extends React.Component {
         return (
             <div style={divStyle}>
                 <form onSubmit={this.submit}>
-                    <textarea onChange={this.changeInput} value={this.state.description} style={textAreaStyle} type="text" name="description" />
+                    <textarea onChange={this.changeInput} value={this.state.body} style={textAreaStyle} type="text" name="body" />
                     <button type="submit">Add Comment</button>
                 </form>
             </div>

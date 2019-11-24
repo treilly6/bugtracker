@@ -7,10 +7,12 @@ class CommentItem extends React.Component {
 
 
     render() {
+        console.log("REDNEDIN THE COMMENT ITEM COMMETNITEM.js");
+        console.log(this.props);
         return (
             <div style={divStyle}>
-                <h6 style={timeStyle}>{this.props.comment.timestamp}</h6>
-                <p>{this.props.comment.description}</p>
+                <h6 style={timeStyle}>{this.props.comment.date}</h6>
+                <p>{this.props.comment.body}</p>
             </div>
         )
     }

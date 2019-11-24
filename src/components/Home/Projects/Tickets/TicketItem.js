@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Comments from '../Comments/Comments';
 import AddComment from '../Comments/AddComment';
+import axios from 'axios';
 
 class TicketItem extends React.Component {
 
@@ -21,9 +22,17 @@ class TicketItem extends React.Component {
         console.log("MOUNTING OF THE TICKET ITEM COMPONENT");
     }
 
-    addComment = (comment) => {
+    addComment = async (comment) => {
         console.log("I THE TICKET ITEM JS DOOMMENT CFUIFND");
-        this.setState({comments : [...this.state.comments, comment]});
+        await axios.post(`/api/comments/${this.state.ticketItem._id}`, comment)
+            .then(res => {
+                console.log(res);
+                var updatedItem = this.state.ticketItem;
+                updatedItem.comments.push(res.data);
+                this.setState({ticketItem: updatedItem});
+            })
+            .catch(err => console.log(err));
+        console.log("DONE");
     };
 
     render() {
