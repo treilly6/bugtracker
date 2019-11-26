@@ -8,7 +8,10 @@ router.post('/', (req, res) => {
     try {
         if (req.session.passport.user) {
             console.log("Yes authenticate");
-            return res.json("authenticated");
+            return res.json({
+                authenticated : true,
+                user : req.user.username
+            });
         } else {
             console.log("No authenticate");
             return res.json("");
