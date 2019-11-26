@@ -24,6 +24,7 @@ class LogIn extends React.Component {
                     console.log("in if redirect");
                     console.log(res.data.redirect);
                     localStorage.setItem('authenticated', true);
+                    sessionStorage.setItem('authenticated',true);
                     window.location = res.data.redirect;
                 } else {
                     // handle an unseccessful login

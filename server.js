@@ -8,6 +8,7 @@ const Project = require('./routes/api/ProjectRoutes');
 const User = require('./routes/api/UserRoutes');
 const Folder = require('./routes/api/FolderRoutes');
 const Comment = require('./routes/api/CommentRoutes');
+const Auth = require('./routes/api/AuthRoutes');
 const passport = require('passport');
 
 // Not sure if i actually need these
@@ -42,6 +43,7 @@ app.use('/api/projects', Project);
 app.use('/api/user', User);
 app.use('/api/folders', Folder);
 app.use('/api/comments', Comment);
+app.use('/api/auth', Auth);
 
 app.get("/about", (req,res) => {
     console.log("HERE WE GO");

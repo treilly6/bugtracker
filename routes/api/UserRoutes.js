@@ -8,6 +8,8 @@ let User = require('../../models/User');
 
 router.post('/login', (req, res, next) => {
     console.log("In user login passport stuff");
+    console.log(req.session);
+    console.log("ABOVE IT THE SEESIOM");
     console.log(req.body);
     // res.json({"yah":"yeert", "nice" : "legti"});
     passport.authenticate('local', (err, user, info) => {
@@ -30,6 +32,7 @@ router.post('/login', (req, res, next) => {
         req.logIn(user, (err) => {
             if (err) {
                 res.json({"error":`User ${req.body.username} failed log in`, "error_msg" : err});
+                return
             }
             res.json({"success":`User ${req.body.username} is logged in`, "redirect" : "/projects"});
         });

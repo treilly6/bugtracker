@@ -62,7 +62,7 @@ class ProjectHandler extends React.Component {
     render() {
         if(!this.state.dataFetched) {
             console.log("NULL RENDER");
-            return null
+            return null;
         } else {
             console.log("SUPER IMPROTNANT HERE THE RENDER STATE STUFF");
             console.log(this.state);
