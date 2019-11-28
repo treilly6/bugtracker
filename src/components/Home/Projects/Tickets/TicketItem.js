@@ -10,11 +10,37 @@ class TicketItem extends React.Component {
         super(props);
         console.log("CONTRUCTOR OF TICKET ITEM");
         console.log(props);
-        this.state.ticketItem = this.props.location.state.ticketItem;
+        if (this.props.location.state === undefined) {
+            // var folderPath = this.props.match.params.folders.split("ticket")[0];
+            // console.log("FOLDER PATH AFTER SPLIT", folderPath);
+            // if(folderPath === '') {
+            //     folderPath = undefined;
+            // }
+            // console.log("FOLDER PATH AFTER BLANK CHECK AND BEFOER AXIOS ", folderPath);
+            // console.log(folderPath);
+            console.log("ABOVE IS THE MONEY SHOT");
+            axios.get(`/api/singleTicket/${this.props.match.params.projectID}/${this.props.match.params.folders}`)
+                .then(res => {
+                    console.log("IN THEN OF TICKET ITEM JS API CALL");
+                    console.log(res);
+                    if(res.data.ticket) {
+                        this.setState({ticketItem : res.data.ticket, dataFetched : true});
+                    } else {
+                        this.setState({error : res.data.error, dataFetched : true})
+                    }
+
+                })
+                .catch(err => console.log(err));
+        } else {
+            this.state.ticketItem = this.props.location.state.ticketItem;
+            this.state.dataFetched = true;
+        }
     }
 
     state = {
         ticketItem : '',
+        error : '',
+        dataFetched : false,
     };
 
     // Need to add an api call herer that sets the state of the comments
@@ -36,25 +62,36 @@ class TicketItem extends React.Component {
     };
 
     render() {
-        console.log("RENDERING THE TICKET ITEM");
-        console.log(this.props);
-        console.log("END OF THE PROPS IN RENDERING TICKERT");
-        const title = this.props.title;
-        const description = "TESTING THE DESCRIPTION AREA";
-        return (
-            <div style={mainCont}>
-                <div style={ticketDiv}>
-                    <h2 style={titleStyle}>{this.state.ticketItem.title}</h2>
-                    <p>{this.state.ticketItem.description}</p>
-                </div>
+        if(!this.state.dataFetched) {
+            console.log("NULL RENDER");
+            return null;
+        } else if(this.state.error) {
+            return(
                 <div>
-                    <Comments comments={this.state.ticketItem.comments}></Comments>
+                    <h4>404 This project does not exist --sent from ticketitem.js</h4>
                 </div>
-                <div>
-                    <AddComment addComment = {this.addComment}></AddComment>
+            )
+        } else {
+            console.log("RENDERING THE TICKET ITEM");
+            console.log(this.props);
+            console.log("END OF THE PROPS IN RENDERING TICKERT");
+            const title = this.props.title;
+            const description = "TESTING THE DESCRIPTION AREA";
+            return (
+                <div style={mainCont}>
+                    <div style={ticketDiv}>
+                        <h2 style={titleStyle}>{this.state.ticketItem.title}</h2>
+                        <p>{this.state.ticketItem.description}</p>
+                    </div>
+                    <div>
+                        <Comments comments={this.state.ticketItem.comments}></Comments>
+                    </div>
+                    <div>
+                        <AddComment addComment = {this.addComment}></AddComment>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
     }
 }
 

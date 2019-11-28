@@ -4,6 +4,7 @@ require("dotenv/config");
 
 // Importing Route Files
 const Ticket = require('./routes/api/TicketRoutes');
+const SingleTicket = require('./routes/api/SingleTicketRoutes');
 const Project = require('./routes/api/ProjectRoutes');
 const User = require('./routes/api/UserRoutes');
 const Folder = require('./routes/api/FolderRoutes');
@@ -44,6 +45,7 @@ app.use('/api/user', User);
 app.use('/api/folders', Folder);
 app.use('/api/comments', Comment);
 app.use('/api/auth', Auth);
+app.use('/api/singleTicket', SingleTicket);
 
 app.get("/about", (req,res) => {
     console.log("HERE WE GO");

@@ -14,6 +14,7 @@ class ProjectItem extends React.Component {
 
     state = {
         data:'',
+        error: '',
         folderPath : '',
         dataFetched : false,
     }
@@ -103,6 +104,12 @@ class ProjectItem extends React.Component {
         if(!this.state.dataFetched) {
             console.log("NULL RENDER");
             return null;
+        } else if(this.state.error) {
+            return (
+                <div>
+                    <h1>404 - This project path does not exist</h1>
+                </div>
+            )
         } else {
             console.log("RENDERING THE PROJECT ITEM");
             console.log(this.props);
