@@ -11,13 +11,6 @@ class TicketItem extends React.Component {
         console.log("CONTRUCTOR OF TICKET ITEM");
         console.log(props);
         if (this.props.location.state === undefined) {
-            // var folderPath = this.props.match.params.folders.split("ticket")[0];
-            // console.log("FOLDER PATH AFTER SPLIT", folderPath);
-            // if(folderPath === '') {
-            //     folderPath = undefined;
-            // }
-            // console.log("FOLDER PATH AFTER BLANK CHECK AND BEFOER AXIOS ", folderPath);
-            // console.log(folderPath);
             console.log("ABOVE IS THE MONEY SHOT");
             axios.get(`/api/singleTicket/${this.props.match.params.projectID}/${this.props.match.params.folders}`)
                 .then(res => {

@@ -8,7 +8,11 @@ const ProjectSchema = mongoose.Schema({
     creator : {
         type : String,
         required : true,
-    }
+    },
+    contributors : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User',
+    }]
 });
 
 module.exports = mongoose.model("Project", ProjectSchema);

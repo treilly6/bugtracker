@@ -20,42 +20,9 @@ import SignUp from './components/Users/SignUp';
 import './App.css';
 
 class App extends React.Component {
-    state = {
-        tasks : [],
-        folders : [],
-    }
+    state = {}
 
     componentDidMount() {}
-
-    markComplete = (taskObj) => {
-        console.log("FROM APP.js");
-        console.log(taskObj);
-        this.setState({tasks : this.state.tasks.map(task => {
-            if (taskObj._id === task._id) {
-                task.completed = !task.completed;
-            }
-            return task;
-        })});
-    }
-
-    deleteTask = (taskObj) => {
-        console.log("IN APP.JS");
-        console.log(taskObj);
-        this.setState({tasks : [...this.state.tasks.filter(task => task._id !== taskObj._id)]});
-    }
-
-    addTask = (taskDescription) => {
-        console.log("APP JS TASK ADDER");
-        console.log(taskDescription);
-        var id = this.state.count + 1;
-        var newTask = {
-            id : id,
-            description : taskDescription,
-            completed : false,
-        };
-        this.setState({count : id });
-        this.setState({tasks : [...this.state.tasks, newTask]});
-    }
 
     render() {
         return(
@@ -70,9 +37,7 @@ class App extends React.Component {
                     <Route path="/signup" exact component={SignUp} />
                     <Route path="/login" exact component={LogIn} />
                     <ProtectedRoute path="/projects" exact component={Home} />
-                    {/* <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectItem} /> */}
                     <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
-                    {/* <ProtectedRoute path="/projects/:projectID/:folders*?/ticket/:ticketName" component = {ProjectHandler} /> */}
                     <Route path="/about" component = {About} />
                 </div>
             </Router>
