@@ -13,11 +13,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 class ProjectItem extends React.Component {
 
     state = {
-        projectItem : '',
-        projectId : '',
+        data:'',
         folderPath : '',
-        tickets : [],
-        folders : [],
         dataFetched : false,
     }
 
@@ -25,11 +22,31 @@ class ProjectItem extends React.Component {
         super(props);
         console.log("ITEM CONSTRUCTOR projectitem.js");
         console.log(props);
-        this.state.projectId = this.props.match.params.projectID;
-        this.state.projectItem = this.props.data.currentItem;
+
         this.state.folderPath = this.props.match.params.folders;
-        this.state.folders = this.props.data.folders;
-        this.state.tickets = this.props.data.tickets;
+        this.state.projectId = this.props.match.params.projectID;
+
+        const projectId = this.props.match.params.projectID;
+        const folderPath = (this.props.match.params.folders === undefined ? undefined : this.props.match.params.folders);
+        console.log("HERE THE FOLDER PATH ", folderPath);
+
+        axios.get(`/api/projects/${projectId}/${folderPath}`)
+            .then((res) => {
+                console.log("SETTING THE STATE");
+                console.log(res.data);
+                if (res.data.error) {
+                    this.setState({error:res.data.error, dataFetched:true,});
+                } else {
+                    this.setState({data:res.data, dataFetched:true,});
+                }
+            })
+            .catch(err => console.log(err));
+
+
+        // this.state.projectItem = this.props.data.currentItem;
+        //
+        // this.state.folders = this.props.data.folders;
+        // this.state.tickets = this.props.data.tickets;
     }
 
     // need to add here a method that retrieves the given project record and sets the
@@ -83,19 +100,24 @@ class ProjectItem extends React.Component {
     }
 
     render() {
-        console.log("RENDERING THE PROJECT ITEM");
-        console.log(this.props);
-        console.log("END OF THE PROPS OF PROJECT ITEM");
-        const title = this.props.data.project.title;
-        return (
-            <div>
-                <h1>Project PAGE for { title }</h1>
-                <AddFolder addFolder = {this.addFolder} />
-                <Folders folders = {this.state.folders} />
-                <AddTicket addTicket = {this.addTicket} />
-                <Tickets tickets={this.state.tickets} />
-            </div>
-        )
+        if(!this.state.dataFetched) {
+            console.log("NULL RENDER");
+            return null;
+        } else {
+            console.log("RENDERING THE PROJECT ITEM");
+            console.log(this.props);
+            console.log("END OF THE PROPS OF PROJECT ITEM");
+            const title = this.state.data.currentItem.title;
+            return (
+                <div>
+                    <h1>Project PAGE for { title }</h1>
+                    <AddFolder addFolder = {this.addFolder} />
+                    <Folders folders = {this.state.data.folders} />
+                    <AddTicket addTicket = {this.addTicket} />
+                    <Tickets tickets={this.state.data.tickets} />
+                </div>
+            )
+        }
     }
 }
 

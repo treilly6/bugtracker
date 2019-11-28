@@ -36,18 +36,9 @@ class ProjectHandler extends React.Component {
         console.log("CHECKING IF THERE ARE FOLDERS");
         console.log(folderPath);
         if(!isTicket) {
-            console.log("IN THE AXIOS CALL");
-            axios.get(`/api/projects/${projectID}/${folderPath}`)
-                .then((res) => {
-                    console.log("SETTING THE STATE");
-                    console.log(res.data);
-                    if (res.data.error) {
-                        this.setState({error:res.data.error, dataFetched:true,});
-                    } else {
-                        this.setState({data:res.data, dataFetched:true,});
-                    }
-                })
-                .catch(err => console.log(err));
+            console.log("IN THE AXIOS CALL JK MUTHA");
+            this.state.dataFetched = true;
+            this.state.data = 1;
         } else {
             console.log("IT IS TICKET HERE WE MAKE THE DAT FETCHED TRU");
             this.state.dataFetched = true;
@@ -91,7 +82,7 @@ class ProjectHandler extends React.Component {
                 returnElement =
                 <React.Fragment>
                     <h5>Testing the Folder</h5>
-                    <Route render={(props) => <ProjectItem {...props} data={this.state.data} title={this.state.data.title} />} />
+                    <Route render={(props) => <ProjectItem key={this.props.match.params.folders} {...props} data={this.state.data} title={this.state.data.title} />} />
                 </React.Fragment>
             }
             return (returnElement)

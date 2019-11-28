@@ -34,11 +34,13 @@ class AuthRoute extends React.Component {
     }
 
     render() {
+        const Component = this.props.component;
         if (this.state.isLoading) {
             return null;
         } else {
             if(this.state.isAuthenticated) {
-                return <Route component={this.props.component} />
+                // THE KEY HERE IS HELPING THE PROJECT HANDLER REFRESH EVERY TIME
+                return <Route component={this.props.component} key={this.props.match.url} />
             } else {
                 return <Redirect to={{pathname : "/login"}}/>
             }
@@ -49,7 +51,7 @@ class AuthRoute extends React.Component {
 export default AuthRoute;
 
 export const ProtectedRoute = ({component : Component, ...rest}) => {
-    // console.log("BEFORE THE RETURN OF THE PROTESC ROUT STUFF");
+    console.log("PROTECTED ROUTE CLASS STUFF CHECK THEM PROPS");
     return (
             <Route {...rest} render={
                 props => {
