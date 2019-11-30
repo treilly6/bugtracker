@@ -13,10 +13,12 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 class ProjectItem extends React.Component {
 
     state = {
-        data:'',
         error: '',
         folderPath : '',
         dataFetched : false,
+        folders : [],
+        tickets : [],
+        currentItem : '',
     }
 
     constructor(props) {
@@ -38,7 +40,7 @@ class ProjectItem extends React.Component {
                 if (res.data.error) {
                     this.setState({error:res.data.error, dataFetched:true,});
                 } else {
-                    this.setState({data:res.data, dataFetched:true,});
+                    this.setState({folders:res.data.folders, tickets:res.data.tickets, currentItem:res.data.currentItem, dataFetched:true,});
                 }
             })
             .catch(err => console.log(err));
@@ -75,10 +77,10 @@ class ProjectItem extends React.Component {
         console.log("IN THE HOME JS");
     }
 
-    addFolder = (folder) => {
+    addFolder = async (folder) => {
         console.log("HOME JS FOLDER SHIT");
         console.log(folder);
-        axios.post(`/api/folders/${this.state.projectId}/${this.state.folderPath}`, folder)
+        await axios.post(`/api/folders/${this.state.projectId}/${this.state.folderPath}`, folder)
             .then(res => {
                 console.log("her folder");
                 console.log(res);
@@ -93,6 +95,8 @@ class ProjectItem extends React.Component {
                 console.log("There an error");
                 console.log(err);
             })
+        console.log("END OF THE ADD FODLER FUNCTION");
+        console.log(this.state);
     }
 
 
@@ -114,14 +118,14 @@ class ProjectItem extends React.Component {
             console.log("RENDERING THE PROJECT ITEM");
             console.log(this.props);
             console.log("END OF THE PROPS OF PROJECT ITEM");
-            const title = this.state.data.currentItem.title;
+            const title = this.state.currentItem.title;
             return (
                 <div>
                     <h1>Project PAGE for { title }</h1>
                     <AddFolder addFolder = {this.addFolder} />
-                    <Folders folders = {this.state.data.folders} />
+                    <Folders folders = {this.state.folders} />
                     <AddTicket addTicket = {this.addTicket} />
-                    <Tickets tickets={this.state.data.tickets} />
+                    <Tickets tickets={this.state.tickets} />
                 </div>
             )
         }

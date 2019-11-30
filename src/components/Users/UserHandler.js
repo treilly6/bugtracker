@@ -8,21 +8,22 @@ class UserHandler extends React.Component {
 
     state = {
         authenticated : '',
-        user : 'TESTING USER HERE'
+        user : ''
     }
 
     constructor(props) {
         super(props);
         console.log("CONTSTRUCTOR OF THE USER HANDLER PAGE");
-        axios.post('/api/auth')
-            .then(res => {
-                console.log("AXIOS RESULT USER HANDLER");
-                console.log(res);
-                if (res.data.authenticated) {
-                    this.setState({authenticated:true, user:res.data.user});
-                }
-            })
-            .catch(err => console.log(err))
+        console.log(props);
+        // axios.post('/api/auth')
+        //     .then(res => {
+        //         console.log("AXIOS RESULT USER HANDLER");
+        //         console.log(res);
+        //         if (res.data.authenticated) {
+        //             this.setState({authenticated:true, user:res.data.user});
+        //         }
+        //     })
+        //     .catch(err => console.log(err))
     }
 
     componentDidMount() {
@@ -32,10 +33,10 @@ class UserHandler extends React.Component {
     render() {
         // Add some kind of logic here that will change what the output is based on whether the user is loged in or not
         var userBox;
-        if(this.state.authenticated == true) {
+        if(this.props.authenticated == true) {
             userBox =
                 <div>
-                    <h3>Welcome {this.state.user}</h3>
+                    <h3>Welcome {this.props.user}</h3>
                     <LogOut></LogOut>
                 </div>
 
