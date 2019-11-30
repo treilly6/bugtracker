@@ -36,13 +36,11 @@ class Header extends React.Component {
         } else {
             var links;
             if(this.state.authenticated) {
-                console.log("YES");
                 links =
                 <div>
                     <Link style={linkStyle} to="/">Home</Link> | <Link style={linkStyle} to="/about">About</Link> | <Link style={linkStyle} to="/projects">Projects</Link>
                 </div>;
             } else {
-                console.log("NO");
                 links =
                 <div>
                     <Link style={linkStyle} to="/">Home</Link> | <Link style={linkStyle} to="/about">About</Link>
