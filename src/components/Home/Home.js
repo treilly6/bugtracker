@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Projects from './Projects/Projects';
 import AddProject from './Projects/AddProject';
+import MessageBox from '../../MessageBox';
 import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -60,9 +61,16 @@ class Home extends React.Component {
 
 
     render() {
+
+        var message;
+        if (this.props.location.state && this.props.location.state.error) {
+            message = <MessageBox message={this.props.location.state.error} />
+        }
+
         return (
             <div>
                 <h1>Projects Home Page</h1>
+                {message}
                 <AddProject addProject = {this.addProject} />
                 <Projects projects = {this.state.projects} deleteProject={this.deleteProject} />
             </div>

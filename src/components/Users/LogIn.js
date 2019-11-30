@@ -24,9 +24,6 @@ class LogIn extends React.Component {
     componentDidMount() {
         console.log("LOGIN JS COMPNENNT MOUNTING HERE");
         console.log(this.props);
-        if(this.props.location.state.error) {
-            console.log("THERE IS AN ERROR WE NEED TO ADD A MESSAGE HERE");
-        }
     }
 
     submit = (e) => {
@@ -52,10 +49,12 @@ class LogIn extends React.Component {
 
     render() {
 
+        // var message = setMessageBox();
         var message;
-        if (this.props.location.state.error) {
+        if (this.props.location.state && this.props.location.state.error) {
             message = <MessageBox message={this.props.location.state.error} />
         }
+
 
         return (
             <div>
