@@ -10,7 +10,7 @@ const ProjectSchema = mongoose.Schema({
         required : true,
     },
     contributors : [{
-        type : mongoose.Schema.Types.ObjectId,
+        type : String,
         ref : 'User',
     }]
 });

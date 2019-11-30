@@ -152,6 +152,7 @@ router.post('/', (req, res) => {
     var newProject = new Project({
         title : req.body.title,
         creator : req.user.username,
+        contributors : [req.user.username]
     });
 
     newProject.save()

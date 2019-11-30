@@ -37,14 +37,17 @@ router.get('/contributor/:projectId', (req,res) => {
 
     if (req.user === undefined) {
         return res.json({"error":"User not logged in"});
-    } else {
-        try {
-            userId = new ObjectId(req.user._id);
-        }
-        catch {
-            return res.json({"error":"Invalid user Id"});
-        }
     }
+
+    // This stuff below is if i want to validate the user by the ID instead of username
+    // } else {
+    //     try {
+    //         userId = new ObjectId(req.user._id);
+    //     }
+    //     catch {
+    //         return res.json({"error":"Invalid user Id"});
+    //     }
+    // }
 
     try {
         objId = new ObjectId(req.params.projectId)
@@ -63,8 +66,9 @@ router.get('/contributor/:projectId', (req,res) => {
             console.log(project);
             if (project) {
                 console.log("PROJECT DO EXIST IN THE IF BLOCK");
-                console.log("HERE THE USER ID ", userId);
-                if(project.contributors.includes(userId)) {
+                // console.log("HERE THE USER ID ", userId);
+                console.log("HERE THE USERNAME ", req.user.username);
+                if(project.contributors.includes(req.user.username)) {
                     console.log("IS CONTRIB");
                     res.json({"contributor" : true});
                 } else {

@@ -11,6 +11,7 @@ class AuthRoute extends React.Component {
         isLoading : true,
         isAuthenticated : false,
         isContributor : true,
+        error : '',
     }
 
     constructor(props) {
@@ -42,10 +43,10 @@ class AuthRoute extends React.Component {
                     console.log(contributor);
                     if(!auth.data.authenticated) {
                         // Not authenticated must redirect
-                        this.setState({isLoading : false});
+                        this.setState({isLoading : false, error : "You must login to access this feature"});
                     } else if(!contributor.data.contributor) {
                         // Not a contribuor should redirect to the users projects
-                        this.setState({isContributor : false, isAuthenticated : true, isLoading : false});
+                        this.setState({isContributor : false, isAuthenticated : true, isLoading : false, error : "You are not a contributor for this project"});
                     } else {
                         // IS A CONTRIBUTOR and AUTHENTICATED should add data to state
                         this.setState({isAuthenticated : true, isLoading : false});
@@ -64,7 +65,7 @@ class AuthRoute extends React.Component {
                     if (res.data.authenticated === true) {
                         this.setState({isLoading : false, isAuthenticated : true});
                     } else {
-                        this.setState({isLoading : false, isAuthenticated : false});
+                        this.setState({isLoading : false, isAuthenticated : false, error : "You must login to access this feature"});
                     }
 
                 })
@@ -81,15 +82,15 @@ class AuthRoute extends React.Component {
         if (this.state.isLoading) {
             return null;
         } else {
-            if(this.state.isAuthenticated) {
-                if(this.state.isContributor) {
-                    // THE KEY HERE IS HELPING THE PROJECT HANDLER REFRESH EVERY TIME
-                    return <Route component={this.props.component} key={this.props.match.url} />
-                } else {
-                    return <Redirect to={{pathname : "/projects"}}/>
-                }
+            if(this.state.isAuthenticated && this.state.isContributor) {
+                // THE KEY HERE IS HELPING THE PROJECT HANDLER REFRESH EVERY TIME
+                return <Route component={this.props.component} key={this.props.match.url} />
             } else {
-                return <Redirect to={{pathname : "/login"}}/>
+                const path = (!this.state.isAuthenticated) ? "/login" : "/projects";
+                return <Redirect to={{
+                    pathname : path,
+                    state : {error : this.state.error},
+                }}/>
             }
         }
     }

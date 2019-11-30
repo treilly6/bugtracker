@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import MessageBox from '../../MessageBox';
 
 class LogIn extends React.Component {
 
@@ -10,8 +11,22 @@ class LogIn extends React.Component {
         "password" : "",
     }
 
+    renderSomeJSX() {
+        return (
+            <div>TESTING THE RENDER FUNCTION OF A ERROR MESSAGE</div>
+        )
+    }
+
     changeInput = (e) => {
         this.setState({[e.target.name] : e.target.value})
+    }
+
+    componentDidMount() {
+        console.log("LOGIN JS COMPNENNT MOUNTING HERE");
+        console.log(this.props);
+        if(this.props.location.state.error) {
+            console.log("THERE IS AN ERROR WE NEED TO ADD A MESSAGE HERE");
+        }
     }
 
     submit = (e) => {
@@ -37,9 +52,15 @@ class LogIn extends React.Component {
 
     render() {
 
+        var message;
+        if (this.props.location.state.error) {
+            message = <MessageBox message={this.props.location.state.error} />
+        }
+
         return (
             <div>
                 <h2>Log In</h2>
+                {message}
                 <form onSubmit={this.submit}>
                     <input value={this.state.username} onChange={this.changeInput} type="text" name="username" />
                     <input value={this.state.password} onChange={this.changeInput} type="password" name="password" />
