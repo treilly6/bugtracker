@@ -11,7 +11,7 @@ class AuthRoute extends React.Component {
         isLoading : true,
         isAuthenticated : false,
         isContributor : true,
-        error : '',
+        message : '',
     }
 
     constructor(props) {
@@ -43,13 +43,13 @@ class AuthRoute extends React.Component {
                     console.log(contributor);
                     if(!auth.data.authenticated) {
                         // Not authenticated must redirect
-                        this.setState({isLoading : false, error : "You must login to access this feature"});
+                        this.setState({isLoading : false, message : auth.data.message});
                     } else if(!contributor.data.contributor) {
                         // Not a contribuor should redirect to the users projects
-                        this.setState({isContributor : false, isAuthenticated : true, isLoading : false, error : "You are not a contributor for this project"});
+                        this.setState({isContributor : false, isAuthenticated : true, isLoading : false, message : contributor.data.message});
                     } else {
                         // IS A CONTRIBUTOR and AUTHENTICATED should add data to state
-                        this.setState({isAuthenticated : true, isLoading : false});
+                        this.setState({isAuthenticated : true, isLoading : false, message : "Success"});
                     }
                     console.log("END");
                 }))
@@ -63,11 +63,10 @@ class AuthRoute extends React.Component {
                     console.log("ENSUREAUTHEN IN THE CLASS");
                     console.log(res.data);
                     if (res.data.authenticated === true) {
-                        this.setState({isLoading : false, isAuthenticated : true});
+                        this.setState({isLoading : false, isAuthenticated : true, message : res.data.message});
                     } else {
-                        this.setState({isLoading : false, isAuthenticated : false, error : "You must login to access this feature"});
+                        this.setState({isLoading : false, isAuthenticated : false, message : res.data.message});
                     }
-
                 })
                 .catch(err => console.log("ERROR ON THE PROTECTED ROUTE CLASS"));
         }
@@ -89,7 +88,7 @@ class AuthRoute extends React.Component {
                 const path = (!this.state.isAuthenticated) ? "/login" : "/projects";
                 return <Redirect to={{
                     pathname : path,
-                    state : {error : this.state.error},
+                    state : {message : this.state.message},
                 }}/>
             }
         }

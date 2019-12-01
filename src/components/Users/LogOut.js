@@ -23,7 +23,7 @@ class LogOut extends React.Component {
     render() {
 
         return (
-            <div>
+            <div style={{alignSelf:"center"}}>
                 <button onClick={this.click}>Log Out</button>
             </div>
 

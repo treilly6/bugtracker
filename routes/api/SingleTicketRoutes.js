@@ -26,8 +26,7 @@ router.get('/:projectId/:folderPath*', (req,res) => {
     }
 
     if(!valid) {
-        res.json({"error":"This project does not exist"});
-        return
+        return res.json({"error":"This project does not exist"});
     }
 
     let query = {"project_id":objID, "path":folderPath, "title":ticketName};
@@ -38,7 +37,10 @@ router.get('/:projectId/:folderPath*', (req,res) => {
         } else {
             console.log("ALL GOOD");
             console.log(ticket);
-            res.json({ticket});
+            if(ticket === null) {
+                return res.json({ticket : null, message : `Error : Ticket named ${ticketName} does not exist in this project`});
+            }
+            return res.json({ticket, message : null});
         }
     });
 });

@@ -35,27 +35,38 @@ class UserHandler extends React.Component {
         var userBox;
         if(this.props.authenticated == true) {
             userBox =
-                <div>
-                    <h3>Welcome {this.props.user}</h3>
+                <div style={userDiv}>
+                    <h3 style={{padding: "0px 15px"}}>Welcome {this.props.user}</h3>
                     <LogOut></LogOut>
                 </div>
 
         } else {
             userBox =
-            <div>
-                <Link to="/signup"><div>Sign Up</div></Link>
-                <Link to="/login"><div>Log in</div></Link>
+            <div style={userDiv}>
+                <Link to="/signup" style={linkStyle}><div>Sign Up</div></Link>
+                <Link to="/login" style={linkStyle}><div>Log in</div></Link>
             </div>
         }
 
 
         return (
-            <div>
+            <div style={{padding : "10px 0px"}}>
                 {userBox}
             </div>
 
         )
     }
+}
+
+const userDiv = {
+    display : "flex",
+    justifyContent : "flex-end",
+}
+
+const linkStyle = {
+    padding : "0px 10px",
+    textDecoration : "none",
+    color : "#fff",
 }
 
 export default UserHandler;

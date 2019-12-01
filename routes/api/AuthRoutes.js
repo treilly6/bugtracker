@@ -12,18 +12,21 @@ router.post('/', (req, res) => {
             console.log("Yes authenticate");
             return res.json({
                 authenticated : true,
-                user : req.user.username
+                user : req.user.username,
+                message : "Success : User logged in",
             });
         } else {
             console.log("No authenticate");
             return res.json({
                 authenticated : false,
+                message : "User is not logged in"
             });
         }
     } catch {
         console.log("No authenticate");
         return res.json({
             authenticated : false,
+            message : "User is not logged in"
         });
     }
     console.log("END");
@@ -36,7 +39,7 @@ router.get('/contributor/:projectId', (req,res) => {
     console.log(req.user);
 
     if (req.user === undefined) {
-        return res.json({"error":"User not logged in"});
+        return res.json({"message":"Error : User not logged in"});
     }
 
     // This stuff below is if i want to validate the user by the ID instead of username
@@ -53,7 +56,7 @@ router.get('/contributor/:projectId', (req,res) => {
         objId = new ObjectId(req.params.projectId)
     }
     catch {
-        return res.json({"error":"Project Does Not Exist"});
+        return res.json({"message":"Error : Project Does Not Exist"});
     }
 
     var query = {"_id" : objId}
@@ -70,13 +73,13 @@ router.get('/contributor/:projectId', (req,res) => {
                 console.log("HERE THE USERNAME ", req.user.username);
                 if(project.contributors.includes(req.user.username)) {
                     console.log("IS CONTRIB");
-                    res.json({"contributor" : true});
+                    res.json({"contributor" : true, "message" : null});
                 } else {
                     console.log("IS NOT A CONTRIB");
-                    res.json({"contributor" : false});
+                    res.json({"contributor" : false, "message" : "Error : You are not a contributor for this project"});
                 }
             } else {
-                res.json({"error" : "Project does not exist"});
+                res.json({"contributor" : false, "message" : "Error : Project Does Not ExistT"});
             }
         }
     })

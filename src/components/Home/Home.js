@@ -63,8 +63,8 @@ class Home extends React.Component {
     render() {
 
         var message;
-        if (this.props.location.state && this.props.location.state.error) {
-            message = <MessageBox message={this.props.location.state.error} />
+        if (this.props.location.state && this.props.location.state.message) {
+            message = <MessageBox message={this.props.location.state.message} />
         }
 
         return (

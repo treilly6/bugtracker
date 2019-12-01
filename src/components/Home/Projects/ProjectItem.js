@@ -7,13 +7,13 @@ import AddFolder from './Folders/AddFolder';
 import Folders from './Folders/Folders';
 import axios from 'axios';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 
 class ProjectItem extends React.Component {
 
     state = {
-        error: '',
+        message: '',
         folderPath : '',
         dataFetched : false,
         folders : [],
@@ -37,9 +37,11 @@ class ProjectItem extends React.Component {
             .then((res) => {
                 console.log("SETTING THE STATE");
                 console.log(res.data);
-                if (res.data.error) {
-                    this.setState({error:res.data.error, dataFetched:true,});
+                if (res.data.message) {
+                    console.log("YUH");
+                    this.setState({message:res.data.message, dataFetched:true,});
                 } else {
+                    console.log("NUH");
                     this.setState({folders:res.data.folders, tickets:res.data.tickets, currentItem:res.data.currentItem, dataFetched:true,});
                 }
             })
@@ -108,11 +110,12 @@ class ProjectItem extends React.Component {
         if(!this.state.dataFetched) {
             console.log("NULL RENDER");
             return null;
-        } else if(this.state.error) {
+        } else if(this.state.message) {
             return (
-                <div>
-                    <h1>404 - This project path does not exist</h1>
-                </div>
+                <Redirect to={{
+                    pathname : '/projects',
+                    state : {message : this.state.message},
+                }}/>
             )
         } else {
             console.log("RENDERING THE PROJECT ITEM");

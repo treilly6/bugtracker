@@ -50,9 +50,11 @@ class Header extends React.Component {
             console.log(links);
             return(
                 <header style = {headerStyle}>
-                    <h1 style={{marginBottom : "5px"}}>Project Management</h1>
-                    <UserHandler authenticated={this.state.authenticated} user={this.state.user}></UserHandler>
-                    {links}
+                    <h1 style={brandStyle}>BugTracker</h1>
+                    <div style = {navLinksDiv}>
+                        {links}
+                        <UserHandler authenticated={this.state.authenticated} user={this.state.user}></UserHandler>
+                    </div>
                 </header>
             )
         }
@@ -69,8 +71,20 @@ const linkStyle = {
 const headerStyle = {
     backgroundColor : "#333",
     color : "#fff",
-    padding : "15px",
+    padding : "0px 15px",
+    height : "75px",
     textAlign : "center",
+    display : "flex",
+    justifyContent : "space-between",
+}
+
+const navLinksDiv = {
+    display : "inline-block",
+    alignSelf : "flex-end",
+}
+
+const brandStyle = {
+    alignSelf : "center",
 }
 
 export default Header;

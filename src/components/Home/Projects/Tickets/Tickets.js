@@ -13,23 +13,24 @@ class Tickets extends React.Component {
         console.log("TICKET PROPS");
         console.log(this.props);
         var ticketItems;
-        if (this.props.tickets.length == 0) {
-            ticketItems =
-            <h5>There are no tickets Right Now</h5>
-        } else {
-            ticketItems = this.props.tickets.map((ticket) => (
-                <div style={ticketDiv} >
-                    <div style={ticketCont}>
-                        <div><Link to={{
-                            pathname : `ticket/${ticket.title}`,
-                            state : {
-                                ticketItem : ticket,
-                            }
-                        }} >{ ticket.title }</Link></div>
-                        <div>12/9/19 12:38 PM</div>
-                    </div>
+        ticketItems = this.props.tickets.map((ticket) => (
+            <div style={ticketDiv} >
+                <div style={ticketCont}>
+                    <div><Link to={{
+                        pathname : `ticket/${ticket.title}`,
+                        state : {
+                            ticketItem : ticket,
+                        }
+                    }} >{ ticket.title }</Link></div>
+                    <div>12/9/19 12:38 PM</div>
                 </div>
-            ));
+            </div>
+        ));
+        console.log("HERE TICKET ITEMS AFTER MAP");
+        console.log(ticketItems)
+        if(ticketItems.length === 0) {
+            ticketItems =
+                <h5>Currently No Tickets</h5>
         }
 
         return (

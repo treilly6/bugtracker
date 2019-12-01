@@ -11,7 +11,6 @@ class Comments extends React.Component {
         console.log("REDNERING COMMENTS COMMENTS.js")
         console.log(this.props);
         console.log(this.props.comments);
-        console.log(this.props.comments.length);
         var commentItems = this.props.comments.map((comment) => (
             < CommentItem key={comment._id} comment = {comment} />
         ));

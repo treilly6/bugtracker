@@ -57,7 +57,7 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
     }
 
     if(!valid) {
-        res.json({"error":"Project Does Not Exist"});
+        res.json({"message":"Error : Project Does Not Exist"});
         return
     }
 
@@ -77,7 +77,7 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
                 data.project = project;
                 // res.json(project);
             } else {
-                res.json({"error" : "Project does not exist"});
+                res.json({"message" : "Error : Project does not exist"});
             }
         }
     });
@@ -93,7 +93,7 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
                 console.log("HERE THE PROJECT ITEM");
                 if (!projectItem) {
                     console.log("NO ITEM IS PRESENT HERE");
-                    res.json({"error":"This path of the project does not exist"});
+                    res.json({"message":"Error : This path of the project does not exist"});
                 } else {
                     console.log(projectItem);
                     data.currentItem = projectItem;

@@ -16,12 +16,7 @@ class TicketItem extends React.Component {
                 .then(res => {
                     console.log("IN THEN OF TICKET ITEM JS API CALL");
                     console.log(res);
-                    if(res.data.ticket) {
-                        this.setState({ticketItem : res.data.ticket, dataFetched : true});
-                    } else {
-                        this.setState({error : res.data.error, dataFetched : true})
-                    }
-
+                    this.setState({ticketItem : res.data.ticket, message : res.data.message, dataFetched : true});
                 })
                 .catch(err => console.log(err));
         } else {
@@ -32,7 +27,7 @@ class TicketItem extends React.Component {
 
     state = {
         ticketItem : '',
-        error : '',
+        message : '',
         dataFetched : false,
     };
 
@@ -55,16 +50,23 @@ class TicketItem extends React.Component {
     };
 
     render() {
+        var ticketStatus;
+        if(this.state.ticketItem.closed) {
+            ticketStatus =
+            <div>
+                <h6>CLOSED</h6>
+            </div>
+        } else {
+            ticketStatus =
+            <div>
+                <h6>OPEN</h6>
+            </div>
+        }
+
         if(!this.state.dataFetched) {
             console.log("NULL RENDER");
             return null;
-        } else if(this.state.error) {
-            return(
-                <div>
-                    <h4>404 This project does not exist --sent from ticketitem.js</h4>
-                </div>
-            )
-        } else {
+        } else if(this.state.ticketItem) {
             console.log("RENDERING THE TICKET ITEM");
             console.log(this.props);
             console.log("END OF THE PROPS IN RENDERING TICKERT");
@@ -73,6 +75,7 @@ class TicketItem extends React.Component {
             return (
                 <div style={mainCont}>
                     <div style={ticketDiv}>
+                        {ticketStatus}
                         <h2 style={titleStyle}>{this.state.ticketItem.title}</h2>
                         <p>{this.state.ticketItem.description}</p>
                     </div>
@@ -82,6 +85,12 @@ class TicketItem extends React.Component {
                     <div>
                         <AddComment addComment = {this.addComment}></AddComment>
                     </div>
+                </div>
+            )
+        } else {
+            return(
+                <div>
+                    <h4>404 {this.state.message}</h4>
                 </div>
             )
         }
