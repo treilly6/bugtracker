@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import MessageBox from '../../MessageBox';
+import { formContainer, formStyle, inputContainer, buttonStyle, titleStyle, inputStyle } from '../../styles/forms/formStyle';
 
 class LogIn extends React.Component {
 
@@ -70,52 +71,6 @@ class LogIn extends React.Component {
 
         )
     }
-}
-
-const formContainer = {
-    width: "75%",
-    backgroundColor: "#f2f2f2",
-    margin: "15px auto",
-    paddingBottom: "15px",
-    borderRadius: "5px",
-}
-
-const formStyle = {
-    padding : "10px",
-}
-
-const inputStyle = {
-    width : "100%",
-    display : "block",
-    padding: "10px",
-    boxSizing : "border-box",
-    fontSize: "15px",
-    lineHeight: "1.5",
-    color: "#495057",
-    backgroundColor: "#fff",
-    backgroundClip: "padding-box",
-    border: "1px solid #ced4da",
-    borderRadius: ".25rem",
-    transition:" border-color .15s ease-in-out,box-shadow .15s ease-in-out",
-}
-
-const titleStyle = {
-    textAlign : "center",
-    backgroundColor : "#333",
-    color : "#fff",
-    borderRadius: "5px 5px 0px 0px",
-    padding : "10px 0px",
-}
-
-const inputContainer = {
-    padding : "10px 0px",
-}
-
-const buttonStyle = {
-    backgroundColor : "#3366ff",
-    padding : "5px",
-    borderRadius : "5px",
-    border: "none",
 }
 
 export default LogIn;

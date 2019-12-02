@@ -7,12 +7,6 @@ class Header extends React.Component {
 
     state = {}
 
-    constructor(props) {
-        super(props);
-        console.log("HEADER PROPS CONTRUCTOR");
-        console.log(props);
-    }
-
     render() {
         return(
             <header style = {headerStyle}>

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from "axios";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { formContainer, formStyle, inputContainer, buttonStyle, titleStyle, inputStyle } from '../../styles/forms/formStyle';
 
 class SignUp extends React.Component {
 
@@ -45,13 +46,24 @@ class SignUp extends React.Component {
 
     render() {
         return (
-            <div>
-                <h2>Sign Up</h2>
-                <form onSubmit={this.submit}>
-                    <input onChange={this.changeInput} value={this.state.username} type="text" name="username" />
-                    <input onChange={this.changeInput} value={this.state.password} type="password" name="password" />
-                    <input onChange={this.changeInput} value={this.state.password2} type="password" name="password2" />
-                    <button>Sign Up</button>
+            <div style={formContainer}>
+                <h2 style={titleStyle}>Sign Up</h2>
+                <form style={formStyle} onSubmit={this.submit}>
+                    <div style={inputContainer}>
+                        <label for="username">Username:</label>
+                        <input onChange={this.changeInput} style={inputStyle} value={this.state.username} type="text" name="username" />
+                    </div>
+                    <div style={inputContainer}>
+                        <label for="password">Password:</label>
+                        <input onChange={this.changeInput} style={inputStyle} value={this.state.password} type="password" name="password" />
+                    </div>
+                    <div style={inputContainer}>
+                        <label for="password2">Confirm Password:</label>
+                        <input onChange={this.changeInput} style={inputStyle} value={this.state.password2} type="password" name="password2" />
+                    </div>
+                    <div style={{textAlign : "center"}}>
+                        <button style={buttonStyle}>Sign Up</button>
+                    </div>
                 </form>
             </div>
 
