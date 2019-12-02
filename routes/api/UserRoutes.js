@@ -25,16 +25,14 @@ router.post('/login', (req, res, next) => {
         }
         if (!user) {
             console.log("thers no user mane");
-            res.json({"error" : "Invalid Username or Password"});
-            return
+            return res.json({"message" : "Error : Invalid Username or Password"});
         }
         console.log("theres no error or user issues so i guess do the login")
         req.logIn(user, (err) => {
             if (err) {
-                res.json({"error":`User ${req.body.username} failed log in`, "error_msg" : err});
-                return
+                return res.json({"error":`User ${req.body.username} failed log in`, "message" : err});
             }
-            res.json({"success":`User ${req.body.username} is logged in`, "redirect" : "/projects"});
+            res.json({"message":`Success : User ${req.body.username} logged in`, "redirect" : "/projects"});
         });
 
     })(req, res, next);
@@ -61,7 +59,7 @@ router.post('/signup', async (req, res) => {
     newUser.save()
         .then((user) => {
             res.json({
-                "success" : `${newUser.username} successfully created`,
+                "message" : `Success : ${newUser.username} successfully created`,
                 "redirect" : "/projects",
             });
         })

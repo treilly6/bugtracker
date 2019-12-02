@@ -9,12 +9,8 @@ class LogIn extends React.Component {
     state = {
         "username" : "",
         "password" : "",
-    }
-
-    renderSomeJSX() {
-        return (
-            <div>TESTING THE RENDER FUNCTION OF A ERROR MESSAGE</div>
-        )
+        "message" : "",
+        "attempt" : 0,
     }
 
     changeInput = (e) => {
@@ -35,40 +31,91 @@ class LogIn extends React.Component {
                     // handle a successful Login
                     console.log("in if redirect");
                     console.log(res.data.redirect);
-                    localStorage.setItem('authenticated', true);
-                    sessionStorage.setItem('authenticated',true);
                     window.location = res.data.redirect;
                 } else {
                     // handle an unseccessful login
                     console.log("not a valid login");
-                    console.log(res.data.error)
+                    this.setState({message : res.data.message, attempt : this.state.attempt + 1});
                 }
             })
             .catch(err => console.log(err));
     }
 
     render() {
-
-        // var message = setMessageBox();
         var message;
         if (this.props.location.state && this.props.location.state.message) {
-            message = <MessageBox message={this.props.location.state.message} />
+            message = <MessageBox key={this.state.attempt} message={this.props.location.state.message} />
+        } else if(this.state.message) {
+            message = <MessageBox key={this.state.attempt} message={this.state.message} />
         }
 
-
         return (
-            <div>
-                <h2>Log In</h2>
+            <div style={formContainer}>
+                <h2 style={titleStyle}>Log In</h2>
                 {message}
-                <form onSubmit={this.submit}>
-                    <input value={this.state.username} onChange={this.changeInput} type="text" name="username" />
-                    <input value={this.state.password} onChange={this.changeInput} type="password" name="password" />
-                    <button>Log in</button>
+                <form style={formStyle} onSubmit={this.submit}>
+                    <div style={inputContainer}>
+                        <label for="username">Username:</label>
+                        <input style={inputStyle} value={this.state.username} onChange={this.changeInput} type="text" name="username" />
+                    </div>
+                    <div style={inputContainer}>
+                        <label for="password">Password:</label>
+                        <input style={inputStyle} value={this.state.password} onChange={this.changeInput} type="password" name="password" />
+                    </div>
+                    <div style={{textAlign : "center"}}>
+                        <button style={buttonStyle}>Log in</button>
+                    </div>
                 </form>
             </div>
 
         )
     }
+}
+
+const formContainer = {
+    width: "75%",
+    backgroundColor: "#f2f2f2",
+    margin: "15px auto",
+    paddingBottom: "15px",
+    borderRadius: "5px",
+}
+
+const formStyle = {
+    padding : "10px",
+}
+
+const inputStyle = {
+    width : "100%",
+    display : "block",
+    padding: "10px",
+    boxSizing : "border-box",
+    fontSize: "15px",
+    lineHeight: "1.5",
+    color: "#495057",
+    backgroundColor: "#fff",
+    backgroundClip: "padding-box",
+    border: "1px solid #ced4da",
+    borderRadius: ".25rem",
+    transition:" border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+}
+
+const titleStyle = {
+    textAlign : "center",
+    backgroundColor : "#333",
+    color : "#fff",
+    borderRadius: "5px 5px 0px 0px",
+    padding : "10px 0px",
+}
+
+const inputContainer = {
+    padding : "10px 0px",
+}
+
+const buttonStyle = {
+    backgroundColor : "#3366ff",
+    padding : "5px",
+    borderRadius : "5px",
+    border: "none",
 }
 
 export default LogIn;

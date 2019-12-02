@@ -26,8 +26,9 @@ class MessageBox extends React.Component {
 
     render() {
         if(this.state.showingMessage) {
+            var styles = (this.props.message.includes("Error")) ? Object.assign({}, messageBoxCont, errorBox) : Object.assign({}, messageBoxCont, successBox);
             return(
-                <div style={messageBoxCont}>
+                <div style={styles}>
                     <div>
                         <h5>{this.props.message}</h5>
                     </div>
@@ -42,14 +43,26 @@ class MessageBox extends React.Component {
     }
 }
 
-const messageBoxCont = {
-    backgroundColor : "#bfbfbf",
+var messageBoxCont = {
     padding : "10px",
-    border : "1px solid #e6e6e6",
+    marginTop : "10px",
     maxWidth : "400px",
     marginLeft : "auto",
     marginRight : "auto",
     textAlign : "center",
+    borderRadius : "5px",
+}
+
+const errorBox = {
+    backgroundColor : "#ffcccc",
+    border : "1px solid #ff3333",
+    color : "#ff3333",
+}
+
+const successBox = {
+    backgroundColor : "#d6f5d6",
+    border : "1px solid #33cc33",
+    color : "#33cc33",
 }
 
 export default MessageBox;

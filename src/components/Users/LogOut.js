@@ -12,8 +12,11 @@ class LogOut extends React.Component {
             .then((res) => {
                 console.log("here the res thing");
                 console.log(res);
-                localStorage.clear();
+                console.log(this.props);
+                console.log("ABOIVE IS THE PROPS");
                 if (res.data.redirect) {
+                    console.log("GONNA INVOKE SET PARENT STATE");
+                    this.props.setParentState({authenticated : false, user : '', dataFetched : false});
                     window.location = res.data.redirect;
                 }
             })
@@ -21,7 +24,6 @@ class LogOut extends React.Component {
     }
 
     render() {
-
         return (
             <div style={{alignSelf:"center"}}>
                 <button onClick={this.click}>Log Out</button>

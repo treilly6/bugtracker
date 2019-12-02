@@ -5,67 +5,24 @@ import axios from 'axios';
 
 class Header extends React.Component {
 
-    state = {
-        authenticated : false,
-        user : '',
-        dataFetched : false,
-    }
+    state = {}
 
     constructor(props) {
         super(props);
         console.log("HEADER PROPS CONTRUCTOR");
         console.log(props);
-        axios.post('/api/auth')
-            .then(res => {
-                console.log("AXIOS RESULT USER HANDLER");
-                console.log(res);
-                if (res.data.authenticated) {
-                    this.setState({authenticated:true, user:res.data.user, dataFetched:true});
-                } else {
-                    this.setState({dataFetched : true});
-                }
-                console.log("CHECKING THE STATE");
-                console.log(this.state);
-            })
-            .catch(err => console.log(err))
     }
 
     render() {
-        if(!this.state.dataFetched) {
-            return null;
-        } else {
-            var links;
-            if(this.state.authenticated) {
-                links =
-                <div>
-                    <Link style={linkStyle} to="/">Home</Link> | <Link style={linkStyle} to="/about">About</Link> | <Link style={linkStyle} to="/projects">Projects</Link>
-                </div>;
-            } else {
-                links =
-                <div>
-                    <Link style={linkStyle} to="/">Home</Link> | <Link style={linkStyle} to="/about">About</Link>
-                </div>;
-            }
-            console.log("BEFORE THE RENDER RETURN links");
-            console.log(links);
-            return(
-                <header style = {headerStyle}>
-                    <h1 style={brandStyle}>BugTracker</h1>
-                    <div style = {navLinksDiv}>
-                        {links}
-                        <UserHandler authenticated={this.state.authenticated} user={this.state.user}></UserHandler>
-                    </div>
-                </header>
-            )
-        }
-
+        return(
+            <header style = {headerStyle}>
+                <h1 style={brandStyle}>BugTracker</h1>
+                <div style = {navLinksDiv}>
+                    <UserHandler></UserHandler>
+                </div>
+            </header>
+        )
     }
-}
-
-const linkStyle = {
-    textDecoration : "none",
-    color : "#fff",
-    padding : "10px",
 }
 
 const headerStyle = {
