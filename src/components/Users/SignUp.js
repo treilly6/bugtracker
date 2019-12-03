@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from "axios";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import MessageBox from '../../MessageBox';
 import { formContainer, formStyle, inputContainer, buttonStyle, titleStyle, inputStyle } from '../../styles/forms/formStyle';
 
 class SignUp extends React.Component {
@@ -10,6 +11,7 @@ class SignUp extends React.Component {
         "username" : "",
         "password" : "",
         "password2" : "",
+        "attempt" : 0,
     }
 
     submit = (e) => {
@@ -25,7 +27,11 @@ class SignUp extends React.Component {
                 console.log("YEEET");
                 console.log(res);
                 if(res.data.redirect) {
+                    // successful signup
                     window.location.href = res.data.redirect;
+                } else {
+                    // unseccessful singup
+                    this.setState({message : res.data.message, attempt : this.state.attempt + 1});
                 }
             })
             .catch((err) => {
@@ -45,9 +51,17 @@ class SignUp extends React.Component {
     }
 
     render() {
+        var message;
+        if (this.props.location.state && this.props.location.state.message) {
+            message = <MessageBox key={this.state.attempt} message={this.props.location.state.message} />
+        } else if(this.state.message) {
+            message = <MessageBox key={this.state.attempt} message={this.state.message} />
+        }
+
         return (
             <div style={formContainer}>
                 <h2 style={titleStyle}>Sign Up</h2>
+                {message}
                 <form style={formStyle} onSubmit={this.submit}>
                     <div style={inputContainer}>
                         <label for="username">Username:</label>

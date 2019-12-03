@@ -3,8 +3,10 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+var ObjectId = require('mongodb').ObjectId;
 
 let User = require('../../models/User');
+let MailBox = require('../../models/MailBox');
 
 router.post('/login', (req, res, next) => {
     console.log("In user login passport stuff");
@@ -42,8 +44,36 @@ router.post('/signup', async (req, res) => {
     console.log("in the use signup");
     console.log(req.body)
 
-    // ***** Need to add password check and validation to username ************ //
-    // ** Also need to check for if the username already exists ****** //
+    // PW VALIDATION
+    if(req.body.password.length < 5) {
+        // password empty
+        res.json({"message" : "Error : Password must be at least 5 characters long"});
+        return;
+    } else if (req.body.password !== req.body.password2) {
+        // passwords dont match
+        res.json({"message" : "Error : Passwords do not match"});
+        return;
+    }
+
+    // Check if username exists //
+    var validUser = true;
+    await User.find({"username" : req.body.username}, (err, users) => {
+        if(err){
+            console.log(err);
+            console.log("Error on the user route checking for username already used");
+        } else {
+            console.log("INNA ELSE");
+            console.log(users);
+            if(users.length !== 0) {
+                res.json({"message" : `Error : The username ${req.body.username} is already taken`});
+                validUser = false;
+            }
+        }
+    });
+
+    if(!validUser) {
+        return;
+    }
 
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -58,10 +88,23 @@ router.post('/signup', async (req, res) => {
 
     newUser.save()
         .then((user) => {
-            res.json({
-                "message" : `Success : ${newUser.username} successfully created`,
-                "redirect" : "/projects",
-            });
+            console.log(user);
+            console.log("ABOVE IS USER AFTER SAVE");
+            const objId = new ObjectId(user._id)
+            const newMailBox = new MailBox({"user" : objId, "messages":[]});
+            newMailBox.save()
+                .then((mailbox) => {
+                    console.log("HERE IS THE MAILBOX");
+                    console.log(mailbox);
+                    res.json({
+                        "message" : `Success : ${newUser.username} successfully created`,
+                        "redirect" : "/projects",
+                    });
+                })
+                .catch(err => {
+                    console.log("ERROR WHEN SAVING MAILBOX");
+                    console.log(err);
+                })
         })
         .catch(err => {
             console.log(err);

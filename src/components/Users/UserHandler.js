@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import LogOut from './LogOut';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class UserHandler extends React.Component {
 
@@ -54,7 +55,7 @@ class UserHandler extends React.Component {
                     </div>;
                 links =
                 <div>
-                    <Link style={linkStyle} to="/">Home</Link> | <Link style={linkStyle} to="/about">About</Link> | <Link style={linkStyle} to="/projects">Projects</Link>
+                    <Link style={linkStyle} to="/">Home</Link> | <Link style={linkStyle} to="/about">About</Link> | <Link style={linkStyle} to="/projects">Projects</Link> | <Link style={linkStyle} to="/mail"><FontAwesomeIcon icon="envelope" /></Link>
                 </div>;
             } else {
                 userBox =
