@@ -12,7 +12,11 @@ const FolderSchema = mongoose.Schema({
     },
     path : {
         type : String,
-    }
+    },
+    managers : [{
+        type : String,
+        ref : 'User',
+    }],
 });
 
 module.exports = mongoose.model("Folder", FolderSchema);

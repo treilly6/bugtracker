@@ -5,6 +5,7 @@ import Tickets from './Tickets/Tickets';
 // import TicketItem from './Tickets/TicketItem';
 import AddFolder from './Folders/AddFolder';
 import Folders from './Folders/Folders';
+import ManagerHandler from '../../Users/Manager/ManagerHandler';
 import axios from 'axios';
 
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
@@ -19,6 +20,7 @@ class ProjectItem extends React.Component {
         folders : [],
         tickets : [],
         currentItem : '',
+        manager : false,
     }
 
     constructor(props) {
@@ -47,6 +49,15 @@ class ProjectItem extends React.Component {
             })
             .catch(err => console.log(err));
 
+        axios.get(`/api/auth/manager/${projectId}/${folderPath}`)
+            .then(res => {
+                console.log(res);
+                if(res.data.manager) {
+                    console.log("IS A MANAGER");
+                    this.setState({manager : true})
+                }
+            })
+            .catch(err => console.log(err));
 
         // this.state.projectItem = this.props.data.currentItem;
         //
@@ -119,12 +130,13 @@ class ProjectItem extends React.Component {
             )
         } else {
             console.log("RENDERING THE PROJECT ITEM");
-            console.log(this.props);
-            console.log("END OF THE PROPS OF PROJECT ITEM");
+            console.log(this.state);
+            console.log("END OF THE STATE PROJECT ITEM");
             const title = this.state.currentItem.title;
             return (
                 <div>
                     <h1>Project PAGE for { title }</h1>
+                    <ManagerHandler manager={this.state.manager} />
                     <AddFolder addFolder = {this.addFolder} />
                     <Folders folders = {this.state.folders} />
                     <AddTicket addTicket = {this.addTicket} />

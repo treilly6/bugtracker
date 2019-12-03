@@ -12,7 +12,11 @@ const ProjectSchema = mongoose.Schema({
     contributors : [{
         type : String,
         ref : 'User',
-    }]
+    }],
+    managers : [{
+        type : String,
+        ref : 'User',
+    }],
 });
 
 module.exports = mongoose.model("Project", ProjectSchema);

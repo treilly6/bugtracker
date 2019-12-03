@@ -17,19 +17,29 @@ class Mail extends React.Component {
 
     render() {
         var mailItems = this.props.mail.map((mail) => (
-            <div>
+            <div style={mailDiv}>
                 <h4>{mail.title}</h4>
                 <p>{mail.body}</p>
                 <h6>{mail.date}</h6>
             </div>
         ));
+
+        if (mailItems.length === 0) {
+            mailItems =
+            <div>
+                <h5>Empty Mailbox</h5>
+            </div>
+        }
         return(
             <div>
-                <h4>HERE IS THE MAIL ITEMS</h4>
                 {mailItems}
             </div>
         )
     }
+}
+
+const mailDiv = {
+    border : "1px solid black",
 }
 
 export default Mail;

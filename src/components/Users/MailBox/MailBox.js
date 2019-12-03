@@ -32,7 +32,7 @@ class MailBox extends React.Component {
         if(this.state.dataFetched) {
             return(
                 <div>
-                    <h4>HERE IS THE MAIL PAGE</h4>
+                    <h4>Mailbox</h4>
                     <Mail mail={this.state.mailBox.messages}></Mail>
                 </div>
             )
