@@ -7,6 +7,7 @@ var ObjectId = require('mongodb').ObjectId;
 
 let User = require('../../models/User');
 let MailBox = require('../../models/MailBox');
+let Project = require('../../models/Project');
 
 router.post('/login', (req, res, next) => {
     console.log("In user login passport stuff");
@@ -145,6 +146,10 @@ router.post('/invite', (req, res) => {
                             title : "Project Invitation",
                             body : `You've been invited to join the ${req.body.projectTitle}  project!`,
                             date : "4/20/69",
+                            meta : {
+                                messageType : "Invite",
+                                projectId : req.body.projectId,
+                            }
                         }
                         console.log("HERE MESSAGE");
                         console.log(message);
@@ -152,6 +157,8 @@ router.post('/invite', (req, res) => {
                         console.log(mailbox);
                         mailbox.save((err) => {
                             if(err) {
+                                console.log(err);
+                                console.log("ERR ABOVE");
                                 res.json({"message" : "Error : There was an an error when sending invitation"});
                             } else {
                                 res.json({"message" : `Success : User ${req.body.inviteUser} Invited`});
@@ -165,6 +172,34 @@ router.post('/invite', (req, res) => {
             }
         })
         .catch(err => console.log(err))
+})
+
+router.post('/acceptInvite', (req,res) => {
+    console.log("ACCEPTING THE INVITE API");
+    console.log(req.body);
+    console.log(req.user.username);
+    try {
+        var projId = new ObjectId(req.body.projectId);
+    } catch {
+        return res.json({"message" : "Error : Cannot find Project"})
+    }
+
+    Project.findOne({"_id" : projId})
+        .then(project => {
+            project.contributors.push(req.user.username)
+            project.save(err => {
+                if(err) {
+                    console.log("ERROR ON SAVE");
+                    console.log(err);
+                    return res.json({"message" : "Error : Issue when saving"});
+                }
+                return res.json({"message" : `Success : You've been added to ${project.title}`});
+            })
+        })
+        .catch(err => {
+            console.log("ERROR ON FINDING PROJECT ACCEPT INVITE API");
+            console.log(err);
+        })
 })
 
 module.exports = router;

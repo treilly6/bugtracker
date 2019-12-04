@@ -10,6 +10,8 @@ class ManagerTools extends React.Component {
 
     constructor(props){
         super(props);
+        console.log("MANAGER TOOLS PROPS");
+        console.log(props);
     }
 
     toggleForm = (e) => {
@@ -19,7 +21,7 @@ class ManagerTools extends React.Component {
 
     submit = (e) => {
         e.preventDefault();
-        var userData = {"inviteUser" : this.state.inviteUser, "projectTitle" : this.props.projectTitle};
+        var userData = {"inviteUser" : this.state.inviteUser, "projectTitle" : this.props.projectItem.title, "projectId" : this.props.projectItem._id};
         this.setState({inviteUser : ''});
         axios.post('/api/user/invite', userData)
             .then(res => {

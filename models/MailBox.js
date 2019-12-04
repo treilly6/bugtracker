@@ -5,7 +5,17 @@ const MailBoxSchema = mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : "User"
     },
-    messages : [{title : String, body : String, date : Date}],
+    messages : [
+        {
+            title : String,
+            body : String,
+            date : Date,
+            meta : {
+                messageType : String,
+                projectId : String,
+            },
+        }
+    ],
 });
 
 module.exports = mongoose.model("MailBox", MailBoxSchema);

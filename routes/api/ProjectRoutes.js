@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     console.log(req.user);
     // PROB WANNA CHANGE THE AUTHOR QUERY HERE TO BE A ID AND ALSO INCLUDE IF
     // NOT JUST A CRAEATOR BUT A CONTRIBUTOR
-    query = {"creator": `${req.user.username}`};
+    query = {"contributors": `${req.user.username}`};
     Project.find(query, (err, projects) => {
         if (err) {
             console.log(err);

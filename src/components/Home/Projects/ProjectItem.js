@@ -19,7 +19,8 @@ class ProjectItem extends React.Component {
         dataFetched : false,
         folders : [],
         tickets : [],
-        currentItem : '',
+        currentItem : {},
+        projectItem : {},
         manager : false,
     }
 
@@ -30,7 +31,6 @@ class ProjectItem extends React.Component {
         console.log(props);
 
         this.state.folderPath = this.props.match.params.folders;
-        this.state.projectId = this.props.match.params.projectID;
 
         const projectId = this.props.match.params.projectID;
         const folderPath = (this.props.match.params.folders === undefined ? undefined : this.props.match.params.folders);
@@ -48,10 +48,10 @@ class ProjectItem extends React.Component {
                     console.log("NUH");
                     if(manager.data.manager) {
                         console.log("IS A MANAGER");
-                        this.setState({folders:project.data.folders, tickets:project.data.tickets, currentItem:project.data.currentItem, manager:true, dataFetched:true});
+                        this.setState({folders:project.data.folders, tickets:project.data.tickets, currentItem:project.data.currentItem, projectItem:project.data.project, manager:true, dataFetched:true});
                     } else {
                         console.log("NO MANAGER");
-                        this.setState({folders:project.data.folders, tickets:project.data.tickets, currentItem:project.data.currentItem, dataFetched:true})
+                        this.setState({folders:project.data.folders, tickets:project.data.tickets, currentItem:project.data.currentItem, projectItem:project.data.project, dataFetched:true})
                     }
                 }
             }))
@@ -134,7 +134,7 @@ class ProjectItem extends React.Component {
                 <div>
                     <h1>Project PAGE for { title }</h1>
                     {/* NEED TO ADD MESSAGE BOX HERE MAN */}
-                    <ManagerHandler projectTitle={this.state.currentItem.title} manager={this.state.manager} />
+                    <ManagerHandler projectItem={this.state.projectItem} manager={this.state.manager} />
                     <AddFolder addFolder = {this.addFolder} />
                     <Folders folders = {this.state.folders} />
                     <AddTicket addTicket = {this.addTicket} />

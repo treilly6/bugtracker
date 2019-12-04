@@ -17,7 +17,7 @@ class ManagerHandler extends React.Component {
     render() {
         if(this.state.manager) {
             return (
-                <ManagerTools projectTitle={this.props.projectTitle} />
+                <ManagerTools projectItem={this.props.projectItem} />
             )
         } else {
             return null;
