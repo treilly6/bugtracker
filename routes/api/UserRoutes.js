@@ -90,7 +90,7 @@ router.post('/signup', async (req, res) => {
         .then((user) => {
             console.log(user);
             console.log("ABOVE IS USER AFTER SAVE");
-            const objId = new ObjectId(user._id)
+            const objId = new ObjectId(user._id);
             const newMailBox = new MailBox({"user" : objId, "messages":[]});
             newMailBox.save()
                 .then((mailbox) => {
@@ -124,5 +124,47 @@ router.get('/logout', (req, res, next) => {
     }
 
 });
+
+router.post('/invite', (req, res) => {
+    console.log("INVITE API");
+    console.log(req.body);
+    console.log("ABOVE IS THE DATA");
+    User.findOne({username : req.body.inviteUser})
+        .then(user => {
+            console.log("IN THEN");
+            console.log(user);
+            if (user) {
+                console.log("IS USER");
+                const userId = new ObjectId(user._id);
+                // send message to that users inbox
+                MailBox.findOne({"user":userId})
+                    .then(mailbox => {
+                        console.log("IN THEN OF THE MAILBOX");
+                        console.log(mailbox);
+                        var message = {
+                            title : "Project Invitation",
+                            body : `You've been invited to join the ${req.body.projectTitle}  project!`,
+                            date : "4/20/69",
+                        }
+                        console.log("HERE MESSAGE");
+                        console.log(message);
+                        mailbox.messages.push(message);
+                        console.log(mailbox);
+                        mailbox.save((err) => {
+                            if(err) {
+                                res.json({"message" : "Error : There was an an error when sending invitation"});
+                            } else {
+                                res.json({"message" : `Success : User ${req.body.inviteUser} Invited`});
+                            }
+                        });
+                    })
+                    .catch(err => console.log(err));
+            } else {
+                console.log("NO USER");
+                // return a error message that the user dont exist
+            }
+        })
+        .catch(err => console.log(err))
+})
 
 module.exports = router;

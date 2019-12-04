@@ -26,6 +26,7 @@ class ProjectItem extends React.Component {
     constructor(props) {
         super(props);
         console.log("ITEM CONSTRUCTOR projectitem.js");
+        console.log(this.state);
         console.log(props);
 
         this.state.folderPath = this.props.match.params.folders;
@@ -35,34 +36,30 @@ class ProjectItem extends React.Component {
         const folderPath = (this.props.match.params.folders === undefined ? undefined : this.props.match.params.folders);
         console.log("HERE THE FOLDER PATH ", folderPath);
 
-        axios.get(`/api/projects/${projectId}/${folderPath}`)
-            .then((res) => {
-                console.log("SETTING THE STATE");
-                console.log(res.data);
-                if (res.data.message) {
+        axios.all([axios.get(`/api/projects/${projectId}/${folderPath}`), axios.get(`/api/auth/manager/${projectId}/${folderPath}`)])
+            .then(axios.spread((project, manager) => {
+                console.log("AXIOS SPREAD RESULT");
+                console.log(project);
+                console.log(manager);
+                if (project.data.message) {
                     console.log("YUH");
-                    this.setState({message:res.data.message, dataFetched:true,});
+                    this.setState({message:project.data.message, dataFetched:true});
                 } else {
                     console.log("NUH");
-                    this.setState({folders:res.data.folders, tickets:res.data.tickets, currentItem:res.data.currentItem, dataFetched:true,});
+                    if(manager.data.manager) {
+                        console.log("IS A MANAGER");
+                        this.setState({folders:project.data.folders, tickets:project.data.tickets, currentItem:project.data.currentItem, manager:true, dataFetched:true});
+                    } else {
+                        console.log("NO MANAGER");
+                        this.setState({folders:project.data.folders, tickets:project.data.tickets, currentItem:project.data.currentItem, dataFetched:true})
+                    }
                 }
+            }))
+            .catch(err => {
+                console.log("ERROR ON THE AXIOS SPREAD IN PROJECT ITEMS.JS");
+                console.log(err);
             })
-            .catch(err => console.log(err));
-
-        axios.get(`/api/auth/manager/${projectId}/${folderPath}`)
-            .then(res => {
-                console.log(res);
-                if(res.data.manager) {
-                    console.log("IS A MANAGER");
-                    this.setState({manager : true})
-                }
-            })
-            .catch(err => console.log(err));
-
-        // this.state.projectItem = this.props.data.currentItem;
-        //
-        // this.state.folders = this.props.data.folders;
-        // this.state.tickets = this.props.data.tickets;
+        console.log("HUH?")
     }
 
     // need to add here a method that retrieves the given project record and sets the
@@ -136,7 +133,8 @@ class ProjectItem extends React.Component {
             return (
                 <div>
                     <h1>Project PAGE for { title }</h1>
-                    <ManagerHandler manager={this.state.manager} />
+                    {/* NEED TO ADD MESSAGE BOX HERE MAN */}
+                    <ManagerHandler projectTitle={this.state.currentItem.title} manager={this.state.manager} />
                     <AddFolder addFolder = {this.addFolder} />
                     <Folders folders = {this.state.folders} />
                     <AddTicket addTicket = {this.addTicket} />

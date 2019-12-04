@@ -23,12 +23,12 @@ class Home extends React.Component {
     addProject = (newProject) => {
         // need to add the current user as teh author for this method
         axios.post('/api/projects', newProject)
-        .then((project) => {
-            console.log("changeing the styate");
-            this.setState({projects : [...this.state.projects, project.data]});
-            console.log("state changed");
-        })
-        .catch(err => console.log(err));
+            .then((project) => {
+                console.log("changeing the styate");
+                this.setState({projects : [...this.state.projects, project.data]});
+                console.log("state changed");
+            })
+            .catch(err => console.log(err));
     }
 
     deleteProject = (projectID) => {

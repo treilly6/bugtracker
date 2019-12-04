@@ -66,6 +66,7 @@ router.get('/manager/:projectId/:folderPath*', async (req,res) => {
         })
     } else {
         // query folder managers
+        res.json({"message" : "NEED TO DO WORK HERE LINE 70 AUTH ROUTES"});
     }
 });
 

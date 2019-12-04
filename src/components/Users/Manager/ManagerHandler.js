@@ -1,8 +1,9 @@
 import React from 'react';
+import ManagerTools from './ManagerTools';
 
 class ManagerHandler extends React.Component {
     state = {
-
+        manager : null,
     }
 
     constructor(props) {
@@ -14,9 +15,14 @@ class ManagerHandler extends React.Component {
     componentDidMount() {}
 
     render() {
-        return(
-            <h6>MANAGER TOOLS</h6>
-        )
+        if(this.state.manager) {
+            return (
+                <ManagerTools projectTitle={this.props.projectTitle} />
+            )
+        } else {
+            return null;
+        }
+
     }
 }
 
