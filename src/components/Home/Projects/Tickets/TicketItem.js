@@ -38,7 +38,10 @@ class TicketItem extends React.Component {
 
     addComment = async (comment) => {
         console.log("I THE TICKET ITEM JS DOOMMENT CFUIFND");
-        await axios.post(`/api/comments/${this.state.ticketItem._id}`, comment)
+        console.log(window.location.href);
+        console.log(window.location.pathname);
+        console.log(this.props);
+        await axios.post(`/api/comments/${this.state.ticketItem._id}`, {comment : comment, path : this.props.location.pathname})
             .then(res => {
                 console.log(res);
                 var updatedItem = this.state.ticketItem;

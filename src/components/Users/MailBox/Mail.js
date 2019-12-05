@@ -30,16 +30,31 @@ class Mail extends React.Component {
 
     render() {
         var mailItems = this.props.mail.map((mail) => {
-            var inviteDiv = (mail.meta && mail.meta.messageType === 'Invite') ?
-            <div>
-                <button onClick={() => this.acceptInvite(mail)}>Accept Invitation</button>
-            </div> : null;
+            console.log("HERE THE MAIL OBJ");
+            console.log(mail);
+            var metaDiv;
+            if(mail.meta){
+                if(mail.meta.messageType === "Invite") {
+                    metaDiv =
+                    <div>
+                        <button onClick={() => this.acceptInvite(mail)}>Accept Invitation</button>
+                    </div>;
+                } else if(mail.meta.messageType === "ticketReq") {
+                    console.log("HERE SOME SHIIIIIIIIT ", mail.meta.path)
+                    metaDiv =
+                    <div>
+                        <Link to={mail.meta.path}><button>Go to ticket</button></Link>
+                    </div>;
+                }
+            } else {
+                metaDiv = null;
+            }
             return (
                 <div style={mailDiv}>
                     <h4>{mail.title}</h4>
                     <p>{mail.body}</p>
                     <h6>{mail.date}</h6>
-                    {inviteDiv}
+                    {metaDiv}
                 </div>
             )
         });

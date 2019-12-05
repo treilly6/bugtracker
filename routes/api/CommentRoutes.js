@@ -19,68 +19,72 @@ router.post('/:ticketId', (req, res) => {
     }
 
     console.log("ITS VALUD");
+    // check for the ticket
     Ticket.findOne({"_id" : objId}, (err, ticket) => {
         if(err) {
             console.log("ERROR IN THE COMMENTS ROUTE SHIT");
         } else {
             console.log("COMMENT ROUTE IS GOOD");
             console.log(ticket);
-            console.log("HERE THE BODY");
-            console.log(req.body);
-            ticket.comments.push(req.body);
+            console.log("HERE THE Comment");
+            console.log(req.body.comment);
+            ticket.comments.push(req.body.comment);
 
 
-            if(req.body.markCompleted === true) {
+            if(req.body.comment.completedRequest.request === true) {
                 console.log("IS COMPLETED");
-                ticket.closed = true;
+                // flagged - need to add some kind of mail fucntion that sends completed request to the managers
+                // Get the managers of the project
+                Project.findOne({"_id":new ObjectId(ticket.project_id)}, "managers", (err,project) => {
+                    if(err) {
+                        console.log("ERROR ON PROJECT QUERY IN COMMENT POST ROUTE");
+                        console.log(err)
+                        return
+                    }
+                    console.log("HERE RESULT OF QUERY");
+                    console.log(project);
+                    console.log(project.managers);
+                    // Get the managers mailboxes
+                    MailBox.find({"user":{"$in" : project.managers}}, (err, mailboxes) => {
+                        if(err) {
+                            console.log("FUCKUP ON MAILBOX QUERY COMMENT POST ROUTE");
+                            console.log(err);
+                        } else {
+                            console.log("SUCCESS");
+                            console.log(mailboxes);
+                            // Send all managers a message
+                            mailboxes.map((mailbox) => {
+                                console.log("MAP THE MAILBOX");
+                                console.log(mailbox);
+                                const message = {
+                                    title : "Ticket Completion Request",
+                                    body : `${req.user.username} has created a completion request that needs manager approval`,
+                                    date : "4/20/69",
+                                    meta : {
+                                        messageType : "ticketReq",
+                                        projectId : `${project._id}`,
+                                        path : req.body.path,
+                                    },
+                                }
+                                console.log("HERE THE MESSAGE");
+                                console.log(message);
+                                mailbox.messages.push(message);
+                                mailbox.save(err => {
+                                    if(err) {
+                                        console.log(err);
+                                        console.log("ERROR ON THE SAVE OF THE MAILBOX WHEN MESSAGING MANAGERS");
+                                    } else {
+                                        console.log("SUCCESSFUL SAVE");
+                                    }
+                                })
+                            });
+                        }
+                    })
+                    // ADD A QUERY OF THE MAILBOXES OF THOSE MANAGEERS
+                })
             } else {
                 console.log("IS NOT COMPLETED");
             }
-
-            // flagged - need to add some kind of mail fucntion that sends completed request to the managers
-            Project.findOne({"_id":new ObjectId(ticket.project_id)}, "managers", (err,project) => {
-                if(err) {
-                    console.log("ERROR ON PROJECT QUERY IN COMMENT POST ROUTE");
-                    console.log(err)
-                    return
-                }
-                console.log("HERE RESULT OF QUERY");
-                console.log(project);
-                console.log(project.managers);
-                MailBox.find({"user":{"$in" : project.managers}}, (err, mailboxes) => {
-                    if(err) {
-                        console.log("FUCKUP ON MAILBOX QUERY COMMENT POST ROUTE");
-                        console.log(err);
-                    } else {
-                        console.log("SUCCESS");
-                        console.log(mailboxes);
-                        mailboxes.map((mailbox) => {
-                            console.log("MAP THE MAILBOX");
-                            console.log(mailbox);
-                            const message = {
-                                title : "Ticket Completion Request",
-                                body : `${req.user.username} has created a completion request that needs manager approval`,
-                                date : "4/20/69",
-                                meta : {
-                                    messageType : "ticketReq",
-                                    projectId : `${project._id}`,
-                                },
-                            }
-                            mailbox.messages.push(message);
-                            mailbox.save(err => {
-                                if(err) {
-                                    console.log(err);
-                                    console.log("ERROR ON THE SAVE OF THE MAILBOX WHEN MESSAGING MANAGERS");
-                                } else {
-                                    console.log("SUCCESSFUL SAVE");
-                                }
-                            })
-                        });
-                    }
-                })
-                // ADD A QUERY OF THE MAILBOXES OF THOSE MANAGEERS
-            })
-
 
             console.log(ticket);
             ticket.save((err => {
@@ -88,7 +92,7 @@ router.post('/:ticketId', (req, res) => {
                     console.log("ERROR WHEN SAVING THE TIFKET COMMENTROUTES.js");
                 }
             }))
-            res.json({"savedComment" : req.body, "ticketSaved":ticket});
+            res.json({"savedComment" : req.body.comment, "ticketSaved":ticket});
         }
     })
 })

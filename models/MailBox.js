@@ -14,6 +14,7 @@ const MailBoxSchema = mongoose.Schema({
             meta : {
                 messageType : String,
                 projectId : String,
+                path : String,
             },
         }
     ],
