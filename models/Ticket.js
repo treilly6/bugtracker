@@ -29,7 +29,13 @@ const TicketSchema = mongoose.Schema({
         type : Boolean,
         default : false,
     },
-    comments : [{body : String, date : Date}]
+    comments : [{body : String,
+                date : Date,
+                completedRequest : {
+                    request : Boolean,
+                    approved : Boolean,
+                },
+    }]
 });
 
 

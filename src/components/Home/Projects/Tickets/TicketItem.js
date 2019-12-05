@@ -42,7 +42,7 @@ class TicketItem extends React.Component {
             .then(res => {
                 console.log(res);
                 var updatedItem = this.state.ticketItem;
-                updatedItem.comments.push(res.data);
+                updatedItem.comments.push(res.data.savedComment);
                 this.setState({ticketItem: updatedItem});
             })
             .catch(err => console.log(err));

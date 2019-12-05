@@ -10,17 +10,12 @@ router.post('/:ticketId', (req, res) => {
     console.log(req.params);
     console.log(req.body);
 
-    var valid = true;
     try {
         var objId = new ObjectId(req.params.ticketId);
     } catch {
-        res.json({"error":"Invalid Ticket Item"});
-        valid = false;
+        return res.json({"error":"Invalid Ticket Item"});
     }
 
-    if(!valid) {
-        return
-    }
     console.log("ITS VALUD");
     Ticket.findOne({"_id" : objId}, (err, ticket) => {
         if(err) {
@@ -31,13 +26,25 @@ router.post('/:ticketId', (req, res) => {
             console.log("HERE THE BODY");
             console.log(req.body);
             ticket.comments.push(req.body);
+
+
+            if(req.body.markCompleted === true) {
+                console.log("IS COMPLETED");
+                ticket.closed = true;
+            } else {
+                console.log("IS NOT COMPLETED");
+            }
+
+            // flagged - need to add some kind of mail fucntion that sends completed request to the managers
+
+
             console.log(ticket);
             ticket.save((err => {
                 if(err) {
                     console.log("ERROR WHEN SAVING THE TIFKET COMMENTROUTES.js");
                 }
             }))
-            res.json(req.body);
+            res.json({"savedComment" : req.body, "ticketSaved":ticket});
         }
     })
 })

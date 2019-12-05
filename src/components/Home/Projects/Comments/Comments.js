@@ -12,7 +12,7 @@ class Comments extends React.Component {
         console.log(this.props);
         console.log(this.props.comments);
         var commentItems = this.props.comments.map((comment) => (
-            < CommentItem key={comment._id} comment = {comment} />
+            <CommentItem key={comment._id} comment = {comment} />
         ));
 
         if (commentItems.length == 0) {

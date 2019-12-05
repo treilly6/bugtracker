@@ -9,8 +9,17 @@ class CommentItem extends React.Component {
     render() {
         console.log("REDNEDIN THE COMMENT ITEM COMMETNITEM.js");
         console.log(this.props);
+        var completedRequest = null;
+        if(this.props.comment.completedRequest && this.props.comment.completedRequest.request) {
+            if(this.props.comment.completedRequest.approved) {
+                completedRequest = <div>COMPLETED - APPROVED AND CLOSED</div>;
+            } else {
+                completedRequest = <div>COMPLETED - PENDING APPROVAL</div>;
+            }
+        }
         return (
             <div style={divStyle}>
+                {completedRequest}
                 <h6 style={timeStyle}>{this.props.comment.date}</h6>
                 <p>{this.props.comment.body}</p>
             </div>

@@ -73,8 +73,9 @@ class ProjectItem extends React.Component {
     addTicket = (ticket) => {
         console.log(ticket);
         console.log(this.state.tickets);
+        console.log(this.state);
         // this.setState({tickets : [...this.state.tickets, ticket]});
-        axios.post(`/api/tickets/${this.state.projectId}/${this.state.folderPath}`, ticket)
+        axios.post(`/api/tickets/${this.state.projectItem._id}/${this.state.folderPath}`, ticket)
             .then(res => {
                 console.log("success post add ticket");
                 console.log(res);
