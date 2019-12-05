@@ -55,7 +55,33 @@ router.post('/:projectId/:folderPath*', (req, res) => {
             console.log("theres an error in post ticket route save attempt");
             console.log(err);
         });
-})
+});
+
+router.put('/:ticketId', (req,res) => {
+    console.log("IN PUT REQ");
+    console.log(req.user.username);
+    console.log(req.body);
+    console.log(req.params);
+    var ticketId = new ObjectId(req.params.ticketId);
+    Ticket.findOne({"_id" : ticketId}, (err, ticket) => {
+        if(err) {
+            console.log("THERE IS AN ERROR ON QUERY FOR PUT REQ TICKETS")
+        } else {
+            ticket.closed = true;
+            ticket.pending = false;
+            ticket.approved.user = req.user.username;
+            ticket.approved.date = "4/20/69";
+            ticket.save(err => {
+                if(err) {
+                    console.log("ERROR ON SAVE OF PUT");
+                } else {
+                    console.log("SUCCESS SAVE OF THE TICKET");
+                    return res.json({savedTicket : ticket});
+                }
+            })
+        }
+    })
+});
 
 
 module.exports = router;
