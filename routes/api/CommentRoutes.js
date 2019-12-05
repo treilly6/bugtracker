@@ -22,6 +22,7 @@ router.post('/:ticketId', (req, res) => {
     // check for the ticket
     Ticket.findOne({"_id" : objId}, (err, ticket) => {
         if(err) {
+            console.log(err);
             console.log("ERROR IN THE COMMENTS ROUTE SHIT");
         } else {
             console.log("COMMENT ROUTE IS GOOD");
@@ -69,6 +70,7 @@ router.post('/:ticketId', (req, res) => {
                                 console.log("HERE THE MESSAGE");
                                 console.log(message);
                                 mailbox.messages.push(message);
+                                // Save the mailboxes
                                 mailbox.save(err => {
                                     if(err) {
                                         console.log(err);
@@ -76,23 +78,33 @@ router.post('/:ticketId', (req, res) => {
                                     } else {
                                         console.log("SUCCESSFUL SAVE");
                                     }
-                                })
+                                });
                             });
                         }
                     })
-                    // ADD A QUERY OF THE MAILBOXES OF THOSE MANAGEERS
+                    // Mark the ticket item as pending
+                    ticket.pending = true;
+                    console.log(ticket);
+                    console.log("ABOVE IS TICKET IN THE PENDING APPROVAL");
+                    ticket.save(err => {
+                        if(err) {
+                            console.log(err);
+                            console.log("ERROR WHEN SAVING PENDING TO TICKET");
+                        }
+                    });
+                    return res.json({"savedComment" : req.body.comment, "ticketSaved":ticket});
                 })
             } else {
                 console.log("IS NOT COMPLETED");
+                console.log(ticket);
+                console.log("ABOVE IS TICKET in no pending request")
+                ticket.save((err => {
+                    if(err) {
+                        console.log("ERROR WHEN SAVING THE TIFKET COMMENTROUTES.js");
+                    }
+                }))
+                return res.json({"savedComment" : req.body.comment, "ticketSaved":ticket});
             }
-
-            console.log(ticket);
-            ticket.save((err => {
-                if(err) {
-                    console.log("ERROR WHEN SAVING THE TIFKET COMMENTROUTES.js");
-                }
-            }))
-            res.json({"savedComment" : req.body.comment, "ticketSaved":ticket});
         }
     })
 })

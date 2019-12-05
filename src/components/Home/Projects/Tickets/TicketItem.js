@@ -44,15 +44,18 @@ class TicketItem extends React.Component {
         await axios.post(`/api/comments/${this.state.ticketItem._id}`, {comment : comment, path : this.props.location.pathname})
             .then(res => {
                 console.log(res);
-                var updatedItem = this.state.ticketItem;
-                updatedItem.comments.push(res.data.savedComment);
-                this.setState({ticketItem: updatedItem});
+                // var updatedItem = this.state.ticketItem;
+                // updatedItem.comments.push(res.data.savedComment);
+                this.setState({ticketItem: res.data.ticketSaved});
             })
             .catch(err => console.log(err));
         console.log("DONE");
     };
 
     render() {
+        console.log("RENDERING TICKET ITEM COMPONENT");
+        console.log(this.state);
+        console.log("ABOVE STATE");
         var ticketStatus;
         if(this.state.ticketItem.closed) {
             ticketStatus =
@@ -60,10 +63,17 @@ class TicketItem extends React.Component {
                 <h6>CLOSED</h6>
             </div>
         } else {
-            ticketStatus =
-            <div>
-                <h6>OPEN</h6>
-            </div>
+            if(this.state.ticketItem.pending) {
+                ticketStatus =
+                <div>
+                    <h6>Pending Approval</h6>
+                </div>;
+            } else {
+                ticketStatus =
+                <div>
+                    <h6>OPEN</h6>
+                </div>;
+            }
         }
 
         if(!this.state.dataFetched) {

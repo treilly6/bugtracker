@@ -29,6 +29,10 @@ const TicketSchema = mongoose.Schema({
         type : Boolean,
         default : false,
     },
+    pending : {
+        type : Boolean,
+        default : false,
+    },
     comments : [{body : String,
                 date : Date,
                 completedRequest : {
