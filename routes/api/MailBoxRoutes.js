@@ -9,7 +9,7 @@ router.get('/', (req,res) => {
     console.log("HERE IS THE GET REQUEST FOR Mailbox");
     console.log(req.params);
     console.log(req.user);
-    MailBox.findOne({"user" : ObjectId(req.user._id)}, (err, mailbox) => {
+    MailBox.findOne({"user" : req.user.username}, (err, mailbox) => {
         if(err) {
             console.log(err);
             console.log("ERR ON THE FIND MAILBOX");

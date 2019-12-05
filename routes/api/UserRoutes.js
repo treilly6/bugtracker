@@ -91,8 +91,9 @@ router.post('/signup', async (req, res) => {
         .then((user) => {
             console.log(user);
             console.log("ABOVE IS USER AFTER SAVE");
-            const objId = new ObjectId(user._id);
-            const newMailBox = new MailBox({"user" : objId, "messages":[]});
+            // flagged - need consistency for references to user for the mailbox and managers
+            // const objId = new ObjectId(user._id);
+            const newMailBox = new MailBox({"user" : user.username, "messages":[]});
             newMailBox.save()
                 .then((mailbox) => {
                     console.log("HERE IS THE MAILBOX");
