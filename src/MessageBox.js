@@ -3,6 +3,9 @@ import { Route, Redirect } from 'react-router-dom';
 
 class MessageBox extends React.Component {
 
+    // To use the MessageBox componenet in the current configuration you must pass the message
+    // to the MessageBox component through a prop called 'message'
+
     state = {
         showingMessage : false,
     }
@@ -25,7 +28,7 @@ class MessageBox extends React.Component {
     }
 
     render() {
-        if(this.state.showingMessage) {
+        if(this.state.showingMessage && this.props.message) {
             var styles = (this.props.message.includes("Error")) ? Object.assign({}, messageBoxCont, errorBox) : Object.assign({}, messageBoxCont, successBox);
             return(
                 <div style={styles}>

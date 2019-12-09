@@ -137,9 +137,10 @@ router.post('/invite', (req, res) => {
             console.log(user);
             if (user) {
                 console.log("IS USER");
-                const userId = new ObjectId(user._id);
+                // const userId = new ObjectId(user._id);
                 // send message to that users inbox
-                MailBox.findOne({"user":userId})
+                // Finding the mailbox using username
+                MailBox.findOne({"user":req.body.inviteUser})
                     .then(mailbox => {
                         console.log("IN THEN OF THE MAILBOX");
                         console.log(mailbox);
@@ -162,7 +163,7 @@ router.post('/invite', (req, res) => {
                                 console.log("ERR ABOVE");
                                 res.json({"message" : "Error : There was an an error when sending invitation"});
                             } else {
-                                res.json({"message" : `Success : User ${req.body.inviteUser} Invited`});
+                                res.json({"message" : `Success : ${req.body.inviteUser} invited to contribute to ${req.body.projectTitle}`});
                             }
                         });
                     })
@@ -170,6 +171,7 @@ router.post('/invite', (req, res) => {
             } else {
                 console.log("NO USER");
                 // return a error message that the user dont exist
+                res.json({"message": `Error : User ${req.body.inviteUser} does not exist`});
             }
         })
         .catch(err => console.log(err))

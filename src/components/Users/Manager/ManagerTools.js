@@ -1,12 +1,9 @@
 import React from 'react';
-import axios from 'axios';
+import InviteContributors from './InviteContributors';
 
 
 class ManagerTools extends React.Component {
-    state = {
-        inviteUser : '',
-        showForm : false,
-    }
+    state = {}
 
     constructor(props){
         super(props);
@@ -14,49 +11,17 @@ class ManagerTools extends React.Component {
         console.log(props);
     }
 
-    toggleForm = (e) => {
-        console.log("SHOW THAT INPT");
-        this.setState({showForm : !this.state.showForm})
-    }
-
-    submit = (e) => {
-        e.preventDefault();
-        var userData = {"inviteUser" : this.state.inviteUser, "projectTitle" : this.props.projectItem.title, "projectId" : this.props.projectItem._id};
-        this.setState({inviteUser : ''});
-        axios.post('/api/user/invite', userData)
-            .then(res => {
-                console.log(res);
-                console.log("ABOVE IS THE RES");
-            })
-            .catch(err => console.log(err));
-        console.log("SUBMIT THIS SHIT PREVETN");
-    }
-
-    changeInput = (e) => {
-        this.setState({[e.target.name] : e.target.value})
-    }
-
     componentDidMount(){}
 
     render(){
+        console.log("MANAGER TOOLS RENDER");
+
         return(
             <div>
-                <div>
-                    <button onClick={this.toggleForm}>Add Contributor</button>
-                    <div style={{ display : this.state.showForm ? "block" : "none" }}>
-                        <form onSubmit={this.submit}>
-                            <input type="text" name="inviteUser" onChange={this.changeInput} />
-                            <button type="submit">Invite</button>
-                        </form>
-                    </div>
-                </div>
+                <InviteContributors projectItem={this.props.projectItem} />
             </div>
         )
     }
-}
-
-const formDiv = {
-    display : "block",
 }
 
 export default ManagerTools;
