@@ -74,14 +74,12 @@ class ProjectHandler extends React.Component {
                 console.log("IS TICKET");
                 returnElement =
                 <React.Fragment>
-                    <h5>Testing the ticket</h5>
                     <Route render={(props) => <TicketItem {...props} data={this.state.data} title={this.state.data.title} />} />
                 </React.Fragment>;
             } else {
                 console.log("IS NOT TICKER");
                 returnElement =
                 <React.Fragment>
-                    <h5>Testing the Folder</h5>
                     <Route render={(props) => <ProjectItem key={this.props.match.params.folders} {...props} data={this.state.data} title={this.state.data.title} />} />
                 </React.Fragment>
             }

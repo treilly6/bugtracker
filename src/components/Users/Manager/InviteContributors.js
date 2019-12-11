@@ -1,12 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import MessageBox from '../../../MessageBox';
+import '../../../App.css';
 
 class InviteContributors extends React.Component {
     state = {
         messageSubmitAttempt : 0,
         message : '',
         inviteUser : '',
+        showForm : false,
     }
 
     toggleForm = (e) => {
@@ -36,7 +38,7 @@ class InviteContributors extends React.Component {
         return(
             <div>
                 <MessageBox key={this.state.messageSubmitAttempt} message={this.state.message} />
-                <button onClick={this.toggleForm}>Add Contributor</button>
+                <button className="toolbar-button" onClick={this.toggleForm}>Add Contributor</button>
                 <div style={{ display : this.state.showForm ? "block" : "none" }}>
                     <form onSubmit={this.submit}>
                         <input type="text" name="inviteUser" onChange={this.changeInput} />

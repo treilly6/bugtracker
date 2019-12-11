@@ -2,3 +2,14 @@
     margin: 0;
     padding: 0;
 }
+
+.toolbar-button {
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    background-color: #99e6e6;
+}
+
+.toolbar-div > div {
+    padding : 2px 0px;
+}

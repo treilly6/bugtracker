@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../../../App.css';
 import AddTicket from './Tickets/AddTicket';
 import Tickets from './Tickets/Tickets';
 // import TicketItem from './Tickets/TicketItem';
@@ -133,17 +134,20 @@ class ProjectItem extends React.Component {
             const title = this.state.currentItem.title;
             return (
                 <div>
-                    <h1>Project PAGE for { title }</h1>
+                    <h1 style={{textAlign : "center"}}>{ title }</h1>
                     {/* NEED TO ADD MESSAGE BOX HERE MAN */}
-                    <ManagerHandler projectItem={this.state.projectItem} manager={this.state.manager} />
-                    <AddFolder addFolder = {this.addFolder} />
+                    <div className="toolbar-div">
+                        <ManagerHandler projectItem={this.state.projectItem} manager={this.state.manager} />
+                        <AddFolder addFolder = {this.addFolder} />
+                        <AddTicket addTicket = {this.addTicket} />
+                    </div>
                     <Folders folders = {this.state.folders} />
-                    <AddTicket addTicket = {this.addTicket} />
                     <Tickets tickets={this.state.tickets} />
                 </div>
             )
         }
     }
 }
+
 
 export default ProjectItem;

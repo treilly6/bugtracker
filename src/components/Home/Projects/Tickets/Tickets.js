@@ -16,7 +16,7 @@ class Tickets extends React.Component {
         ticketItems = this.props.tickets.map((ticket) => (
             <div style={ticketDiv} >
                 <div style={ticketCont}>
-                    <div><Link to={{
+                    <div><Link style={linkStyle} to={{
                         pathname : `ticket/${ticket.title}`,
                         state : {
                             ticketItem : ticket,
@@ -34,16 +34,26 @@ class Tickets extends React.Component {
         }
 
         return (
-            <div>
-                <h2>Tickets</h2>
+            <div style={ticketsCont}>
+                <h2 style={{textAlign : "center", padding : "10px 0px"}}>Tickets</h2>
                 {ticketItems}
             </div>
         );
     }
 }
 
+const linkStyle = {
+    color : "black",
+}
+
+const ticketsCont = {
+    maxWidth : "1200px",
+    padding : "0 15px",
+    margin : "0 auto",
+}
+
 const ticketDiv = {
-    backgroundColor : "#555",
+    backgroundColor : "#f2f2f2",
     padding : "20px 5px",
     borderBottom : "1px solid black",
 }

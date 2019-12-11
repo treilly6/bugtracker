@@ -31,21 +31,29 @@ class App extends React.Component {
             <Router>
                 <div className="App">
                     <Header />
-                    <Route exact path="/" render={props => (
-                        <React.Fragment>
-                            <LandingPage />
-                        </React.Fragment>
-                    )} />
-                    <Route path="/signup" exact component={SignUp} />
-                    <Route path="/login" exact component={LogIn} />
-                    <ProtectedRoute path="/projects" exact component={Home} />
-                    <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
-                    <ProtectedRoute path="/mail" exact component={MailBox} />
-                    <Route path="/about" component = {About} />
+                    <div style={contentContainer}>
+                        <Route exact path="/" render={props => (
+                            <React.Fragment>
+                                <LandingPage />
+                            </React.Fragment>
+                        )} />
+                        <Route path="/signup" exact component={SignUp} />
+                        <Route path="/login" exact component={LogIn} />
+                        <ProtectedRoute path="/projects" exact component={Home} />
+                        <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
+                        <ProtectedRoute path="/mail" exact component={MailBox} />
+                        <Route path="/about" component = {About} />
+                    </div>
+
                 </div>
             </Router>
         );
     }
+}
+
+const contentContainer = {
+    maxWidth : "1500px",
+    margin : "0 auto",
 }
 
 export default App;

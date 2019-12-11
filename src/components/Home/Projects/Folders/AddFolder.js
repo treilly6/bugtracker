@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../../../../App.css';
 
 class AddFolder extends React.Component {
 
     state = {
-        "title" : ""
+        "title" : "",
+        showForm : false,
     }
 
     submit = (e) => {
@@ -23,15 +25,21 @@ class AddFolder extends React.Component {
         console.log(e.target.name);
     }
 
+    toggleForm = () => {
+        this.setState({showForm : !this.state.showForm});
+    }
+
 
     render() {
         return (
             <div>
-                <h6>ADD FOLDER</h6>
-                <form onSubmit={this.submit}>
-                    <input type="text" name="title" value={this.state.title} onChange={this.changeInput} placeholder="Folder Title" />
-                    <button>Add Folder</button>
-                </form>
+                <button className="toolbar-button" onClick={this.toggleForm}>Add Folder</button>
+                <div style={{display : this.state.showForm ? "block" : "none"}}>
+                    <form onSubmit={this.submit}>
+                        <input type="text" name="title" value={this.state.title} onChange={this.changeInput} placeholder="Folder Title" />
+                        <button>Add</button>
+                    </form>
+                </div>
             </div>
         )
     }
