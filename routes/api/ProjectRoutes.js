@@ -156,9 +156,14 @@ router.post('/', (req, res) => {
         managers : [req.user.username],
     });
 
-    newProject.save()
-    .then(project => res.json(project))
-    .catch(err => console.log(err));
+    newProject.save(err => {
+        if (err) {
+            console.log(err);
+            res.json({message : "Error : Server Error"});
+        } else {
+            res.json({project:newProject, message : `Success : ${newProject.title} created`});
+        }
+    })
 });
 
 router.delete('/', (req, res) => {

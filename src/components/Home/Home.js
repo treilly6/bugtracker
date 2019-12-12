@@ -20,15 +20,18 @@ class Home extends React.Component {
         console.log("mounted api for projects");
     }
 
-    addProject = (newProject) => {
-        // need to add the current user as teh author for this method
-        axios.post('/api/projects', newProject)
-            .then((project) => {
+    addProject = async (newProject) => {
+        var msg;
+        await axios.post('/api/projects', newProject)
+            .then((res) => {
                 console.log("changeing the styate");
-                this.setState({projects : [...this.state.projects, project.data]});
+                msg = res.data.message
+                this.setState({projects : [...this.state.projects, res.data.project]});
                 console.log("state changed");
             })
             .catch(err => console.log(err));
+        console.log("HERE THE MSG FROM ADD PROJ ", msg);
+        return msg;
     }
 
     deleteProject = (projectID) => {

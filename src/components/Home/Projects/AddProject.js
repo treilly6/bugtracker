@@ -1,25 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MessageBox from '../../../MessageBox';
 
 class AddProject extends React.Component {
 
     state = {
-        "title" : "",
+        title : "",
+        message : "",
+        submitAttempt : 0,
     }
 
     changeInput = (e) => {
         this.setState({ [e.target.name] : e.target.value});
     }
 
-    submit = (e) => {
+    submit = async (e) => {
         e.preventDefault();
         var newProject = {
             "title" : this.state.title
         };
 
-        this.props.addProject(newProject);
+        var message = await this.props.addProject(newProject);
         this.setState({
             "title" : "",
+            message : message,
+            submitAttempt : this.state.submitAttempt + 1,
         });
     }
 
@@ -27,6 +32,7 @@ class AddProject extends React.Component {
         return (
             <div>
                 <h3>Add Project</h3>
+                <MessageBox key={this.state.submitAttempt} message={this.state.message} />
                 <form onSubmit={this.submit}>
                     <input type="text" name="title" value={this.state.title} onChange={this.changeInput} />
                     <button type="submit">Add Project</button>
