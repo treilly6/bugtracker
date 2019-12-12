@@ -49,7 +49,7 @@ router.post('/:projectId/:folderPath*', (req, res) => {
     newTicket.save()
         .then(ticket => {
             console.log("saved the ticket");
-            res.json(ticket);
+            res.json({ticket, message : `Success : Created Ticket`});
         })
         .catch(err => {
             console.log("theres an error in post ticket route save attempt");

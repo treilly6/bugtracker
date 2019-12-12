@@ -13,3 +13,7 @@
 .toolbar-div > div {
     padding : 2px 0px;
 }
+
+.toolbar-div {
+    max-width : 420px;
+}

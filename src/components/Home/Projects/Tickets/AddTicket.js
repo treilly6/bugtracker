@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TicketItem from './TicketItem';
+import MessageBox from '../../../../MessageBox';
 import '../../../../App.css';
 
 class AddTicket extends React.Component {
@@ -8,26 +9,28 @@ class AddTicket extends React.Component {
     state = {
         title : "",
         description : "",
-        author : "",
         showForm : false,
+        submitAttempt : 0,
+        message : '',
     }
 
     changeInput = (e) => {
         this.setState({[e.target.name] : e.target.value});
     }
 
-    submit = (e) => {
+    submit = async (e) => {
         e.preventDefault();
         var ticket = {
             "title" : this.state.title,
             "description" : this.state.description,
             "author" : this.state.author,
         };
-        this.props.addTicket(ticket);
+        var message = await this.props.addTicket(ticket);
         this.setState({
             title : "",
             description : "",
-            author : "",
+            message : message,
+            submitAttempt : this.state.submitAttempt + 1,
         });
     }
 
@@ -41,11 +44,11 @@ class AddTicket extends React.Component {
             <div style={ticketFormDiv}>
                 <button className="toolbar-button" onClick={this.toggleForm}>Add Ticket</button>
                 <div style = {{display : this.state.showForm ? "block" : "none"}}>
+                    <MessageBox key={this.state.submitAttempt} message={this.state.message} />
                     <form onSubmit={this.submit} style={ticketForm}>
                         <input style={formInput} onChange={this.changeInput} value={this.state.title} type="text" name="title" placeholder="Title" />
-                        <input style={formInput} onChange={this.changeInput} value={this.state.description} type="text" name="description" placeholder="Description" />
-                        <input style={formInput} onChange={this.changeInput} value={this.state.author} type="text" name="author" placeholder="Author" />
-                        <button type="submit">Add</button>
+                        <textarea style={textAreaStyle} onChange={this.changeInput} value={this.state.description} type="text" name="description" placeholder="Description" />
+                        <button type="submit">Add Ticket</button>
                     </form>
                 </div>
             </div>
@@ -55,13 +58,22 @@ class AddTicket extends React.Component {
 
 const ticketForm = {
     padding : "10px",
-    backgroundColor:"#ccc",
+    backgroundColor: "#f2f2f2",
 };
 
 const formInput = {
     display : "block",
     padding : "2px",
-    margin: "5px",
+    margin: "5px 0px",
+};
+
+const textAreaStyle = {
+    minWidth : "100%",
+    maxWidth : "100%",
+    maxHeight : "400px",
+    minHeight : "125px",
+    height : "125px",
+    display : "block",
 };
 
 const ticketFormDiv = {

@@ -29,7 +29,7 @@ router.post('/:projectId/:folderPath*', (req,res) => {
     newFolder.save()
         .then((folder) => {
             console.log("saved the folder");
-            res.json(folder);
+            res.json({folder, message : `Success : ${folder.title} folder added to project`});
         })
         .catch((err) => {
             console.log("THER AN ERR");

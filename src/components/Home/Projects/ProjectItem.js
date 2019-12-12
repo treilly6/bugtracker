@@ -71,36 +71,42 @@ class ProjectItem extends React.Component {
         console.log(this.props); //This stuff has the params needed to perform necessary shit. Gonna have to move to contructor
     }
 
-    addTicket = (ticket) => {
+    addTicket = async (ticket) => {
         console.log(ticket);
         console.log(this.state.tickets);
         console.log(this.state);
+        var msg;
         // this.setState({tickets : [...this.state.tickets, ticket]});
-        axios.post(`/api/tickets/${this.state.projectItem._id}/${this.state.folderPath}`, ticket)
+        await axios.post(`/api/tickets/${this.state.projectItem._id}/${this.state.folderPath}`, ticket)
             .then(res => {
                 console.log("success post add ticket");
                 console.log(res);
-                this.setState({tickets : [...this.state.tickets, res.data]});
+                msg = res.data.message;
+                this.setState({tickets : [...this.state.tickets, res.data.ticket]});
             })
             .catch(err => {
                 console.log("error post add ticket");
                 console.log(err);
             });
         console.log("IN THE HOME JS");
+        console.log("HERE THE RETURN FORM THIS GARBAGE ", msg);
+        return msg;
     }
 
     addFolder = async (folder) => {
         console.log("HOME JS FOLDER SHIT");
         console.log(folder);
-        await axios.post(`/api/folders/${this.state.projectId}/${this.state.folderPath}`, folder)
+        var msg;
+        await axios.post(`/api/folders/${this.state.projectItem._id}/${this.state.folderPath}`, folder)
             .then(res => {
                 console.log("her folder");
                 console.log(res);
+                msg = res.data.message;
                 if (res.data.error) {
                     console.log("Add a display error function here");
                 } else {
                     console.log("GONNA ADD THIS SHIT TO THE STAE");
-                    this.setState({folders : [...this.state.folders, res.data]});
+                    this.setState({folders : [...this.state.folders, res.data.folder]});
                 }
             })
             .catch(err => {
@@ -109,6 +115,9 @@ class ProjectItem extends React.Component {
             })
         console.log("END OF THE ADD FODLER FUNCTION");
         console.log(this.state);
+        console.log("GONNA RUTERERER THIS 0");
+        console.log(msg);
+        return msg;
     }
 
 

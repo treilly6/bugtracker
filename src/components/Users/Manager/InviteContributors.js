@@ -37,11 +37,11 @@ class InviteContributors extends React.Component {
     render() {
         return(
             <div>
-                <MessageBox key={this.state.messageSubmitAttempt} message={this.state.message} />
                 <button className="toolbar-button" onClick={this.toggleForm}>Add Contributor</button>
+                <MessageBox key={this.state.messageSubmitAttempt} message={this.state.message} />
                 <div style={{ display : this.state.showForm ? "block" : "none" }}>
-                    <form onSubmit={this.submit}>
-                        <input type="text" name="inviteUser" onChange={this.changeInput} />
+                    <form style={formStyle} onSubmit={this.submit}>
+                        <input type="text" name="inviteUser" placeholder="Enter Username" onChange={this.changeInput} />
                         <button type="submit">Invite</button>
                     </form>
                 </div>
@@ -49,5 +49,10 @@ class InviteContributors extends React.Component {
         )
     }
 }
+
+const formStyle = {
+    backgroundColor : "#f2f2f2",
+    padding : "10px",
+};
 
 export default InviteContributors;

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MessageBox from '../../../../MessageBox';
 import '../../../../App.css';
 
 class AddFolder extends React.Component {
@@ -7,16 +8,20 @@ class AddFolder extends React.Component {
     state = {
         "title" : "",
         showForm : false,
+        submitAttempt : 0,
+        message : '',
     }
 
-    submit = (e) => {
+    submit = async (e) => {
         e.preventDefault();
         console.log(this.state.title);
         var folder = {
             "title" : this.state.title,
         };
-        this.props.addFolder(folder);
-        this.setState({"title":""});
+        var message = await this.props.addFolder(folder);
+        console.log("ADDFOLDER JS RESULT OF FUCN");
+        console.log(message);
+        this.setState({"title":"", message : message, submitAttempt : this.state.submitAttempt + 1});
         console.log("IN THE SUBMIT");
     }
 
@@ -35,7 +40,8 @@ class AddFolder extends React.Component {
             <div>
                 <button className="toolbar-button" onClick={this.toggleForm}>Add Folder</button>
                 <div style={{display : this.state.showForm ? "block" : "none"}}>
-                    <form onSubmit={this.submit}>
+                    <MessageBox key={this.state.submitAttempt} message={this.state.message} />
+                    <form style={formStyle} onSubmit={this.submit}>
                         <input type="text" name="title" value={this.state.title} onChange={this.changeInput} placeholder="Folder Title" />
                         <button>Add</button>
                     </form>
@@ -44,5 +50,10 @@ class AddFolder extends React.Component {
         )
     }
 }
+
+const formStyle = {
+    backgroundColor : "#f2f2f2",
+    padding : "10px",
+};
 
 export default AddFolder;
