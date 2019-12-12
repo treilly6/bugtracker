@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MessageBox from '../../../MessageBox';
+import '../../../App.css';
 
 class AddProject extends React.Component {
 
@@ -8,6 +9,7 @@ class AddProject extends React.Component {
         title : "",
         message : "",
         submitAttempt : 0,
+        showForm : false,
     }
 
     changeInput = (e) => {
@@ -28,12 +30,16 @@ class AddProject extends React.Component {
         });
     }
 
+    toggleForm = () => {
+        this.setState({showForm : !this.state.showForm});
+    }
+
     render() {
         return (
-            <div>
-                <h3>Add Project</h3>
+            <div style={{display : "inline-block"}}>
+                <button className="toolbar-button" onClick={this.toggleForm}>Add Project</button>
                 <MessageBox key={this.state.submitAttempt} message={this.state.message} />
-                <form onSubmit={this.submit}>
+                <form onSubmit={this.submit} style={{display : this.state.showForm ? "block" : "none"}}>
                     <input type="text" name="title" value={this.state.title} onChange={this.changeInput} />
                     <button type="submit">Add Project</button>
                 </form>

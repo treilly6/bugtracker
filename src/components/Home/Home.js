@@ -72,7 +72,7 @@ class Home extends React.Component {
 
         return (
             <div>
-                <h1>Projects Home Page</h1>
+                <h1 style={{textAlign : "center"}}>Projects Home Page</h1>
                 {message}
                 <AddProject addProject = {this.addProject} />
                 <Projects projects = {this.state.projects} deleteProject={this.deleteProject} />

@@ -37,8 +37,10 @@ class Projects extends React.Component {
 
 const divStyle = {
     padding : "10px",
-    margin : "10px",
+    margin : "3px 0px",
     border : "1px solid black",
+    display : "flex",
+    justifyContent : "space-between",
 }
 
 export default Projects;
