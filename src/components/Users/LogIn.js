@@ -53,7 +53,9 @@ class LogIn extends React.Component {
         return (
             <div style={formContainer}>
                 <h2 style={titleStyle}>Log In</h2>
-                {message}
+                <div className="messageCont">
+                    {message}
+                </div>
                 <form style={formStyle} onSubmit={this.submit}>
                     <div style={inputContainer}>
                         <label for="username">Username:</label>

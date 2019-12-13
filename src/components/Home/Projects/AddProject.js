@@ -36,7 +36,7 @@ class AddProject extends React.Component {
 
     render() {
         return (
-            <div style={{display : "inline-block"}}>
+            <div style={{display : "inline-block", padding: "0px 5px"}}>
                 <button className="toolbar-button" onClick={this.toggleForm}>Add Project</button>
                 <MessageBox key={this.state.submitAttempt} message={this.state.message} />
                 <form onSubmit={this.submit} style={{display : this.state.showForm ? "block" : "none"}}>

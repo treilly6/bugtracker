@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ProjectItem from './ProjectItem';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import '../../../App.css';
 
 
 class Projects extends React.Component {
@@ -13,34 +14,26 @@ class Projects extends React.Component {
         console.log("IN THE REMDER FOR THE PRO");
         console.log(this.props);
         var projectItems = this.props.projects.map((project) => (
-            <div style={divStyle}>
-                <Link to={{
-                    pathname : `projects/${project._id}/`,
-                    state : project,
-                }}>{project.title}</Link>
-                <button onClick={() => this.props.deleteProject(project._id)}>Click me</button>
+            <div className="projectItemCont">
+                <div className="projectItemDiv">
+                    <Link  className="linkStyle" to={{
+                        pathname : `projects/${project._id}/`,
+                        state : project,
+                    }}>{project.title}</Link>
+                </div>
             </div>
         ));
 
         if (projectItems.length == 0) {
-            projectItems = <h4>THERE ARE NO PROJECTS</h4>
+            projectItems = <h4>You are not currently involved in any projects</h4>
         }
 
         return (
-            <div>
-                <h3>Projects Page</h3>
+            <div className="projectsContainer">
                 {projectItems}
             </div>
         )
     }
-}
-
-const divStyle = {
-    padding : "10px",
-    margin : "3px 0px",
-    border : "1px solid black",
-    display : "flex",
-    justifyContent : "space-between",
 }
 
 export default Projects;

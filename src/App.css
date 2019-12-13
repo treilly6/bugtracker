@@ -1,6 +1,8 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-size : 25px;
 }
 
 .toolbar-button {
@@ -8,6 +10,7 @@
     border: none;
     padding: 10px;
     background-color: #99e6e6;
+    margin-bottom: 5px;
 }
 
 .toolbar-div > div {
@@ -16,4 +19,43 @@
 
 .toolbar-div {
     max-width : 420px;
+}
+
+.linkStyle {
+    color : #0366d6;
+    text-decoration: none;
+}
+
+.linkStyle:hover {
+    text-decoration: underline;
+}
+
+.projectItemDiv {
+    padding : 20px 10px;
+    border : 1px solid #d5d8dd;
+    width : 100%,
+}
+
+.projectsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.projectItemCont {
+    padding : 0px 5px;
+    margin-bottom: 15px;
+    width : 100%;
+}
+
+.messageCont {
+    display: flex;
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    .projectItemCont {
+        width : 50%;
+    }
 }

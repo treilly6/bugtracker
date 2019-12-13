@@ -48,10 +48,8 @@ class MessageBox extends React.Component {
 
 var messageBoxCont = {
     padding : "10px",
-    marginTop : "10px",
+    margin : "8px 0px",
     maxWidth : "400px",
-    marginLeft : "auto",
-    marginRight : "auto",
     textAlign : "center",
     borderRadius : "5px",
 }
