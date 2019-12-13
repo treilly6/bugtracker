@@ -1,6 +1,6 @@
 export const formContainer = {
     width: "75%",
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#fff",
     margin: "15px auto",
     paddingBottom: "15px",
     borderRadius: "5px",

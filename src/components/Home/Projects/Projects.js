@@ -24,12 +24,14 @@ class Projects extends React.Component {
             </div>
         ));
 
+        var flexCenter = false;
         if (projectItems.length == 0) {
-            projectItems = <h4>You are not currently involved in any projects</h4>
+            flexCenter = true;
+            projectItems = <h4>You are not currently involved in any projects</h4>;
         }
 
         return (
-            <div className="projectsContainer">
+            <div className="projectsContainer" style={{justifyContent : flexCenter ? "center" : "flex-start"}}>
                 {projectItems}
             </div>
         )

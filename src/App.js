@@ -54,6 +54,7 @@ class App extends React.Component {
 const contentContainer = {
     maxWidth : "1500px",
     margin : "0 auto",
+    backgroundColor: "#f1f2f4",
 }
 
 export default App;

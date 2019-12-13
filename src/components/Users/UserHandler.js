@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import LogOut from './LogOut';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import '../../App.css';
 
 class UserHandler extends React.Component {
 
@@ -55,17 +56,17 @@ class UserHandler extends React.Component {
                     </div>;
                 links =
                 <div>
-                    <Link style={linkStyle} to="/">Home</Link> | <Link style={linkStyle} to="/about">About</Link> | <Link style={linkStyle} to="/projects">Projects</Link> | <Link style={linkStyle} to="/mail"><FontAwesomeIcon icon="envelope" /></Link>
+                    <Link className="navLink hoverLink" to="/">Home</Link> | <Link className="navLink hoverLink" to="/about">About</Link> | <Link className="navLink hoverLink" to="/projects">Projects</Link> | <Link className="navLink hoverLink" to="/mail"><FontAwesomeIcon icon="envelope" /></Link>
                 </div>;
             } else {
                 userBox =
                 <div style={userDiv}>
-                    <Link to="/signup" style={noPadLinkStyle}><div>Sign Up</div></Link>
-                    <Link to="/login" style={noPadLinkStyle}><div>Log in</div></Link>
+                    <Link to="/signup" className="hoverLink" style={noPadLinkStyle}><div>Sign Up</div></Link>
+                    <Link to="/login" className="hoverLink" style={noPadLinkStyle}><div>Log in</div></Link>
                 </div>;
                 links =
                 <div>
-                    <Link style={linkStyle} to="/">Home</Link> | <Link style={linkStyle} to="/about">About</Link>
+                    <Link className="navLink hoverLink" to="/">Home</Link> | <Link className="navLink hoverLink" to="/about">About</Link>
                 </div>;
             }
 
