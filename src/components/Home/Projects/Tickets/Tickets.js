@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TicketItem from './TicketItem'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import '../../../../App.css';
 
 class Tickets extends React.Component {
 
@@ -16,7 +17,7 @@ class Tickets extends React.Component {
         ticketItems = this.props.tickets.map((ticket) => (
             <div style={ticketDiv} >
                 <div style={ticketCont}>
-                    <div><Link style={linkStyle} to={{
+                    <div><Link className="linkStyle hoverLink" to={{
                         pathname : `ticket/${ticket.title}`,
                         state : {
                             ticketItem : ticket,
@@ -42,21 +43,18 @@ class Tickets extends React.Component {
     }
 }
 
-const linkStyle = {
-    color : "black",
-}
-
 const ticketsCont = {
-    maxWidth : "1200px",
     padding : "0 15px",
     margin : "0 auto",
 }
 
 const ticketDiv = {
-    backgroundColor : "#f2f2f2",
     padding : "20px 5px",
-    borderBottom : "1px solid black",
-}
+    border : "1px solid #d5d8dd",
+    borderRadius : "5px",
+    marginBottom : "10px",
+    backgroundColor : "#fff",
+};
 
 const ticketCont = {
     display : "flex",

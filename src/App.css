@@ -65,6 +65,17 @@ body {
     justify-content: center;
 }
 
+.itemBorder {
+    border : 2px solid #d5d8dd;
+    border-radius : 5px;
+    background-color : #fff;
+}
+
+.flexWrapCont {
+    display: flex;
+    flex-wrap : wrap;
+}
+
 @media (min-width: 768px) {
     .projectItemCont {
         width : 50%;
