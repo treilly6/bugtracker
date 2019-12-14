@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../../../../App.css';
 
 class CommentItem extends React.Component {
 
@@ -18,7 +19,7 @@ class CommentItem extends React.Component {
             }
         }
         return (
-            <div style={divStyle}>
+            <div className="itemBorder" style={divStyle}>
                 {completedRequest}
                 <h6 style={timeStyle}>{this.props.comment.date}</h6>
                 <p>{this.props.comment.body}</p>
@@ -28,11 +29,8 @@ class CommentItem extends React.Component {
 }
 
 const divStyle = {
-    border : "2px solid black",
-    backgroundColor: "#ccc",
     padding : "10px",
     margin : "10px 0px",
-    textAlign : "center",
     minHeight : "50px",
 };
 

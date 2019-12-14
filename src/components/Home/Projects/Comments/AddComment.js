@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../../../../App.css';
 
 class AddComment extends React.Component {
 
@@ -37,7 +38,7 @@ class AddComment extends React.Component {
 
     render() {
         return (
-            <div style={divStyle}>
+            <div className="itemBorder" style={divStyle}>
                 <form onSubmit={this.submit}>
                     <textarea onChange={this.changeInput} value={this.state.body} style={textAreaStyle} type="text" name="body" />
                     <div>
@@ -52,11 +53,8 @@ class AddComment extends React.Component {
 }
 
 const divStyle = {
-    border : "2px solid black",
-    backgroundColor: "#ccc",
     padding : "10px",
     margin : "10px 0px",
-    textAlign : "center",
     minHeight : "50px",
 };
 

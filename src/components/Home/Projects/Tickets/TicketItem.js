@@ -4,6 +4,7 @@ import Comments from '../Comments/Comments';
 import AddComment from '../Comments/AddComment';
 import TicketStatus from './TicketStatus';
 import axios from 'axios';
+import '../../../../App.css';
 
 class TicketItem extends React.Component {
 
@@ -82,7 +83,7 @@ class TicketItem extends React.Component {
             const description = "TESTING THE DESCRIPTION AREA";
             return (
                 <div style={mainCont}>
-                    <div style={ticketDiv}>
+                    <div className="itemBorder">
                         <TicketStatus approveRequest={this.approveRequest.bind(this)} ticketItem={this.state.ticketItem} />
                         <h2 style={titleStyle}>{this.state.ticketItem.title}</h2>
                         <p>{this.state.ticketItem.description}</p>
@@ -105,22 +106,14 @@ class TicketItem extends React.Component {
     }
 }
 
-const ticketDiv = {
-    backgroundColor : "#ccc",
-    border : "2px solid black",
-};
-
 const mainCont = {
-    maxWidth : "800px",
-    marginLeft : "auto",
-    marginRight : "auto",
     marginTop : "15px",
     textAlign: "center",
 }
 
 const titleStyle = {
     padding : "5px",
-    borderBottom : "2px solid #bbb",
+    borderBottom : "1px solid #d5d8dd",
 }
 
 export default TicketItem;

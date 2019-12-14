@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import '../../../../App.css';
 
 class TicketStatus extends React.Component {
     state = {
@@ -37,36 +38,48 @@ class TicketStatus extends React.Component {
         } else {
             if(this.props.ticketItem.closed) {
                 return(
-                    <div>
-                        <h6>CLOSED - Approved by {this.props.ticketItem.approved.user} on {this.props.ticketItem.approved.date}</h6>
+                    <div style={{marginTop: "15px"}}>
+                        <h6><span style={closedSpan} className="statusSpan">Closed</span> - Approved by {this.props.ticketItem.approved.user} on {this.props.ticketItem.approved.date}</h6>
                     </div>
                 )
             } else {
                 if(this.props.ticketItem.pending) {
                     if(this.state.manager) {
                         return (
-                            <div>
-                                <h6>Pending Approval</h6>
+                            <div style={{marginTop: "15px"}}>
+                                <h6><span style={openSpan} className="statusSpan">Pending Approval</span></h6>
                                 <button onClick={this.props.approveRequest}>Click here to approve completion</button>
                             </div>
                         )
                     } else {
                         return (
-                            <div>
-                                <h6>Pending Approval</h6>
+                            <div style={{marginTop: "15px"}}>
+                                <h6><span style={openSpan} className="statusSpan">Pending Approval</span></h6>
                             </div>
                         )
                     }
                 } else {
                     return (
-                        <div>
-                            <h6>OPEN</h6>
+                        <div style={{marginTop: "15px"}}>
+                            <h6><span style={openSpan} className="statusSpan">Open</span></h6>
                         </div>
                     )
                 }
             }
         }
     }
+}
+
+const closedSpan = {
+    backgroundColor : "#ffcccc",
+    border : "1px solid #ff3333",
+    color : "#ff3333",
+}
+
+const openSpan = {
+    backgroundColor : "#d6f5d6",
+    border : "1px solid #33cc33",
+    color : "#33cc33",
 }
 
 export default TicketStatus;
