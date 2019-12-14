@@ -65,20 +65,27 @@ router.put('/eval/:ticketId', (req,res) => {
     console.log(req.body);
     console.log(req.params);
     var ticketId = new ObjectId(req.params.ticketId);
+    // flagged - need to add some kind of filter on the ticket to find the comment that made the request
     Ticket.findOne({"_id" : ticketId}, (err, ticket) => {
         if(err) {
             console.log("THERE IS AN ERROR ON QUERY FOR PUT REQ TICKETS")
         } else {
+            console.log("HERE ALL tHe COMMentS");
+            console.log(ticket.comments);
+            var commentFilter = (comment) => {return comment.completedRequest.request === true && comment.completedRequest.approved === false && comment.completedRequest.rejected === null};
+            console.log("ABOVE IS THE FILTERED COMMENT RESULT");
             if(req.body.command === "approve") {
                 console.log("APPROVING THE TICKET");
                 ticket.closed = true;
                 ticket.pending = false;
                 ticket.approved.user = req.user.username;
                 ticket.approved.date = "4/20/69";
+                ticket.comments.find(commentFilter).completedRequest.approved = true;
             } else if(req.body.command === "reject") {
                 console.log("REJECTING THE TICKET");
                 ticket.closed = false;
                 ticket.pending = false;
+                ticket.comments.find(commentFilter).completedRequest.rejected = true;
             }
             ticket.save(err => {
                 if(err) {
@@ -87,36 +94,11 @@ router.put('/eval/:ticketId', (req,res) => {
                     console.log("SUCCESS SAVE OF THE TICKET");
                     return res.json({savedTicket : ticket});
                 }
-            })
+            });
+            console.log("HERE THECOMMETNS AFET THE SAVE");
+            console.log(ticket.comments);
         }
     })
 });
-
-router.put('reject/:ticketId', (req,res) => {
-    console.log("IN PUT REQ");
-    console.log(req.user.username);
-    console.log(req.body);
-    console.log(req.params);
-    var ticketId = new ObjectId(req.params.ticketId);
-    Ticket.findOne({"_id" : ticketId}, (err, ticket) => {
-        if(err) {
-            console.log("THERE IS AN ERROR ON QUERY FOR PUT REQ TICKETS")
-        } else {
-            ticket.closed = true;
-            ticket.pending = false;
-            ticket.approved.user = req.user.username;
-            ticket.approved.date = "4/20/69";
-            ticket.save(err => {
-                if(err) {
-                    console.log("ERROR ON SAVE OF PUT");
-                } else {
-                    console.log("SUCCESS SAVE OF THE TICKET");
-                    return res.json({savedTicket : ticket});
-                }
-            })
-        }
-    })
-});
-
 
 module.exports = router;

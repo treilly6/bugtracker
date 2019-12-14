@@ -38,6 +38,7 @@ const TicketSchema = mongoose.Schema({
                 completedRequest : {
                     request : Boolean,
                     approved : Boolean,
+                    rejected : {type : String, default : null},
                 },
     }],
     approved : {
