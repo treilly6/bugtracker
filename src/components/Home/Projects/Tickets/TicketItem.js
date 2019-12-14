@@ -53,9 +53,9 @@ class TicketItem extends React.Component {
         console.log("DONE");
     };
 
-    approveRequest = () => {
+    evalRequest = (data) => {
         console.log("IN APROVE REQ FUNC");
-        axios.put(`/api/tickets/${this.state.ticketItem._id}`)
+        axios.put(`/api/tickets/eval/${this.state.ticketItem._id}`, data)
             .then(res => {
                 console.log("HERE RESULT");
                 console.log(res);
@@ -66,6 +66,7 @@ class TicketItem extends React.Component {
             })
             .catch(err => console.log(err));
     }
+
 
     render() {
         console.log("RENDERING TICKET ITEM COMPONENT");
@@ -84,7 +85,7 @@ class TicketItem extends React.Component {
             return (
                 <div style={mainCont}>
                     <div className="itemBorder">
-                        <TicketStatus approveRequest={this.approveRequest.bind(this)} ticketItem={this.state.ticketItem} />
+                        <TicketStatus evalRequest={this.evalRequest.bind(this)} ticketItem={this.state.ticketItem} />
                         <h2 style={titleStyle}>{this.state.ticketItem.title}</h2>
                         <p>{this.state.ticketItem.description}</p>
                     </div>

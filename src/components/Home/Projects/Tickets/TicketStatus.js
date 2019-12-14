@@ -48,7 +48,8 @@ class TicketStatus extends React.Component {
                         return (
                             <div style={{marginTop: "15px"}}>
                                 <h6><span style={openSpan} className="statusSpan">Pending Approval</span></h6>
-                                <button onClick={this.props.approveRequest}>Click here to approve completion</button>
+                                <button onClick={() => this.props.evalRequest({"command":"approve"})}>Approve Completion</button>
+                                <button onClick={() => this.props.evalRequest({"command":"reject"})}>Reject Completion</button>
                             </div>
                         )
                     } else {
