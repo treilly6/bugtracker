@@ -82,6 +82,13 @@ class TicketItem extends React.Component {
             console.log("END OF THE PROPS IN RENDERING TICKERT");
             const title = this.props.title;
             const description = "TESTING THE DESCRIPTION AREA";
+            var addComments;
+            if(!this.state.ticketItem.closed) {
+                addComments =
+                <div>
+                    <AddComment addComment = {this.addComment}></AddComment>
+                </div>;
+            }
             return (
                 <div style={mainCont}>
                     <div className="itemBorder">
@@ -92,9 +99,7 @@ class TicketItem extends React.Component {
                     <div>
                         <Comments comments={this.state.ticketItem.comments}></Comments>
                     </div>
-                    <div>
-                        <AddComment addComment = {this.addComment}></AddComment>
-                    </div>
+                    {addComments}
                 </div>
             )
         } else {

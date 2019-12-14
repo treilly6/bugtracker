@@ -88,8 +88,28 @@ body {
     padding : 5px;
 }
 
+.errorMsg {
+    background-color : #ffcccc;
+    border : 1px solid #ff3333;
+    color : #ff3333;
+}
+
+.successMsg {
+    background-color : #d6f5d6;
+    border : 1px solid #33cc33;
+    color : #33cc33;
+}
+
+.homeCard {
+    width : 100%;
+}
+
 @media (min-width: 768px) {
     .projectItemCont {
         width : 50%;
+    }
+
+    .homeCard {
+        width : 33%;
     }
 }

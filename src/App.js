@@ -5,6 +5,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 
 // Components
 import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 import LandingPage from './components/pages/LandingPage';
 import About from './components/pages/About';
 import Home from './components/Home/Home';
@@ -44,7 +45,7 @@ class App extends React.Component {
                         <ProtectedRoute path="/mail" exact component={MailBox} />
                         <Route path="/about" component = {About} />
                     </div>
-
+                    <Footer />
                 </div>
             </Router>
         );

@@ -14,12 +14,12 @@ class CommentItem extends React.Component {
         var completedRequest = null;
         if(this.props.comment.completedRequest && this.props.comment.completedRequest.request) {
             if(this.props.comment.completedRequest.approved) {
-                completedRequest = <div>Close Request - <span className="statusSpan">Approved</span></div>;
+                completedRequest = <div>Close Request - <span className="statusSpan successMsg">Approved</span></div>;
             // checking for a string of true here b/c the Ticket model uses null as the deafault for rejected field on comments
             } else if(this.props.comment.completedRequest.rejected === "true") {
-                completedRequest = <div>Close Request - <span className="statusSpan">Rejected</span></div>;
+                completedRequest = <div>Close Request - <span className="statusSpan errorMsg">Rejected</span></div>;
             } else {
-                completedRequest = <div>Close Request - <span className="statusSpan">Pending Approval</span></div>;
+                completedRequest = <div>Close Request - <span className="statusSpan successMsg">Pending Approval</span></div>;
             }
         }
 
