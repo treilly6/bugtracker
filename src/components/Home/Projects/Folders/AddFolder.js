@@ -39,12 +39,14 @@ class AddFolder extends React.Component {
         return (
             <div>
                 <button className="toolbar-button" onClick={this.toggleForm}>Add Folder</button>
-                <div style={{display : this.state.showForm ? "block" : "none"}}>
+                <div>
                     <MessageBox key={this.state.submitAttempt} message={this.state.message} />
-                    <form style={formStyle} onSubmit={this.submit}>
-                        <input type="text" name="title" value={this.state.title} onChange={this.changeInput} placeholder="Folder Title" />
-                        <button>Add</button>
-                    </form>
+                    <div className="itemBorder" style={{display : this.state.showForm ? "block" : "none"}}>
+                        <form style={formStyle} onSubmit={this.submit}>
+                            <input className="formInput" type="text" name="title" value={this.state.title} onChange={this.changeInput} placeholder="Folder Title" />
+                            <button>Add</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         )
@@ -52,7 +54,6 @@ class AddFolder extends React.Component {
 }
 
 const formStyle = {
-    backgroundColor : "#f2f2f2",
     padding : "10px",
 };
 

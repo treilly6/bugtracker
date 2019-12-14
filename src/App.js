@@ -55,6 +55,7 @@ const contentContainer = {
     maxWidth : "1500px",
     margin : "0 auto",
     backgroundColor: "#f1f2f4",
+    padding : "0px 15px",
 }
 
 export default App;

@@ -39,19 +39,15 @@ class AddProject extends React.Component {
             <div style={{display : "inline-block", padding: "0px 5px"}}>
                 <button className="toolbar-button" onClick={this.toggleForm}>Add Project</button>
                 <MessageBox key={this.state.submitAttempt} message={this.state.message} />
-                <form onSubmit={this.submit} style={{display : this.state.showForm ? "block" : "none"}}>
-                    <input type="text" name="title" value={this.state.title} onChange={this.changeInput} />
-                    <button type="submit">Add Project</button>
-                </form>
+                <div className="itemBorder" style={{display : this.state.showForm ? "block" : "none"}}>
+                    <form onSubmit={this.submit}>
+                        <input className="formInput" type="text" name="title" value={this.state.title} onChange={this.changeInput} />
+                        <button type="submit">Add Project</button>
+                    </form>
+                </div>
             </div>
         )
     }
-}
-
-const divStyle = {
-    padding : "10px",
-    margin : "10px",
-    border : "1px solid black",
 }
 
 export default AddProject;

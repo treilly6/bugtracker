@@ -66,9 +66,16 @@ body {
 }
 
 .itemBorder {
-    border : 2px solid #d5d8dd;
+    border : 1px solid #d5d8dd;
     border-radius : 5px;
     background-color : #fff;
+}
+
+.formInput {
+    border : 1px solid #d5d8dd;
+    border-radius : 5px;
+    padding : 2px;
+    margin: 5px 0px;
 }
 
 .flexWrapCont {

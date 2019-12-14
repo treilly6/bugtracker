@@ -35,8 +35,8 @@ class Folder extends React.Component {
         return (
             <div>
                 <div>
-                    <h3>Folders</h3>
-                    <span onClick={this.toggleFolders}>{toggleContent} Folders</span>
+                    <h3 style={{display : "inline-block"}}>Folders</h3>
+                    <span className="linkStyle hoverLink" style={{paddingLeft : "10px", fontSize : "15px", cursor:"pointer"}} onClick={this.toggleFolders}>({toggleContent} Folders)</span>
                 </div>
                 <div style={{display : this.state.showFolders ? "flex":"none", flexWrap : "wrap"}}>{folderItems}</div>
             </div>

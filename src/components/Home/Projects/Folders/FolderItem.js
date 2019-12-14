@@ -20,7 +20,8 @@ class FolderItem extends React.Component {
 
 const divStyle = {
     padding : "10px",
-    margin : "5px",
+    marginRight : "5px",
+    marginBottom: "5px",
     display : "flex",
     alignItems : "center",
     justifyContent : "center",

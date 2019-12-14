@@ -35,17 +35,12 @@ class Tickets extends React.Component {
         }
 
         return (
-            <div style={ticketsCont}>
+            <div>
                 <h2 style={{textAlign : "center", padding : "10px 0px"}}>Tickets</h2>
                 {ticketItems}
             </div>
         );
     }
-}
-
-const ticketsCont = {
-    padding : "0 15px",
-    margin : "0 auto",
 }
 
 const ticketDiv = {

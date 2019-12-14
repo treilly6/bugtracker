@@ -143,7 +143,7 @@ class ProjectItem extends React.Component {
             const title = this.state.currentItem.title;
             return (
                 <div>
-                    <h1 style={{textAlign : "center"}}>{ title }</h1>
+                    <h1 style={titleStyle}>{ title }</h1>
                     {/* NEED TO ADD MESSAGE BOX HERE MAN */}
                     <div className="toolbar-div">
                         <ManagerHandler projectItem={this.state.projectItem} manager={this.state.manager} />
@@ -158,5 +158,8 @@ class ProjectItem extends React.Component {
     }
 }
 
+const titleStyle = {
+    margin : "15px 0px",
+}
 
 export default ProjectItem;

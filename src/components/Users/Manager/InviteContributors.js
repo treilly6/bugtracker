@@ -39,9 +39,9 @@ class InviteContributors extends React.Component {
             <div>
                 <button className="toolbar-button" onClick={this.toggleForm}>Add Contributor</button>
                 <MessageBox key={this.state.messageSubmitAttempt} message={this.state.message} />
-                <div style={{ display : this.state.showForm ? "block" : "none" }}>
+                <div className="itemBorder" style={{ display : this.state.showForm ? "block" : "none" }}>
                     <form style={formStyle} onSubmit={this.submit}>
-                        <input type="text" name="inviteUser" placeholder="Enter Username" onChange={this.changeInput} />
+                        <input className="formInput" type="text" name="inviteUser" placeholder="Enter Username" onChange={this.changeInput} />
                         <button type="submit">Invite</button>
                     </form>
                 </div>
@@ -51,7 +51,6 @@ class InviteContributors extends React.Component {
 }
 
 const formStyle = {
-    backgroundColor : "#f2f2f2",
     padding : "10px",
 };
 

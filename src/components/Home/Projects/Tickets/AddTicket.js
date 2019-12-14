@@ -43,11 +43,11 @@ class AddTicket extends React.Component {
         return (
             <div style={ticketFormDiv}>
                 <button className="toolbar-button" onClick={this.toggleForm}>Add Ticket</button>
-                <div style = {{display : this.state.showForm ? "block" : "none"}}>
+                <div className="itemBorder" style = {{display : this.state.showForm ? "block" : "none"}}>
                     <MessageBox key={this.state.submitAttempt} message={this.state.message} />
                     <form onSubmit={this.submit} style={ticketForm}>
-                        <input style={formInput} onChange={this.changeInput} value={this.state.title} type="text" name="title" placeholder="Title" />
-                        <textarea style={textAreaStyle} onChange={this.changeInput} value={this.state.description} type="text" name="description" placeholder="Description" />
+                        <input className="formInput" style={formInput} onChange={this.changeInput} value={this.state.title} type="text" name="title" placeholder="Title" />
+                        <textarea className="formInput" style={textAreaStyle} onChange={this.changeInput} value={this.state.description} type="text" name="description" placeholder="Description" />
                         <button type="submit">Add Ticket</button>
                     </form>
                 </div>
@@ -58,13 +58,10 @@ class AddTicket extends React.Component {
 
 const ticketForm = {
     padding : "10px",
-    backgroundColor: "#f2f2f2",
 };
 
 const formInput = {
-    display : "block",
-    padding : "2px",
-    margin: "5px 0px",
+
 };
 
 const textAreaStyle = {
