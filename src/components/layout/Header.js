@@ -23,7 +23,7 @@ const headerStyle = {
     backgroundColor : "#333",
     color : "#fff",
     padding : "0px 15px",
-    height : "75px",
+    height : "100px",
     textAlign : "center",
     display : "flex",
     justifyContent : "space-between",

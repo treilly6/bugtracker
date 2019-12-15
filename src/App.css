@@ -104,6 +104,11 @@ body {
     width : 100%;
 }
 
+.homeItem {
+    margin : 5px 0px;
+    text-align : center;
+}
+
 @media (min-width: 768px) {
     .projectItemCont {
         width : 50%;
@@ -112,4 +117,9 @@ body {
     .homeCard {
         width : 33%;
     }
+
+    .homeItem {
+        margin : 5px;
+    }
+
 }
