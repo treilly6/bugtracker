@@ -18,7 +18,11 @@ class Toolbar extends React.Component {
         console.log(tool);
         console.log("STATE BEFORE CVHANGE");
         console.log(this.state);
-        await this.setState({tool : tool});
+        if(this.state.tool === tool) {
+            await this.setState({tool : null});
+        } else {
+            await this.setState({tool : tool});
+        }
         console.log("STATE AFTER CHNAGE");
         console.log(this.state);
     }
@@ -30,9 +34,9 @@ class Toolbar extends React.Component {
         if(this.state.tool === "tickets") {
             bottomMargin = "240px";
         } else if (this.state.tool === null) {
-            bottomMargin = "0px"
+            bottomMargin = "0px";
         } else {
-            bottomMargin = "70px"
+            bottomMargin = "70px";
         }
         return(
             <div style={{display : "flex", position : "relative", marginBottom : bottomMargin, justifyContent : "flex-start"}}>

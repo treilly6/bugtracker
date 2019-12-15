@@ -86,6 +86,7 @@ body {
 .itemAbsolute {
     position: absolute;
     left:0;
+    top:95%;
 }
 
 .formInput {
