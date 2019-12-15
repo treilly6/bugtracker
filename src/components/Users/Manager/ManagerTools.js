@@ -17,8 +17,8 @@ class ManagerTools extends React.Component {
         console.log("MANAGER TOOLS RENDER");
 
         return(
-            <div>
-                <InviteContributors projectItem={this.props.projectItem} />
+            <div className={"toolbar-header " + (this.props.tool === "contrib" ? "toolbar-selected" : "")}>
+                <InviteContributors projectItem={this.props.projectItem} tool={this.props.tool} selectTool={this.props.selectTool} />
             </div>
         )
     }

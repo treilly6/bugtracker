@@ -8,7 +8,6 @@ class ManagerHandler extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
         this.state.manager = this.props.manager;
     }
 
@@ -17,7 +16,7 @@ class ManagerHandler extends React.Component {
     render() {
         if(this.state.manager) {
             return (
-                <ManagerTools projectItem={this.props.projectItem} />
+                <ManagerTools projectItem={this.props.projectItem} tool={this.props.tool} selectTool={this.props.selectTool} />
             )
         } else {
             return null;

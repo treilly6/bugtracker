@@ -19,14 +19,14 @@ router.post('/', (req, res) => {
             console.log("No authenticate");
             return res.json({
                 authenticated : false,
-                message : "User is not logged in"
+                message : "Error : Log in required"
             });
         }
     } catch {
         console.log("No authenticate");
         return res.json({
             authenticated : false,
-            message : "User is not logged in"
+            message : "Error : Log in to required"
         });
     }
     console.log("END");

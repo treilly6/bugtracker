@@ -41,9 +41,9 @@ class AddTicket extends React.Component {
 
     render() {
         return (
-            <div style={ticketFormDiv}>
-                <button className="toolbar-button" onClick={this.toggleForm}>Add Ticket</button>
-                <div className="itemBorder" style = {{display : this.state.showForm ? "block" : "none"}}>
+            <div className={"toolbar-header " + (this.props.tool === "tickets" ? "toolbar-selected" : "")}>
+                <div style={{textAlign:"center"}} onClick={() => this.props.selectTool("tickets")}>Add Ticket</div>
+                <div className="itemBorder itemAbsolute" style = {{display : this.props.tool === "tickets" ? "block" : "none", width : "100%"}}>
                     <MessageBox key={this.state.submitAttempt} message={this.state.message} />
                     <form onSubmit={this.submit} style={ticketForm}>
                         <input className="formInput" style={formInput} onChange={this.changeInput} value={this.state.title} type="text" name="title" placeholder="Title" />
@@ -71,10 +71,6 @@ const textAreaStyle = {
     minHeight : "125px",
     height : "125px",
     display : "block",
-};
-
-const ticketFormDiv = {
-
 };
 
 export default AddTicket;

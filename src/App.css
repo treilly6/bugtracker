@@ -13,7 +13,8 @@ body {
     border-radius: 5px;
     border: none;
     padding: 10px;
-    background-color: #99e6e6;
+    background-color: #0366d6;
+    color : #fff;
     margin-bottom: 5px;
 }
 
@@ -22,7 +23,18 @@ body {
 }
 
 .toolbar-div {
-    max-width : 420px;
+
+}
+
+.toolbar-header {
+    max-width: 150px;
+    border : 1px solid #d5d8dd;
+    padding : 10px;
+}
+
+.toolbar-selected {
+    background-color : #fff;
+    border-radius: 5px 5px 0px 0px;
 }
 
 .linkStyle {
@@ -71,11 +83,22 @@ body {
     background-color : #fff;
 }
 
+.itemAbsolute {
+    position: absolute;
+    left:0;
+}
+
 .formInput {
     border : 1px solid #d5d8dd;
     border-radius : 5px;
     padding : 2px;
     margin: 5px 0px;
+    width: 100%;
+}
+
+.inputCont {
+    display: grid;
+    grid-template-columns: 90% 10%;
 }
 
 .flexWrapCont {

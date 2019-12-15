@@ -11,6 +11,13 @@ class InviteContributors extends React.Component {
         showForm : false,
     }
 
+    constructor(props){
+        super(props);
+        console.log("INVITE CONTIB PROPS");
+        console.log(props);
+        this.setState({tool : this.props.tool});
+    }
+
     toggleForm = (e) => {
         console.log("SHOW THAT INPT");
         this.setState({showForm : !this.state.showForm})
@@ -37,12 +44,14 @@ class InviteContributors extends React.Component {
     render() {
         return(
             <div>
-                <button className="toolbar-button" onClick={this.toggleForm}>Add Contributor</button>
+                <div style={{textAlign:"center"}} onClick={() => this.props.selectTool("contrib")}>Invite User</div>
                 <MessageBox key={this.state.messageSubmitAttempt} message={this.state.message} />
-                <div className="itemBorder" style={{ display : this.state.showForm ? "block" : "none" }}>
+                <div className="itemBorder itemAbsolute" style={{ display : this.props.tool === "contrib" ? "block" : "none", width : "100%"}}>
                     <form style={formStyle} onSubmit={this.submit}>
-                        <input className="formInput" type="text" name="inviteUser" placeholder="Enter Username" onChange={this.changeInput} />
-                        <button type="submit">Invite</button>
+                        <div className="inputCont">
+                            <input className="formInput" type="text" name="inviteUser" placeholder="Enter Username" onChange={this.changeInput} />
+                            <button type="submit">+</button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -42,7 +42,7 @@ class AddProject extends React.Component {
                 <div className="itemBorder" style={{display : this.state.showForm ? "block" : "none"}}>
                     <form onSubmit={this.submit}>
                         <input className="formInput" type="text" name="title" value={this.state.title} onChange={this.changeInput} />
-                        <button type="submit">Add Project</button>
+                        <button type="submit">+</button>
                     </form>
                 </div>
             </div>

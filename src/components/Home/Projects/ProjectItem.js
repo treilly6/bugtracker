@@ -7,6 +7,7 @@ import Tickets from './Tickets/Tickets';
 import AddFolder from './Folders/AddFolder';
 import Folders from './Folders/Folders';
 import ManagerHandler from '../../Users/Manager/ManagerHandler';
+import Toolbar from './Toolbar/Toolbar';
 import axios from 'axios';
 
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
@@ -146,9 +147,7 @@ class ProjectItem extends React.Component {
                     <h1 style={titleStyle}>{ title }</h1>
                     {/* NEED TO ADD MESSAGE BOX HERE MAN */}
                     <div className="toolbar-div">
-                        <ManagerHandler projectItem={this.state.projectItem} manager={this.state.manager} />
-                        <AddFolder addFolder = {this.addFolder} />
-                        <AddTicket addTicket = {this.addTicket} />
+                        <Toolbar projectItem={this.state.projectItem} manager={this.state.manager} addFolder = {this.addFolder} addTicket = {this.addTicket} />                        
                     </div>
                     <Folders folders = {this.state.folders} />
                     <Tickets tickets={this.state.tickets} />

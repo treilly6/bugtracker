@@ -12,6 +12,12 @@ class AddFolder extends React.Component {
         message : '',
     }
 
+    constructor(props){
+        super(props);
+        console.log("ADD FOLER CONTRUCTOR");
+        console.log(props);
+    }
+
     submit = async (e) => {
         e.preventDefault();
         console.log(this.state.title);
@@ -36,15 +42,19 @@ class AddFolder extends React.Component {
 
 
     render() {
+        console.log("RENDERING THE ADD FODLER");
+        console.log(this.props);
         return (
-            <div>
-                <button className="toolbar-button" onClick={this.toggleForm}>Add Folder</button>
+            <div className={"toolbar-header " + (this.props.tool === "folders" ? "toolbar-selected" : "")}>
+                <div style={{textAlign:"center"}} onClick={() => this.props.selectTool("folders")}>Add Folder</div>
                 <div>
                     <MessageBox key={this.state.submitAttempt} message={this.state.message} />
-                    <div className="itemBorder" style={{display : this.state.showForm ? "block" : "none"}}>
+                    <div className="itemBorder itemAbsolute" style={{display : this.props.tool === "folders" ? "block" : "none", width : "100%"}}>
                         <form style={formStyle} onSubmit={this.submit}>
-                            <input className="formInput" type="text" name="title" value={this.state.title} onChange={this.changeInput} placeholder="Folder Title" />
-                            <button>Add</button>
+                            <div className="inputCont">
+                                <input className="formInput" type="text" name="title" value={this.state.title} onChange={this.changeInput} placeholder="Folder Title" />
+                                <button>+</button>
+                            </div>
                         </form>
                     </div>
                 </div>
