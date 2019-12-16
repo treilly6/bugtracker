@@ -16,7 +16,7 @@ class ManagerHandler extends React.Component {
     render() {
         if(this.state.manager) {
             return (
-                <ManagerTools projectItem={this.props.projectItem} tool={this.props.tool} selectTool={this.props.selectTool} />
+                <ManagerTools projectItem={this.props.projectItem} tool={this.props.tool} selectTool={this.props.selectTool} setMessage={this.props.setMessage} />
             )
         } else {
             return null;

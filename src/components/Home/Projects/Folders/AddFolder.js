@@ -8,8 +8,6 @@ class AddFolder extends React.Component {
     state = {
         "title" : "",
         showForm : false,
-        submitAttempt : 0,
-        message : '',
     }
 
     constructor(props){
@@ -25,9 +23,10 @@ class AddFolder extends React.Component {
             "title" : this.state.title,
         };
         var message = await this.props.addFolder(folder);
+        this.props.setMessage(message);
         console.log("ADDFOLDER JS RESULT OF FUCN");
         console.log(message);
-        this.setState({"title":"", message : message, submitAttempt : this.state.submitAttempt + 1});
+        this.setState({"title":""});
         console.log("IN THE SUBMIT");
     }
 
@@ -48,12 +47,11 @@ class AddFolder extends React.Component {
             <div className={"toolbar-header " + (this.props.tool === "folders" ? "toolbar-selected" : "")}>
                 <div style={{textAlign:"center"}} onClick={() => this.props.selectTool("folders")}>Add Folder</div>
                 <div>
-                    <MessageBox key={this.state.submitAttempt} message={this.state.message} />
                     <div className="itemBorder itemAbsolute" style={{display : this.props.tool === "folders" ? "block" : "none", width : "100%"}}>
                         <form style={formStyle} onSubmit={this.submit}>
                             <div className="inputCont">
                                 <input className="formInput" type="text" name="title" value={this.state.title} onChange={this.changeInput} placeholder="Folder Title" />
-                                <button>+</button>
+                                <button className="plusButton">+</button>
                             </div>
                         </form>
                     </div>

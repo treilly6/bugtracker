@@ -18,7 +18,7 @@ class ManagerTools extends React.Component {
 
         return(
             <div className={"toolbar-header " + (this.props.tool === "contrib" ? "toolbar-selected" : "")}>
-                <InviteContributors projectItem={this.props.projectItem} tool={this.props.tool} selectTool={this.props.selectTool} />
+                <InviteContributors projectItem={this.props.projectItem} tool={this.props.tool} selectTool={this.props.selectTool} setMessage={this.props.setMessage} />
             </div>
         )
     }

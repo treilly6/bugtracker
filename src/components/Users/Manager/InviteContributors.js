@@ -5,10 +5,7 @@ import '../../../App.css';
 
 class InviteContributors extends React.Component {
     state = {
-        messageSubmitAttempt : 0,
-        message : '',
         inviteUser : '',
-        showForm : false,
     }
 
     constructor(props){
@@ -23,17 +20,19 @@ class InviteContributors extends React.Component {
         this.setState({showForm : !this.state.showForm})
     }
 
-    submit = (e) => {
+    submit = async (e) => {
         e.preventDefault();
         var userData = {"inviteUser" : this.state.inviteUser, "projectTitle" : this.props.projectItem.title, "projectId" : this.props.projectItem._id};
         this.setState({inviteUser : ''});
-        axios.post('/api/user/invite', userData)
+        var message;
+        await axios.post('/api/user/invite', userData)
             .then(res => {
                 console.log(res);
                 console.log("ABOVE IS THE RES");
-                this.setState({message : res.data.message, messageSubmitAttempt : this.state.messageSubmitAttempt + 1});
+                message = res.data.message;
             })
             .catch(err => console.log(err));
+        this.props.setMessage(message);
         console.log("SUBMIT THIS SHIT PREVETN");
     }
 
@@ -45,12 +44,11 @@ class InviteContributors extends React.Component {
         return(
             <div>
                 <div style={{textAlign:"center"}} onClick={() => this.props.selectTool("contrib")}>Invite User</div>
-                <MessageBox key={this.state.messageSubmitAttempt} message={this.state.message} />
                 <div className="itemBorder itemAbsolute" style={{ display : this.props.tool === "contrib" ? "block" : "none", width : "100%"}}>
                     <form style={formStyle} onSubmit={this.submit}>
                         <div className="inputCont">
-                            <input className="formInput" type="text" name="inviteUser" placeholder="Enter Username" onChange={this.changeInput} />
-                            <button type="submit">+</button>
+                            <input className="formInput" type="text" name="inviteUser" value={this.state.inviteUser} placeholder="Enter Username" onChange={this.changeInput} />
+                            <button className="plusButton" type="submit">+</button>
                         </div>
                     </form>
                 </div>

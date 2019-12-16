@@ -97,6 +97,22 @@ body {
     width: 100%;
 }
 
+.plusButton {
+    border-radius: 0px 5px 5px 0px;
+    margin: 5px 0px;
+    border: none;
+    background-color: #2eb82e;
+    color: #fff;
+}
+
+.submitButton {
+    border-radius: 5px;
+    border: none;
+    background-color: #2eb82e;
+    color: #fff;
+    padding : 5px;
+}
+
 .inputCont {
     display: grid;
     grid-template-columns: 90% 10%;

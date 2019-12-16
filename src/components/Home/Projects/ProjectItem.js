@@ -8,6 +8,7 @@ import AddFolder from './Folders/AddFolder';
 import Folders from './Folders/Folders';
 import ManagerHandler from '../../Users/Manager/ManagerHandler';
 import Toolbar from './Toolbar/Toolbar';
+import MessageBox from '../../../MessageBox';
 import axios from 'axios';
 
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
@@ -16,7 +17,6 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 class ProjectItem extends React.Component {
 
     state = {
-        message: '',
         folderPath : '',
         dataFetched : false,
         folders : [],
@@ -24,6 +24,8 @@ class ProjectItem extends React.Component {
         currentItem : {},
         projectItem : {},
         manager : false,
+        messageNum : 0,
+        message : '',
     }
 
     constructor(props) {
@@ -121,6 +123,11 @@ class ProjectItem extends React.Component {
         return msg;
     }
 
+    setMessage = (message) => {
+        console.log("IN THE SET MESSAGE");
+        console.log(message);
+        this.setState({message : message, messageNum : this.state.messageNum + 1});
+    }
 
     componentDidUpdate(prevProps, prevState) {
         console.log("PROJECT ITEM DID UPDATE FUNC");
@@ -130,7 +137,8 @@ class ProjectItem extends React.Component {
         if(!this.state.dataFetched) {
             console.log("NULL RENDER");
             return null;
-        } else if(this.state.message) {
+        // Need to actually make this error redirect thing
+        } else if(this.state.errorRedirect) {
             return (
                 <Redirect to={{
                     pathname : '/projects',
@@ -144,10 +152,12 @@ class ProjectItem extends React.Component {
             const title = this.state.currentItem.title;
             return (
                 <div>
+                    {/* Want to add a breadcrumb component here */}
                     <h1 style={titleStyle}>{ title }</h1>
                     {/* NEED TO ADD MESSAGE BOX HERE MAN */}
+                    <MessageBox key={this.state.messageNum} message={this.state.message} />
                     <div className="toolbar-div">
-                        <Toolbar projectItem={this.state.projectItem} manager={this.state.manager} addFolder = {this.addFolder} addTicket = {this.addTicket} />                        
+                        <Toolbar projectItem={this.state.projectItem} manager={this.state.manager} addFolder = {this.addFolder} addTicket = {this.addTicket} setMessage={this.setMessage.bind(this)} />
                     </div>
                     <Folders folders = {this.state.folders} />
                     <Tickets tickets={this.state.tickets} />
