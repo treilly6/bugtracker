@@ -6,38 +6,71 @@ import '../../../../App.css';
 
 class Tickets extends React.Component {
 
-    state = {}
+    state = {
+        displayTickets : "open",
+    }
+
+    formatTickets = (tickets, type) => {
+        console.log("IN THE FORMAT TICKET FUNC HERE THE TICKETS");
+        console.log(tickets);
+        var formattedTickets = tickets.map((ticket) => {
+            var ticketStatus;
+            if (ticket.closed) {
+                ticketStatus = <span className="statusSpan errorMsg">Closed</span>;
+            } else {
+                if(ticket.pending) {
+                    ticketStatus = <span className="statusSpan successMsg">Pending</span>;
+                } else {
+                    ticketStatus = <span className="statusSpan successMsg">Open</span>;
+                }
+            }
+
+            console.log("CHECKING THE TYPE OF THE TICEKT DATE");
+            console.log(typeof(ticket.date));
+            var ticketDate = new Date(ticket.date);
+            var date = (ticketDate.getMonth() + 1).toString() + "/" + ticketDate.getDate().toString() + "/" + ticketDate.getFullYear().toString();
+            var time = ticketDate.getHours().toString() + ":" + (ticketDate.getMinutes() < 10 ? "0" + ticketDate.getMinutes().toString() : ticketDate.getMinutes().toString());
+            return(
+                <div style={ticketDiv}>
+                    <div style={ticketCont}>
+                        <div><Link className="linkStyle hoverLink" to={{
+                            pathname : `ticket/${ticket.title}`,
+                            state : {
+                                ticketItem : ticket,
+                            }
+                        }} >{ ticket.title }</Link><div style={{display:"inline-block", marginTop : "5px", padding:"0px 5px"}}>{ ticketStatus }</div></div>
+                        <div style={{textAlign : "right"}}><span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span></div>
+                    </div>
+                </div>
+            )
+        })
+        if(formattedTickets.length === 0) {
+            formattedTickets = <h5>Currently No {type} Tickets</h5>;
+        };
+        return formattedTickets;
+    }
 
 
     render() {
         console.log("Rendering tickets.js");
         console.log("TICKET PROPS");
         console.log(this.props);
-        var ticketItems;
-        ticketItems = this.props.tickets.map((ticket) => (
-            <div style={ticketDiv} >
-                <div style={ticketCont}>
-                    <div><Link className="linkStyle hoverLink" to={{
-                        pathname : `ticket/${ticket.title}`,
-                        state : {
-                            ticketItem : ticket,
-                        }
-                    }} >{ ticket.title }</Link></div>
-                    <div>12/9/19 12:38 PM</div>
-                </div>
-            </div>
-        ));
-        console.log("HERE TICKET ITEMS AFTER MAP");
-        console.log(ticketItems)
-        if(ticketItems.length === 0) {
-            ticketItems =
-                <h5>Currently No Tickets</h5>
-        }
+        var openTickets = this.formatTickets(this.props.tickets.filter(ticket => !ticket.closed && !ticket.pending), "Open");
+        var pendingTickets = this.formatTickets(this.props.tickets.filter(ticket => ticket.pending), "Pending")
+        var closedTickets = this.formatTickets(this.props.tickets.filter(ticket => ticket.closed), "Closed");
 
         return (
             <div>
-                <h2 style={{textAlign : "center", padding : "10px 0px"}}>Tickets</h2>
-                {ticketItems}
+                <div style={{display : "flex"}}>
+                    <div className={"toolbar-header " + (this.state.displayTickets === "open" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "open"})}>Open Tickets</div>
+                    <div className={"toolbar-header " + (this.state.displayTickets === "pending" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "pending"})}>Pending Tickets</div>
+                    <div className={"toolbar-header " + (this.state.displayTickets === "closed" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "closed"})}>Closed Tickets</div>
+                </div>
+                <div>
+                    <div style={{display : this.state.displayTickets === "open" ? "block" : "none"}}>{openTickets}</div>
+                    <div style={{display : this.state.displayTickets === "closed" ? "block" : "none"}}>{closedTickets}</div>
+                    <div style={{display : this.state.displayTickets === "pending" ? "block" : "none"}}>{pendingTickets}</div>
+                </div>
             </div>
         );
     }

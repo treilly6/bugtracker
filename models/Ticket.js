@@ -43,7 +43,7 @@ const TicketSchema = mongoose.Schema({
     }],
     approved : {
         user : {type : String, ref: "User"},
-        date : Date,
+        date : {type : Date, default : Date.now},
     }
 });
 
