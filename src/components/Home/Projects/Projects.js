@@ -16,7 +16,7 @@ class Projects extends React.Component {
         var projectItems = this.props.projects.map((project) => (
             <div className="projectItemCont">
                 <div className="projectItemDiv">
-                    <Link  className="linkStyle" to={{
+                    <Link className="linkStyle hoverLink" to={{
                         pathname : `projects/${project._id}/`,
                         state : project,
                     }}>{project.title}</Link>

@@ -39,7 +39,7 @@ class AddTicket extends React.Component {
     render() {
         return (
             <div className={"toolbar-header " + (this.props.tool === "tickets" ? "toolbar-selected" : "")}>
-                <div style={{textAlign:"center"}} onClick={() => this.props.selectTool("tickets")}>Add Ticket</div>
+                <div style={{textAlign:"center", cursor : "pointer"}} onClick={() => this.props.selectTool("tickets")}>Add Ticket</div>
                 <div className="itemBorder itemAbsolute" style = {{display : this.props.tool === "tickets" ? "block" : "none", width : "100%"}}>
                     <form onSubmit={this.submit} style={ticketForm}>
                         <input className="formInput" style={formInput} onChange={this.changeInput} value={this.state.title} type="text" name="title" placeholder="Title" />

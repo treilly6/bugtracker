@@ -41,7 +41,7 @@ class ProjectItem extends React.Component {
         const folderPath = (this.props.match.params.folders === undefined ? undefined : this.props.match.params.folders);
         console.log("HERE THE FOLDER PATH ", folderPath);
 
-        axios.all([axios.get(`/api/projects/${projectId}/${folderPath}`), axios.get(`/api/auth/manager/${projectId}/${folderPath}`)])
+        axios.all([axios.get(`/api/projects/${projectId}/${folderPath}`), axios.get(`/api/auth/manager/${projectId}`)])
             .then(axios.spread((project, manager) => {
                 console.log("AXIOS SPREAD RESULT");
                 console.log(project);
@@ -153,10 +153,7 @@ class ProjectItem extends React.Component {
             const title = this.state.currentItem.title;
             return (
                 <div>
-                    {/* Want to add a breadcrumb component here */}
                     <BreadCrumb match={this.props.match} projectItem={{title : this.state.projectItem.title, id : this.state.projectItem._id}}/>
-                    <h1 style={titleStyle}>{ title }</h1>
-                    {/* NEED TO ADD MESSAGE BOX HERE MAN */}
                     <MessageBox key={this.state.messageNum} message={this.state.message} />
                     <div className="toolbar-div">
                         <Toolbar projectItem={this.state.projectItem} manager={this.state.manager} addFolder = {this.addFolder} addTicket = {this.addTicket} setMessage={this.setMessage.bind(this)} />
@@ -167,10 +164,6 @@ class ProjectItem extends React.Component {
             )
         }
     }
-}
-
-const titleStyle = {
-    margin : "15px 0px",
 }
 
 export default ProjectItem;

@@ -45,7 +45,7 @@ class AddFolder extends React.Component {
         console.log(this.props);
         return (
             <div className={"toolbar-header " + (this.props.tool === "folders" ? "toolbar-selected" : "")}>
-                <div style={{textAlign:"center"}} onClick={() => this.props.selectTool("folders")}>Add Folder</div>
+                <div style={{textAlign:"center", cursor : "pointer"}} onClick={() => this.props.selectTool("folders")}>Add Folder</div>
                 <div>
                     <div className="itemBorder itemAbsolute" style={{display : this.props.tool === "folders" ? "block" : "none", width : "100%"}}>
                         <form style={formStyle} onSubmit={this.submit}>

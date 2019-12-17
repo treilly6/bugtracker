@@ -43,7 +43,7 @@ class InviteContributors extends React.Component {
     render() {
         return(
             <div>
-                <div style={{textAlign:"center"}} onClick={() => this.props.selectTool("contrib")}>Invite User</div>
+                <div style={{textAlign:"center", cursor : "pointer"}} onClick={() => this.props.selectTool("contrib")}>Invite User</div>
                 <div className="itemBorder itemAbsolute" style={{ display : this.props.tool === "contrib" ? "block" : "none", width : "100%"}}>
                     <form style={formStyle} onSubmit={this.submit}>
                         <div className="inputCont">

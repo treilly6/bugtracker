@@ -32,11 +32,16 @@ router.post('/', (req, res) => {
     console.log("END");
 });
 
-router.get('/manager/:projectId/:folderPath*', async (req,res) => {
+
+// Eventually want to add the manager validation to have features of nested hierarchy
+// i.e --> managers have manager priveledges to a specific project path and all child descendants of that path
+router.get('/manager/:projectId', async (req,res) => {
     console.log("IN THE MANAGER ROUTE");
     console.log(req.params);
-    var folderPath = req.params.folderPath === 'undefined' ? '' : req.params.folderPath + req.params["0"];
-    console.log("HERE THE FOLDER PATH ", folderPath);
+
+    // below would be used for the nested heirarchy
+    // var folderPath = req.params.folderPath === 'undefined' ? '' : req.params.folderPath + req.params["0"];
+    // console.log("HERE THE FOLDER PATH ", folderPath);
 
     try {
         var projId = new ObjectId(req.params.projectId)
@@ -44,30 +49,25 @@ router.get('/manager/:projectId/:folderPath*', async (req,res) => {
         return res.json({"message" : "Error : Project Id does not exist"});
     }
 
-    if(folderPath === '') {
-        // query project managers
-        await Project.findOne({"_id": projId}, (err, project) => {
-            if(err) {
-                console.log("ERROR IN MANAGER CHECK API");
-                console.log(err);
-            } else {
-                if(project) {
-                    if(project.managers.includes(req.user.username)) {
-                        console.log("IS MANAGER");
-                        res.json({"manager":true})
-                    } else {
-                        console.log("IS NOT MANAGER");
-                        res.json({"manager":false})
-                    }
+    // query project managers
+    await Project.findOne({"_id": projId}, (err, project) => {
+        if(err) {
+            console.log("ERROR IN MANAGER CHECK API");
+            console.log(err);
+        } else {
+            if(project) {
+                if(project.managers.includes(req.user.username)) {
+                    console.log("IS MANAGER");
+                    res.json({"manager":true})
                 } else {
-                    return res.json({"message" : "Error : This project does not exist"});
+                    console.log("IS NOT MANAGER");
+                    res.json({"manager":false})
                 }
+            } else {
+                return res.json({"message" : "Error : This project does not exist"});
             }
-        })
-    } else {
-        // query folder managers
-        res.json({"message" : "NEED TO DO WORK HERE LINE 70 AUTH ROUTES"});
-    }
+        }
+    })
 });
 
 router.get('/contributor/:projectId', (req,res) => {

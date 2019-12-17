@@ -45,7 +45,13 @@ class Tickets extends React.Component {
             )
         })
         if(formattedTickets.length === 0) {
-            formattedTickets = <h5>Currently No {type} Tickets</h5>;
+            return(
+                <div style={ticketDiv}>
+                    <div style={noTicketCont}>
+                        <div>Currently No { type } Tickets</div>
+                    </div>
+                </div>
+            )
         };
         return formattedTickets;
     }
@@ -60,7 +66,7 @@ class Tickets extends React.Component {
         var closedTickets = this.formatTickets(this.props.tickets.filter(ticket => ticket.closed), "Closed");
 
         return (
-            <div>
+            <div style={{margin : "15px 0px"}}>
                 <div style={{display : "flex"}}>
                     <div className={"toolbar-header " + (this.state.displayTickets === "open" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "open"})}>Open Tickets</div>
                     <div className={"toolbar-header " + (this.state.displayTickets === "pending" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "pending"})}>Pending Tickets</div>
@@ -83,6 +89,11 @@ const ticketDiv = {
     marginBottom : "10px",
     backgroundColor : "#fff",
 };
+
+const noTicketCont = {
+    justifyContent : "center",
+    display : "flex",
+}
 
 const ticketCont = {
     display : "flex",

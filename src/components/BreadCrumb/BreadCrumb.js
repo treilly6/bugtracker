@@ -34,9 +34,9 @@ class BreadCrumb extends React.Component {
         if(arraySplitPath.length === 1 && arraySplitPath[0] === '') {
             console.log("NULL RETURN NO MAP");
             breadCrumb = null;
-            projectBreadCrumb = <span>{projectItem.title}</span>;
+            projectBreadCrumb = <span style={{paddingRight : "5px"}}>{projectItem.title}</span>;
         } else {
-            projectBreadCrumb = <span><Link className="linkStyle hoverLink" to={projectPath}>{projectItem.title}</Link></span>;
+            projectBreadCrumb = <span><Link className="linkStyle hoverLink" style={{paddingRight : "5px"}} to={projectPath}>{projectItem.title}</Link></span>;
             var folderPath = projectPath;
             var counter = 0;
             breadCrumb = arraySplitPath.map(subfolder => {
@@ -49,9 +49,9 @@ class BreadCrumb extends React.Component {
                 folderPath = folderPath + `${subfolder}/`;
                 var breadCrumbLink;
                 if(counter === arraySplitPath.length - 1) {
-                    breadCrumbLink = <span>/{subfolder}</span>;
+                    breadCrumbLink = <span><span>/</span><span className="bc-content">{subfolder}</span></span>;
                 } else {
-                    breadCrumbLink = <span>/<Link className="linkStyle hoverLink" to={folderPath}>{subfolder}</Link></span>;
+                    breadCrumbLink = <span><span>/</span><Link className="linkStyle hoverLink bc-content" to={folderPath}>{subfolder}</Link></span>;
                 }
 
                 counter++;
@@ -60,7 +60,7 @@ class BreadCrumb extends React.Component {
         }
 
         return(
-            <div>
+            <div class="breadCrumb">
                 {projectBreadCrumb}{breadCrumb}
             </div>
         )
@@ -71,5 +71,6 @@ class BreadCrumb extends React.Component {
         return (breadCrumb);
     }
 }
+
 
 export default BreadCrumb;

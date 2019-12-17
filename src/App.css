@@ -37,6 +37,18 @@ body {
     border-radius: 5px 5px 0px 0px;
 }
 
+.breadCrumb {
+    margin: 15px 0px;
+}
+
+.breadCrumb > *, .breadCrumb > span > *{
+    font-size:1.2em;
+}
+
+.bc-content {
+    padding : 0px 5px;
+}
+
 .linkStyle {
     color : #0366d6;
     text-decoration: none;

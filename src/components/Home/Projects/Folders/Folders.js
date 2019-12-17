@@ -28,20 +28,40 @@ class Folder extends React.Component {
 
         var toggleContent = this.state.showFolders ? "Hide" : "Show";
 
+        var noFolders = false;
         if (folderItems.length == 0) {
-            folderItems = <p>No Folders in current Path</p>
+            noFolders = true;
+            folderItems =
+            <div style={folderDiv}>
+                <div style={noFolderCont}>
+                    <div>No Folders</div>
+                </div>
+            </div>;
         };
 
         return (
-            <div>
-                <div>
+            <div style ={{margin : "15px 0px"}}>
+                <div style={{marginBottom : "10px"}}>
                     <h3 style={{display : "inline-block"}}>Folders</h3>
-                    <span className="linkStyle hoverLink" style={{paddingLeft : "10px", fontSize : "15px", cursor:"pointer"}} onClick={this.toggleFolders}>({toggleContent} Folders)</span>
+                    <span className="linkStyle hoverLink" style={{paddingLeft : "10px", fontSize : "15px", cursor:"pointer", display : noFolders ? "none" : "initial"}} onClick={this.toggleFolders}>({toggleContent} Folders)</span>
                 </div>
-                <div style={{display : this.state.showFolders ? "flex":"none", flexWrap : "wrap"}}>{folderItems}</div>
+                <div style={{display : this.state.showFolders ? (noFolders ? "block" : "flex") : "none", flexWrap : "wrap"}}>{folderItems}</div>
             </div>
         )
     }
+}
+
+const folderDiv = {
+    padding : "20px 5px",
+    border : "1px solid #d5d8dd",
+    borderRadius : "5px",
+    marginBottom : "10px",
+    backgroundColor : "#fff",
+};
+
+const noFolderCont = {
+    justifyContent : "center",
+    display : "flex",
 }
 
 

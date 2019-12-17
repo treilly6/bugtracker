@@ -6,7 +6,7 @@ import '../../../../App.css';
 
 class Toolbar extends React.Component {
     state = {
-        tool : null,
+        tool : "folders",
     }
 
     constructor(props){
