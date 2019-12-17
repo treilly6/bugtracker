@@ -9,6 +9,7 @@ import Folders from './Folders/Folders';
 import ManagerHandler from '../../Users/Manager/ManagerHandler';
 import Toolbar from './Toolbar/Toolbar';
 import MessageBox from '../../../MessageBox';
+import BreadCrumb from '../../BreadCrumb/BreadCrumb';
 import axios from 'axios';
 
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
@@ -153,6 +154,7 @@ class ProjectItem extends React.Component {
             return (
                 <div>
                     {/* Want to add a breadcrumb component here */}
+                    <BreadCrumb match={this.props.match} projectItem={{title : this.state.projectItem.title, id : this.state.projectItem._id}}/>
                     <h1 style={titleStyle}>{ title }</h1>
                     {/* NEED TO ADD MESSAGE BOX HERE MAN */}
                     <MessageBox key={this.state.messageNum} message={this.state.message} />
