@@ -79,7 +79,7 @@ router.put('/eval/:ticketId', (req,res) => {
                 ticket.closed = true;
                 ticket.pending = false;
                 ticket.approved.user = req.user.username;
-                ticket.approved.date = "4/20/69";
+                ticket.approved.date = new Date();
                 ticket.comments.find(commentFilter).completedRequest.approved = true;
             } else if(req.body.command === "reject") {
                 console.log("REJECTING THE TICKET");

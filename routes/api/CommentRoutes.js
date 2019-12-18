@@ -60,7 +60,7 @@ router.post('/:ticketId', (req, res) => {
                                 const message = {
                                     title : "Ticket Completion Request",
                                     body : `${req.user.username} has created a completion request that needs manager approval`,
-                                    date : "4/20/69",
+                                    date : new Date(),
                                     meta : {
                                         messageType : "ticketReq",
                                         projectId : `${project._id}`,

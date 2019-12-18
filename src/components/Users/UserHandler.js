@@ -56,7 +56,7 @@ class UserHandler extends React.Component {
                     </div>;
                 links =
                 <div>
-                    <Link className="navLink hoverLink" to="/">Home</Link> | <Link className="navLink hoverLink" to="/about">About</Link> | <Link className="navLink hoverLink" to="/projects">Projects</Link> | <Link className="navLink hoverLink" to="/mail"><FontAwesomeIcon icon="envelope" /></Link>
+                    <Link className="navLink hoverLink" to="/">Home</Link> | <Link className="navLink hoverLink" to="/projects">Projects</Link> | <Link className="navLink hoverLink" to="/mail"><FontAwesomeIcon icon="envelope" /></Link>
                 </div>;
             } else {
                 userBox =
@@ -66,7 +66,7 @@ class UserHandler extends React.Component {
                 </div>;
                 links =
                 <div>
-                    <Link className="navLink hoverLink" to="/">Home</Link> | <Link className="navLink hoverLink" to="/about">About</Link>
+                    <Link className="navLink hoverLink" to="/">Home</Link>
                 </div>;
             }
 

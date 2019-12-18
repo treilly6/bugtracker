@@ -84,6 +84,15 @@ body {
     width : 100%;
 }
 
+.mailItemDiv {
+    padding : 10px;
+    border : 1px solid #d5d8dd;
+    width : 100%;
+    border-radius : 5px;
+    background-color : #fff;
+    margin: 5px 0px;
+}
+
 .messageCont {
     display: flex;
     justify-content: center;
@@ -135,9 +144,17 @@ body {
     flex-wrap : wrap;
 }
 
+.flexWrapCenter {
+    display: flex;
+    flex-wrap : wrap;
+    justify-content: center;
+    align-items: center;
+}
+
 .statusSpan {
     border-radius: 15px;
     padding : 5px;
+    margin: 0px 3px;
 }
 
 .errorMsg {
@@ -161,6 +178,17 @@ body {
     text-align : center;
 }
 
+.spanPadding {
+    padding : 0px 3px;
+}
+
+.commentFlexDiv {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
 @media (min-width: 768px) {
     .projectItemCont {
         width : 50%;
@@ -172,6 +200,10 @@ body {
 
     .homeItem {
         margin : 5px;
+    }
+
+    .commentFlexDiv {
+        justify-content: space-between;
     }
 
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import axios from 'axios';
+import '../../../App.css';
 
 class Mail extends React.Component {
     state = {}
@@ -33,27 +34,35 @@ class Mail extends React.Component {
             console.log("HERE THE MAIL OBJ");
             console.log(mail);
             var metaDiv;
+
+            var mailDate = new Date(mail.date);
+            var date = (mailDate.getMonth() + 1).toString() + "/" + mailDate.getDate().toString() + "/" + mailDate.getFullYear().toString().substring(2);
+            var time = mailDate.getHours().toString() + ":" + (mailDate.getMinutes() < 10 ? "0" + mailDate.getMinutes().toString() : mailDate.getMinutes().toString());
+
+
             if(mail.meta){
                 if(mail.meta.messageType === "Invite") {
                     metaDiv =
                     <div>
-                        <button onClick={() => this.acceptInvite(mail)}>Accept Invitation</button>
+                        <button style={{backgroundColor: "#2eb82e"}} className="toolbar-button" onClick={() => this.acceptInvite(mail)}>Accept Invitation</button>
                     </div>;
                 } else if(mail.meta.messageType === "ticketReq") {
                     console.log("HERE SOME SHIIIIIIIIT ", mail.meta.path)
                     metaDiv =
                     <div>
-                        <Link to={mail.meta.path}><button>Go to ticket</button></Link>
+                        <Link to={mail.meta.path}><button className="toolbar-button">Go to ticket</button></Link>
                     </div>;
                 }
             } else {
                 metaDiv = null;
             }
             return (
-                <div style={mailDiv}>
-                    <h4>{mail.title}</h4>
+                <div className="mailItemDiv">
+                    <div style={{display : "flex", justifyContent : "space-between", flexWrap : "wrap"}}>
+                        <div>{mail.title}</div>
+                        <div><span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span></div>
+                    </div>
                     <p>{mail.body}</p>
-                    <h6>{mail.date}</h6>
                     {metaDiv}
                 </div>
             )

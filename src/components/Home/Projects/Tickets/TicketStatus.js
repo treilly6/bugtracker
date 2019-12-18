@@ -13,7 +13,7 @@ class TicketStatus extends React.Component {
         console.log("HERE THE PROPS");
         console.log(props);
         console.log(this.props.ticketItem.project_id);
-        axios.get(`/api/auth/manager/${this.props.ticketItem.project_id}/${undefined}`)
+        axios.get(`/api/auth/manager/${this.props.ticketItem.project_id}`)
             .then(res => {
                 console.log("MANAGER RES");
                 console.log(res);

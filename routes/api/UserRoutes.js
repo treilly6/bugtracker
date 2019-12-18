@@ -147,7 +147,7 @@ router.post('/invite', (req, res) => {
                         var message = {
                             title : "Project Invitation",
                             body : `You've been invited to join the ${req.body.projectTitle}  project!`,
-                            date : "4/20/69",
+                            date : new Date(),
                             meta : {
                                 messageType : "Invite",
                                 projectId : req.body.projectId,

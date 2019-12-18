@@ -7,7 +7,6 @@ import { ProtectedRoute } from './ProtectedRoute';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import LandingPage from './components/pages/LandingPage';
-import About from './components/pages/About';
 import Home from './components/Home/Home';
 import ProjectHandler from './components/Home/Projects/ProjectHandler';
 import LogIn from './components/Users/LogIn';
@@ -43,7 +42,6 @@ class App extends React.Component {
                         <ProtectedRoute path="/projects" exact component={Home} />
                         <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
                         <ProtectedRoute path="/mail" exact component={MailBox} />
-                        <Route path="/about" component = {About} />
                     </div>
                     <Footer />
                 </div>

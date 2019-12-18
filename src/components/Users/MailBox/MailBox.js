@@ -32,7 +32,7 @@ class MailBox extends React.Component {
         if(this.state.dataFetched) {
             return(
                 <div>
-                    <h4>Mailbox</h4>
+                    <h1 style={{fontSize: "1.5em", margin: "15px 0px", textAlign: "center",}}>Mailbox</h1>
                     <Mail mail={this.state.mailBox.messages}></Mail>
                 </div>
             )

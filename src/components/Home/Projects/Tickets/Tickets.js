@@ -27,9 +27,12 @@ class Tickets extends React.Component {
 
             console.log("CHECKING THE TYPE OF THE TICEKT DATE");
             console.log(typeof(ticket.date));
-            var ticketDate = new Date(ticket.date);
-            var date = (ticketDate.getMonth() + 1).toString() + "/" + ticketDate.getDate().toString() + "/" + ticketDate.getFullYear().toString();
+
+            var ticketDate = (type !== "Closed" ? new Date(ticket.date) : new Date(ticket.approved.date));
+            var date = (ticketDate.getMonth() + 1).toString() + "/" + ticketDate.getDate().toString() + "/" + ticketDate.getFullYear().toString().substring(2);
             var time = ticketDate.getHours().toString() + ":" + (ticketDate.getMinutes() < 10 ? "0" + ticketDate.getMinutes().toString() : ticketDate.getMinutes().toString());
+
+
             return(
                 <div style={ticketDiv}>
                     <div style={ticketCont}>
