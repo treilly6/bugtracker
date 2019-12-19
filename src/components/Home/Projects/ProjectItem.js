@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../../../App.css';
-import AddTicket from './Tickets/AddTicket';
+
 import Tickets from './Tickets/Tickets';
-// import TicketItem from './Tickets/TicketItem';
-import AddFolder from './Folders/AddFolder';
 import Folders from './Folders/Folders';
+import Tasks from './Tasks/Tasks';
 import ManagerHandler from '../../Users/Manager/ManagerHandler';
 import Toolbar from './Toolbar/Toolbar';
 import MessageBox from '../../../MessageBox';
@@ -22,6 +21,7 @@ class ProjectItem extends React.Component {
         dataFetched : false,
         folders : [],
         tickets : [],
+        tasks: [],
         currentItem : {},
         projectItem : {},
         manager : false,
@@ -53,10 +53,10 @@ class ProjectItem extends React.Component {
                     console.log("NUH");
                     if(manager.data.manager) {
                         console.log("IS A MANAGER");
-                        this.setState({folders:project.data.folders, tickets:project.data.tickets, currentItem:project.data.currentItem, projectItem:project.data.project, manager:true, dataFetched:true});
+                        this.setState({folders:project.data.folders, tasks:project.data.tasks, tickets:project.data.tickets, currentItem:project.data.currentItem, projectItem:project.data.project, manager:true, dataFetched:true});
                     } else {
                         console.log("NO MANAGER");
-                        this.setState({folders:project.data.folders, tickets:project.data.tickets, currentItem:project.data.currentItem, projectItem:project.data.project, dataFetched:true})
+                        this.setState({folders:project.data.folders, tasks:project.data.tasks, tickets:project.data.tickets, currentItem:project.data.currentItem, projectItem:project.data.project, dataFetched:true})
                     }
                 }
             }))
@@ -124,6 +124,27 @@ class ProjectItem extends React.Component {
         return msg;
     }
 
+    addTask = async (task) => {
+        console.log("ADDTASK FUNC IN PROJCET ITEM JS");
+        console.log(task);
+        var msg;
+        await axios.post(`/api/tasks/${this.state.projectItem._id}/${this.state.folderPath}`, task)
+            .then(res => {
+                console.log("HERE RES");
+                console.log(res);
+                msg = res.data.message;
+                if(!res.data.error) {
+                    console.log("NO ERROR SAVED THE STATE FOR THE TASK");
+                    this.setState({tasks : [...this.state.tasks, res.data.task]});
+                }
+            })
+            .catch(err => {
+                console.log("ERROR ADD TASK FUNC");
+                console.log(err);
+            })
+        return msg
+    }
+
     setMessage = (message) => {
         console.log("IN THE SET MESSAGE");
         console.log(message);
@@ -156,8 +177,9 @@ class ProjectItem extends React.Component {
                     <BreadCrumb match={this.props.match} projectItem={{title : this.state.projectItem.title, id : this.state.projectItem._id}}/>
                     <MessageBox key={this.state.messageNum} message={this.state.message} />
                     <div className="toolbar-div">
-                        <Toolbar projectItem={this.state.projectItem} manager={this.state.manager} addFolder = {this.addFolder} addTicket = {this.addTicket} setMessage={this.setMessage.bind(this)} />
+                        <Toolbar projectItem={this.state.projectItem} manager={this.state.manager} addTask={this.addTask} addFolder={this.addFolder} addTicket={this.addTicket} setMessage={this.setMessage.bind(this)} />
                     </div>
+                    <Tasks tasks={this.state.tasks} />
                     <Folders folders = {this.state.folders} />
                     <Tickets tickets={this.state.tickets} />
                 </div>

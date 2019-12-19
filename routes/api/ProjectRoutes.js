@@ -6,6 +6,7 @@ var ObjectId = require('mongodb').ObjectId;
 let Project = require('../../models/Project');
 let Folder = require('../../models/Folder');
 let Ticket = require('../../models/Ticket');
+let Task = require('../../models/Task');
 
 
 router.get('/', (req, res) => {
@@ -133,6 +134,15 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
             console.log("END OF QUERY OF THE FOLDERS");
         }
     })
+
+    await Task.find({"project_id":objID, "path":fullPath}, (err, tasks) => {
+        if (err) {
+            console.log("ERROR ON THE tasks get API");
+        } else {
+            console.log("ALL GOOD TASKS");
+            data.tasks = tasks;
+        }
+    });
 
     console.log("END OF THIS SHIT");
     console.log(data);

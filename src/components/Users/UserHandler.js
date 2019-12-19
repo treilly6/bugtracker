@@ -52,7 +52,10 @@ class UserHandler extends React.Component {
                 userBox =
                     <div style={userDiv}>
                         <h3 style={{paddingRight: "5px"}}><FontAwesomeIcon icon="user" /><span>{this.state.user}</span></h3>
-                        <LogOut setParentState={this.clearState.bind(this)}></LogOut>
+                        <div>
+                            <LogOut setParentState={this.clearState.bind(this)}></LogOut>
+                        </div>
+
                     </div>;
             } else {
                 userBox =

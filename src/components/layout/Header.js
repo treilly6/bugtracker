@@ -32,7 +32,7 @@ const headerStyle = {
 const navLinksDiv = {
     display : "flex",
     flexDirection : "column",
-    justifyContent : "space-between",
+    justifyContent : "space-around",
 }
 
 const brandStyle = {

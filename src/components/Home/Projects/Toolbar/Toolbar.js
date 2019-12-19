@@ -1,6 +1,7 @@
 import React from 'react';
 import AddFolder from '../Folders/AddFolder';
 import AddTicket from '../Tickets/AddTicket';
+import AddTask from '../Tasks/AddTask';
 import ManagerHandler from '../../../Users/Manager/ManagerHandler';
 import '../../../../App.css';
 
@@ -41,6 +42,7 @@ class Toolbar extends React.Component {
         return(
             <div style={{display : "flex", position : "relative", marginBottom : bottomMargin, justifyContent : "flex-start"}}>
                 <ManagerHandler projectItem={this.props.projectItem} manager={this.props.manager} tool={this.state.tool} selectTool={this.selectTool.bind(this)} setMessage={this.props.setMessage}/>
+                <AddTask addTask={this.props.addTask} tool={this.state.tool} selectTool={this.selectTool.bind(this)} setMessage={this.props.setMessage} />
                 <AddFolder addFolder = {this.props.addFolder} tool={this.state.tool} selectTool={this.selectTool.bind(this)} setMessage={this.props.setMessage} />
                 <AddTicket addTicket = {this.props.addTicket} tool={this.state.tool} selectTool={this.selectTool.bind(this)} setMessage={this.props.setMessage}/>
             </div>

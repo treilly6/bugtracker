@@ -30,13 +30,14 @@ class BreadCrumb extends React.Component {
         var arraySplitPath = replacePath.split("/");
         var breadCrumb;
         var projectBreadCrumb;
+        var projectHomeCrumb = <span><Link className="linkStyle hoverLink" style={{paddingRight : "5px"}} to="/projects">Projects</Link></span>
 
         if(arraySplitPath.length === 1 && arraySplitPath[0] === '') {
             console.log("NULL RETURN NO MAP");
             breadCrumb = null;
-            projectBreadCrumb = <span style={{paddingRight : "5px"}}>{projectItem.title}</span>;
+            projectBreadCrumb = <span><span>/</span><span className="bc-content">{projectItem.title}</span></span>;
         } else {
-            projectBreadCrumb = <span><Link className="linkStyle hoverLink" style={{paddingRight : "5px"}} to={projectPath}>{projectItem.title}</Link></span>;
+            projectBreadCrumb = <span><span>/</span><Link className="linkStyle hoverLink bc-content" to={projectPath}>{projectItem.title}</Link></span>;
             var folderPath = projectPath;
             var counter = 0;
             breadCrumb = arraySplitPath.map(subfolder => {
@@ -61,7 +62,7 @@ class BreadCrumb extends React.Component {
 
         return(
             <div class="breadCrumb">
-                {projectBreadCrumb}{breadCrumb}
+                {projectHomeCrumb}{projectBreadCrumb}{breadCrumb}
             </div>
         )
     }

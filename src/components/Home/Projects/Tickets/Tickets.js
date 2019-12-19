@@ -64,9 +64,9 @@ class Tickets extends React.Component {
         console.log("Rendering tickets.js");
         console.log("TICKET PROPS");
         console.log(this.props);
-        var openTickets = this.formatTickets(this.props.tickets.filter(ticket => !ticket.closed && !ticket.pending), "Open");
-        var pendingTickets = this.formatTickets(this.props.tickets.filter(ticket => ticket.pending), "Pending")
-        var closedTickets = this.formatTickets(this.props.tickets.filter(ticket => ticket.closed), "Closed");
+        var openTickets = this.formatTickets(this.props.tickets.filter(ticket => !ticket.closed && !ticket.pending).sort((a,b) => {return new Date(a.date) - new Date(b.date)}), "Open");
+        var pendingTickets = this.formatTickets(this.props.tickets.filter(ticket => ticket.pending).sort((a,b) => {return new Date(a.date) - new Date(b.date)}), "Pending")
+        var closedTickets = this.formatTickets(this.props.tickets.filter(ticket => ticket.closed).sort((a,b) => {return new Date(b.approved.date) - new Date(a.approved.date)}), "Closed");
 
         return (
             <div style={{margin : "15px 0px"}}>

@@ -39,6 +39,7 @@ body {
 
 .breadCrumb {
     margin: 15px 0px;
+    word-break: break-all;
 }
 
 .breadCrumb > *, .breadCrumb > span > *{
@@ -92,6 +93,16 @@ body {
     border-radius : 5px;
     background-color : #fff;
     margin: 5px 0px;
+}
+
+.taskItem {
+    background-color: #fff;
+    border: 1px solid #d5d8dd;
+    padding : 10px;
+}
+
+.taskCont {
+
 }
 
 .messageCont {
@@ -196,8 +207,9 @@ body {
 }
 
 .mobileNavMenu {
-    background-color : #333;
+    background-color : #000033;
     width : 220px;
+    z-index : 1;
 }
 
 .navBar {
