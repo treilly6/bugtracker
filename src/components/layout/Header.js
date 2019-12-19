@@ -22,7 +22,7 @@ class Header extends React.Component {
 const headerStyle = {
     backgroundColor : "#333",
     color : "#fff",
-    padding : "0px 15px",
+    paddingLeft : "15px",
     height : "100px",
     textAlign : "center",
     display : "flex",
@@ -30,8 +30,9 @@ const headerStyle = {
 }
 
 const navLinksDiv = {
-    display : "inline-block",
-    alignSelf : "flex-end",
+    display : "flex",
+    flexDirection : "column",
+    justifyContent : "space-between",
 }
 
 const brandStyle = {

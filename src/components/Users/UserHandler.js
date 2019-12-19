@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import LogOut from './LogOut';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Nav from  '../layout/Nav';
 import '../../App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class UserHandler extends React.Component {
 
@@ -46,36 +47,27 @@ class UserHandler extends React.Component {
         if(!this.state.dataFetched) {
             return null;
         } else {
-            var links;
             var userBox;
             if(this.state.authenticated == true) {
                 userBox =
                     <div style={userDiv}>
-                        <h3 style={{padding: "0px 15px"}}>Welcome {this.state.user}</h3>
+                        <h3 style={{paddingRight: "5px"}}><FontAwesomeIcon icon="user" /><span>{this.state.user}</span></h3>
                         <LogOut setParentState={this.clearState.bind(this)}></LogOut>
                     </div>;
-                links =
-                <div>
-                    <Link className="navLink hoverLink" to="/">Home</Link> | <Link className="navLink hoverLink" to="/projects">Projects</Link> | <Link className="navLink hoverLink" to="/mail"><FontAwesomeIcon icon="envelope" /></Link>
-                </div>;
             } else {
                 userBox =
                 <div style={userDiv}>
                     <Link to="/signup" className="hoverLink" style={noPadLinkStyle}><div>Sign Up</div></Link>
                     <Link to="/login" className="hoverLink" style={noPadLinkStyle}><div>Log in</div></Link>
                 </div>;
-                links =
-                <div>
-                    <Link className="navLink hoverLink" to="/">Home</Link>
-                </div>;
             }
 
             return (
                 <React.Fragment>
-                    {links}
-                    <div style={{padding : "10px 0px"}}>
+                    <div style={{marginTop : "5px"}}>
                         {userBox}
                     </div>
+                    <Nav userAuthenticated={this.state.authenticated}/>
                 </React.Fragment>
             )
         }
@@ -85,12 +77,7 @@ class UserHandler extends React.Component {
 const userDiv = {
     display : "flex",
     justifyContent : "flex-end",
-}
-
-const linkStyle = {
-    textDecoration : "none",
-    color : "#fff",
-    padding : "10px",
+    flexWrap : "wrap-reverse",
 }
 
 const noPadLinkStyle = {

@@ -62,6 +62,7 @@ body {
     text-decoration : none;
     color : #fff;
     padding : 10px;
+    cursor: pointer;
 }
 
 .projectItemDiv {
@@ -189,6 +190,36 @@ body {
     margin-bottom: 10px;
 }
 
+.mobileNavDiv {
+    padding: 10px;
+    text-align: center;
+}
+
+.mobileNavMenu {
+    background-color : #333;
+    width : 220px;
+}
+
+.navBar {
+    display: none;
+}
+
+.mobileNavBar {
+    display: block;
+}
+
+.mobileMenuDown .bar1 {
+    transform: rotate(-45deg) translate(-10px,10px);
+}
+
+.mobileMenuDown .bar2 {
+    opacity: 0;
+}
+
+.mobileMenuDown .bar3 {
+    transform: rotate(45deg) translate(-5px, -5px);
+}
+
 @media (min-width: 768px) {
     .projectItemCont {
         width : 50%;
@@ -204,6 +235,14 @@ body {
 
     .commentFlexDiv {
         justify-content: space-between;
+    }
+
+    .navBar {
+        display: block;
+    }
+
+    .mobileNavBar {
+        display: none;
     }
 
 }

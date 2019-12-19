@@ -14,12 +14,13 @@ import SignUp from './components/Users/SignUp';
 import MailBox from './components/Users/MailBox/MailBox';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
 
 // Style
 import './App.css';
 
 library.add(faEnvelope);
+library.add(faUser);
 
 class App extends React.Component {
     state = {}
