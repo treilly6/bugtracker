@@ -11,18 +11,28 @@ class Tasks extends React.Component {
     constructor(props){
         super(props);
         console.log("TASK CONSTRUVTOR");
+        this.state.openTasks = new Set(this.props.tasks.reduce((acc, task) => {
+            console.log(task);
+            console.log(acc);
+            if (!task.completed) {
+                acc.push(task._id);
+            }
+            return acc;
+        }, []));
+
+        this.state.closedTasks = new Set(this.props.tasks.reduce((acc, task) => {
+            console.log(task);
+            console.log(acc);
+            if (task.completed) {
+                acc.push(task._id);
+            }
+            return acc;
+        }, []));
+
+        this.state.showTasks = "open";
         if (this.props.manager) {
-            this.state = {
-                showTasks : "open",
-                manager : true,
-                tasks : this.props.tasks,
-                markedTasks : new Set([]),
-            }
-        } else {
-            this.state = {
-                showTasks : "open",
-                tasks : this.props.tasks,
-            }
+            this.state.manager = true;
+            this.state.markedTasks = new Set([]);
         }
     }
 
@@ -35,18 +45,35 @@ class Tasks extends React.Component {
         console.log(e);
         console.log("IN THE SUBMIT FOR THE TASKS");
         console.log("WTF MAN ");
-        this.props.updateTasks([...this.state.markedTasks]);
-        // this.markTasks(this.state.markedTasks, this.props.tasks);
+        this.updateTasks([...this.state.markedTasks]);
     }
 
-    markTasks = (taskSet, tasks) => {
-        console.log("HERE TEH TASK SET");
-        console.log(taskSet);
-        axios.put('/api/tasks/markTasks', {completed : [...taskSet], all : tasks})
-            .then(tasks => {
-                console.log("HERE ARE THE TASKS");
-                console.log(tasks);
-                this.setState({})
+    updateTasks = async (taskIds) => {
+        console.log("HERE TEH TASK IDS MAN");
+        console.log(taskIds);
+
+        var updatedTasks = await axios.put('/api/tasks/markTasks', {completed : taskIds})
+            .then(res => {
+                console.log("HERE ARE THE TASKS WE FINALLY MADE IT");
+                console.log(res);
+                var updatedOpen = new Set(this.state.openTasks);
+                var updatedClosed = new Set(this.state.closedTasks);
+                var changes = 0;
+                res.data.updatedTasks.forEach(taskId => {
+                    console.log("IN THE FOR EACH");
+                    console.log(typeof(taskId), taskId);
+                    console.log(updatedOpen);
+
+                    if(updatedOpen.has(taskId)) {
+                        console.log("REMOVING THE ID");
+                        updatedOpen.delete(taskId);
+                        updatedClosed.add(taskId);
+                        changes++;
+                    }
+                });
+                console.log("AFTER TEH FOR EACH");
+                console.log(changes);
+                this.setState({openTasks : updatedOpen, closedTasks : updatedClosed});
             })
             .catch(err => {
                 console.log(err);
@@ -100,8 +127,8 @@ class Tasks extends React.Component {
         console.log("RENDERING THE TASKS");
         console.log(this.props);
         console.log(this.state);
-        var openTasks = this.formatTasks(this.props.tasks.filter(task => (!task.completed)), "Open", this.props.manager);
-        var completedTasks = this.formatTasks(this.props.tasks.filter(task => (task.completed)), "Completed", this.props.manager);
+        var openTasks = this.formatTasks(this.props.tasks.filter(task => (this.state.openTasks.has(task._id))), "Open", this.props.manager);
+        var completedTasks = this.formatTasks(this.props.tasks.filter(task => (this.state.closedTasks.has(task._id))), "Completed", this.props.manager);
 
         return (
             <div>

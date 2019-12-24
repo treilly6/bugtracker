@@ -60,40 +60,49 @@ router.put('/markTasks', async (req, res) => {
     console.log("IN THE PUT REQUEST MAN");
     console.log(req.body);
     console.log("NO MAS");
-    var taskItems;
 
-    await req.body.completed.forEach(async (taskId) => {
+    var retArray = await req.body.completed.map((taskId) => {
         console.log("IN THE FIRST BLOCK");
         queryId = new ObjectId(taskId);
-        await Task.findOne({_id : queryId})
-            .then(task => {
+        return Task.findOne({_id : queryId})
+            .then(async task => {
                 task.completed = true;
                 task.date.completed = new Date();
-                task.save(err => {
-                    if(err){
-                        console.log("ERROR ON SAVE OF THE TASK IN THE PUT REQ");
-                    } else {
-                        console.log("NO ERROR MAN below task saved");
-                        console.log(task);
-                    }
-                })
-            })
-            .catch(err => console.log(err))
-    })
 
-    await Task.find({"project_id":new ObjectId(req.body.projectId), "path":req.body.folderPath}, (err, tasks) => {
-        console.log("IN THE SECOND BLOCK");
-        if (err) {
-            console.log("ERROR ON THE tasks PUT UPDATE");
-        } else {
-            console.log("ALL GOOD TASKS");
-            taskItems = tasks;
-        }
+                // return task._id;
+
+                var saveResult = await task.save()
+                    .then(task => {
+                        console.log("NO ERROR MAN below task saved");
+                        console.log(task._id);
+                        return task._id;
+                    })
+                    .catch(err => {
+                        console.log("ERROR ON SAVE OF THE TASK IN THE PUT REQ");
+                        return -1;
+                    });
+
+                console.log("SAVE RESULT AFTER SAVE");
+                console.log(saveResult);
+                return saveResult;
+            })
+            .catch(err => {
+                console.log(err);
+                console.log("THERE IS AN ERROR IN THE FIND ONE");
+            });
     });
 
-    console.log("JUST BEFORE FINISHED");
-    console.log(taskItems);
-    return res.json({tasks : taskItems, message : "Success - Goals Completed"});
+    console.log("AFTER THE MAP");
+    console.log(retArray);
+
+    Promise.all(retArray)
+        .then(values => {
+            console.log("IN THE THEN OF THE PROMIS ALL");
+            console.log(retArray)
+            console.log(values);
+            return res.json({updatedTasks : values});
+        })
+
 })
 
 module.exports = router
