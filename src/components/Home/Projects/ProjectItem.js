@@ -145,6 +145,23 @@ class ProjectItem extends React.Component {
         return msg
     }
 
+    updateTasks = async (taskIds) => {
+        console.log("HERE TEH TASK IDS MAN");
+        console.log(taskIds);
+        console.log(this.props.match);
+        var folderPath = (this.props.match.params.folders === undefined ? '' : this.props.match.params.folders);
+        axios.put('/api/tasks/markTasks', {completed : taskIds, projectId : this.state.projectItem._id, folderPath : folderPath})
+            .then(tasks => {
+                console.log("HERE ARE THE TASKS");
+                console.log(tasks);
+                this.setState({tasks : tasks.data.tasks});
+            })
+            .catch(err => {
+                console.log(err);
+                console.log("ERROR ON THE PUT TASKS REQ");
+            })
+    }
+
     setMessage = (message) => {
         console.log("IN THE SET MESSAGE");
         console.log(message);
@@ -179,7 +196,7 @@ class ProjectItem extends React.Component {
                     <div className="toolbar-div">
                         <Toolbar projectItem={this.state.projectItem} manager={this.state.manager} addTask={this.addTask} addFolder={this.addFolder} addTicket={this.addTicket} setMessage={this.setMessage.bind(this)} />
                     </div>
-                    <Tasks tasks={this.state.tasks} />
+                    <Tasks tasks={this.state.tasks} manager={this.state.manager} updateTasks={this.updateTasks} />
                     <Folders folders = {this.state.folders} />
                     <Tickets tickets={this.state.tickets} />
                 </div>

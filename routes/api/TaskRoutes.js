@@ -54,7 +54,46 @@ router.post('/:projectId/:folderPath*', async (req, res) => {
             console.log("theres an error in post task route save attempt");
             console.log(err);
         });
-    res.json({message : "Success : Created Task", task : newTask});
 });
+
+router.put('/markTasks', async (req, res) => {
+    console.log("IN THE PUT REQUEST MAN");
+    console.log(req.body);
+    console.log("NO MAS");
+    var taskItems;
+
+    await req.body.completed.forEach(async (taskId) => {
+        console.log("IN THE FIRST BLOCK");
+        queryId = new ObjectId(taskId);
+        await Task.findOne({_id : queryId})
+            .then(task => {
+                task.completed = true;
+                task.date.completed = new Date();
+                task.save(err => {
+                    if(err){
+                        console.log("ERROR ON SAVE OF THE TASK IN THE PUT REQ");
+                    } else {
+                        console.log("NO ERROR MAN below task saved");
+                        console.log(task);
+                    }
+                })
+            })
+            .catch(err => console.log(err))
+    })
+
+    await Task.find({"project_id":new ObjectId(req.body.projectId), "path":req.body.folderPath}, (err, tasks) => {
+        console.log("IN THE SECOND BLOCK");
+        if (err) {
+            console.log("ERROR ON THE tasks PUT UPDATE");
+        } else {
+            console.log("ALL GOOD TASKS");
+            taskItems = tasks;
+        }
+    });
+
+    console.log("JUST BEFORE FINISHED");
+    console.log(taskItems);
+    return res.json({tasks : taskItems, message : "Success - Goals Completed"});
+})
 
 module.exports = router
