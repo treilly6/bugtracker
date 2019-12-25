@@ -110,39 +110,6 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
         fullPath = '';
     }
 
-    // GET THE CHILD FOLDERS OF THE CURRENT ITEM
-    await Folder.find({"project_id" : objID, "path" : fullPath}, (err, folders) => {
-        if (err) {
-            console.log(err);
-            console.log("Error on the folder query");
-        } else {
-            console.log("IN ELSE");
-            console.log(folders);
-            data.folders = folders;
-            console.log("END OF QUERY OF THE FOLDERS");
-        }
-    });
-
-    await Ticket.find({"project_id" : objID, "path" : fullPath}, (err, tickets) => {
-        if (err) {
-            console.log(err);
-            console.log("Error on the ticket query");
-        } else {
-            console.log("IN ELSE");
-            console.log(tickets);
-            data.tickets = tickets;
-            console.log("END OF QUERY OF THE FOLDERS");
-        }
-    })
-
-    await Task.find({"project_id":objID, "path":fullPath}, (err, tasks) => {
-        if (err) {
-            console.log("ERROR ON THE tasks get API");
-        } else {
-            console.log("ALL GOOD TASKS");
-            data.tasks = tasks;
-        }
-    });
 
     console.log("END OF THIS SHIT");
     console.log(data);

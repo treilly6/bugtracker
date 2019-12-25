@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TicketItem from './TicketItem';
 import MessageBox from '../../../../MessageBox';
+import axios from 'axios';
 import '../../../../App.css';
 
 class AddTicket extends React.Component {
@@ -23,12 +24,37 @@ class AddTicket extends React.Component {
             "title" : this.state.title,
             "description" : this.state.description,
         };
-        var message = await this.props.addTicket(ticket);
-        this.props.setMessage(message);
+        var data = await this.addTicket(ticket);
+        console.log("HERE THE DATA FROM ADD TICKET");
+        console.log(data);
+        this.props.setMessage(data.message);
+        this.props.getAddedTicket(data.addedTicket);
         this.setState({
             title : "",
             description : "",
         });
+    }
+
+    addTicket = async (ticket) => {
+        console.log(ticket);
+        console.log(this.state.tickets);
+        console.log(this.state);
+        var data = {};
+
+        await axios.post(`/api/tickets/${this.props.projectId}/${this.props.folderPath}`, ticket)
+            .then(res => {
+                console.log("success post add ticket");
+                console.log(res);
+                data.message = res.data.message;
+                data.addedTicket = res.data.addedTicket;
+            })
+            .catch(err => {
+                console.log("error post add ticket");
+                console.log(err);
+            });
+
+        console.log("data before return addTicket", data);
+        return data;
     }
 
     toggleForm = () => {

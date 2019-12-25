@@ -32,7 +32,7 @@ router.get('/:projectId/:folderPath*', (req,res) => {
 });
 
 router.post('/:projectId/:folderPath*', (req, res) => {
-    console.log("IN THE POST FOLDER PATH");
+    console.log("IN THE POST A TICKET PATH");
     const fullPath = (req.params.folderPath == 'undefined' ? '' : req.params.folderPath + req.params["0"]);
     console.log(req.user);
     console.log(req.params);
@@ -49,7 +49,8 @@ router.post('/:projectId/:folderPath*', (req, res) => {
     newTicket.save()
         .then(ticket => {
             console.log("saved the ticket");
-            res.json({ticket, message : `Success : Created Ticket`});
+            console.log(ticket);
+            res.json({addedTicket : ticket, message : `Success : Created Ticket`});
         })
         .catch(err => {
             console.log("theres an error in post ticket route save attempt");

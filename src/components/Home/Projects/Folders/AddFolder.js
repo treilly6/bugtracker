@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MessageBox from '../../../../MessageBox';
 import '../../../../App.css';
+import axios from 'axios';
 
 class AddFolder extends React.Component {
 
@@ -22,12 +23,37 @@ class AddFolder extends React.Component {
         var folder = {
             "title" : this.state.title,
         };
-        var message = await this.props.addFolder(folder);
-        this.props.setMessage(message);
+        var data = await this.addFolder(folder);
+        console.log(data);
+        this.props.setMessage(data.message);
+        this.props.getAddedFolder(data.addedFolder);
         console.log("ADDFOLDER JS RESULT OF FUCN");
-        console.log(message);
         this.setState({"title":""});
         console.log("IN THE SUBMIT");
+    }
+
+    addFolder = async (folder) => {
+        console.log("HOME JS FOLDER SHIT");
+        console.log(folder);
+        var data = {};
+        await axios.post(`/api/folders/${this.props.projectId}/${this.props.folderPath}`, folder)
+            .then(res => {
+                console.log("her folder");
+                console.log(res);
+                data.message = res.data.message;
+                if (res.data.error) {
+                    console.log("Add a display error function here");
+                } else {
+                    console.log("GONNA ADD THIS SHIT TO THE STAE");
+                    data.addedFolder = res.data.folder;
+                }
+            })
+            .catch(err => {
+                console.log("There an error");
+                console.log(err);
+            })
+
+        return data;
     }
 
     changeInput = (e) => {

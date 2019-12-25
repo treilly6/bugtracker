@@ -6,10 +6,42 @@ const router = express.Router();
 let Ticket = require('../../models/Ticket');
 let Folder = require('../../models/Folder');
 
-router.get('/:projectId/:folderPath', (req,res) => {
+router.get('/:projectId/:folderPath*', (req,res) => {
     console.log("HERE IS THE GET REQUEST FOR THE FOLDERS");
     console.log(req.params);
-    res.json();
+
+    var folderPath = (req.params.folderPath == "undefined" ? '' : req.params.folderPath + req.params["0"]);
+
+    console.log("HERE THE Folder PATH");
+    console.log(folderPath);
+
+    var valid = true;
+    var objID;
+
+    try {
+        objID = new ObjectId(req.params.projectId)
+    }
+    catch {
+        valid = false
+    }
+
+    if(!valid) {
+        return res.json({"message":"Error : Project Does Not Exist"});
+    }
+
+    Folder.find({"project_id" : objID, "path" : folderPath}, (err, folders) => {
+        if (err) {
+            console.log(err);
+            console.log("Error on the folder query");
+            res.json({"message" : "Error : Folders Not Found"});
+        } else {
+            console.log("IN ELSE");
+            console.log(folders);
+            res.json({folders : folders});
+            console.log("END OF QUERY OF THE FOLDERS");
+        }
+    });
+
 });
 
 // THINK I NEED TO ADD THE * to folderPath

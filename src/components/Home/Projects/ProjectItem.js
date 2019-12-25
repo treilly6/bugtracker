@@ -19,15 +19,14 @@ class ProjectItem extends React.Component {
     state = {
         folderPath : '',
         dataFetched : false,
-        folders : [],
-        tickets : [],
-        tasks: [],
         currentItem : {},
         projectItem : {},
         manager : false,
         messageNum : 0,
         message : '',
         addedTaskData : null,
+        addedTicketData : null,
+        addedFolderDate : null,
     }
 
     constructor(props) {
@@ -54,10 +53,10 @@ class ProjectItem extends React.Component {
                     console.log("NUH");
                     if(manager.data.manager) {
                         console.log("IS A MANAGER");
-                        this.setState({folders:project.data.folders, tasks:project.data.tasks, tickets:project.data.tickets, currentItem:project.data.currentItem, projectItem:project.data.project, manager:true, dataFetched:true, folderPath : folderPath});
+                        this.setState({currentItem:project.data.currentItem, projectItem:project.data.project, manager:true, dataFetched:true, folderPath : folderPath});
                     } else {
                         console.log("NO MANAGER");
-                        this.setState({folders:project.data.folders, tasks:project.data.tasks, tickets:project.data.tickets, currentItem:project.data.currentItem, projectItem:project.data.project, dataFetched:true, folderPath : folderPath})
+                        this.setState({currentItem:project.data.currentItem, projectItem:project.data.project, dataFetched:true, folderPath : folderPath})
                     }
                 }
             }))
@@ -76,54 +75,8 @@ class ProjectItem extends React.Component {
         console.log(this.props); //This stuff has the params needed to perform necessary shit. Gonna have to move to contructor
     }
 
-    addTicket = async (ticket) => {
-        console.log(ticket);
-        console.log(this.state.tickets);
-        console.log(this.state);
-        var msg;
-        // this.setState({tickets : [...this.state.tickets, ticket]});
-        await axios.post(`/api/tickets/${this.state.projectItem._id}/${this.state.folderPath}`, ticket)
-            .then(res => {
-                console.log("success post add ticket");
-                console.log(res);
-                msg = res.data.message;
-                this.setState({tickets : [...this.state.tickets, res.data.ticket]});
-            })
-            .catch(err => {
-                console.log("error post add ticket");
-                console.log(err);
-            });
-        console.log("IN THE HOME JS");
-        console.log("HERE THE RETURN FORM THIS GARBAGE ", msg);
-        return msg;
-    }
 
-    addFolder = async (folder) => {
-        console.log("HOME JS FOLDER SHIT");
-        console.log(folder);
-        var msg;
-        await axios.post(`/api/folders/${this.state.projectItem._id}/${this.state.folderPath}`, folder)
-            .then(res => {
-                console.log("her folder");
-                console.log(res);
-                msg = res.data.message;
-                if (res.data.error) {
-                    console.log("Add a display error function here");
-                } else {
-                    console.log("GONNA ADD THIS SHIT TO THE STAE");
-                    this.setState({folders : [...this.state.folders, res.data.folder]});
-                }
-            })
-            .catch(err => {
-                console.log("There an error");
-                console.log(err);
-            })
-        console.log("END OF THE ADD FODLER FUNCTION");
-        console.log(this.state);
-        console.log("GONNA RUTERERER THIS 0");
-        console.log(msg);
-        return msg;
-    }
+    // CAN CONDENSE THIS INTO SINGLE FUNCTION //
 
     getAddedTask = (addedTask) => {
         console.log("ADDED TASK HERE");
@@ -131,6 +84,19 @@ class ProjectItem extends React.Component {
         this.setState({addedTaskData : addedTask});
     }
 
+    getAddedTicket = (addedTicket) => {
+        console.log("Here the added ticket");
+        console.log(addedTicket);
+        this.setState({addedTicketData : addedTicket});
+    }
+
+    getAddedFolder = (addedFolder) => {
+        console.log("Here the added folder");
+        console.log(addedFolder);
+        this.setState({addedFolderData : addedFolder});
+    }
+
+    // END OF THE CONDENSEABLE SHIT //
 
     setMessage = (message) => {
         console.log("IN THE SET MESSAGE");
@@ -164,12 +130,11 @@ class ProjectItem extends React.Component {
                     <BreadCrumb match={this.props.match} projectItem={{title : this.state.projectItem.title, id : this.state.projectItem._id}}/>
                     <MessageBox key={this.state.messageNum} message={this.state.message} />
                     <div className="toolbar-div">
-                        <Toolbar projectItem={this.state.projectItem} folderPath={this.state.folderPath} manager={this.state.manager} getAddedTask={this.getAddedTask.bind(this)} addFolder={this.addFolder} addTicket={this.addTicket} setMessage={this.setMessage.bind(this)} />
+                        <Toolbar projectItem={this.state.projectItem} folderPath={this.state.folderPath} manager={this.state.manager} getAddedTask={this.getAddedTask.bind(this)} getAddedFolder={this.getAddedFolder.bind(this)} getAddedTicket={this.getAddedTicket.bind(this)} setMessage={this.setMessage.bind(this)} />
                     </div>
-                    {/* <Tasks key={this.state.tasks.length} tasks={this.state.tasks} manager={this.state.manager} /> */}
                     <Tasks projectId={this.state.projectItem._id}  manager={this.state.manager} folderPath={this.state.folderPath} addedTaskData={this.state.addedTaskData} />
-                    <Folders folders = {this.state.folders} />
-                    <Tickets tickets={this.state.tickets} />
+                    <Folders projectId={this.state.projectItem._id}  folderPath={this.state.folderPath} addedFolderData={this.state.addedFolderData}/>
+                    <Tickets projectId={this.state.projectItem._id}  manager={this.state.manager} folderPath={this.state.folderPath} addedTicketData={this.state.addedTicketData} />
                 </div>
             )
         }

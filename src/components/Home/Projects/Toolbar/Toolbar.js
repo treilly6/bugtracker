@@ -45,8 +45,8 @@ class Toolbar extends React.Component {
             <div style={{display : "flex", position : "relative", marginBottom : bottomMargin, justifyContent : "flex-start"}}>
                 <ManagerHandler projectItem={this.props.projectItem} manager={this.props.manager} tool={this.state.tool} selectTool={this.selectTool.bind(this)} setMessage={this.props.setMessage}/>
                 <AddTask projectId={this.props.projectItem._id} folderPath={this.props.folderPath} addTask={this.addTask} tool={this.state.tool} selectTool={this.selectTool.bind(this)} getAddedTask={this.props.getAddedTask} setMessage={this.props.setMessage} />
-                <AddFolder addFolder = {this.props.addFolder} tool={this.state.tool} selectTool={this.selectTool.bind(this)} setMessage={this.props.setMessage} />
-                <AddTicket addTicket = {this.props.addTicket} tool={this.state.tool} selectTool={this.selectTool.bind(this)} setMessage={this.props.setMessage}/>
+                <AddFolder projectId={this.props.projectItem._id} folderPath={this.props.folderPath} getAddedFolder = {this.props.getAddedFolder} tool={this.state.tool} selectTool={this.selectTool.bind(this)} setMessage={this.props.setMessage} />
+                <AddTicket projectId={this.props.projectItem._id} folderPath={this.props.folderPath} getAddedTicket = {this.props.getAddedTicket} tool={this.state.tool} selectTool={this.selectTool.bind(this)} setMessage={this.props.setMessage}/>
             </div>
         )
     }

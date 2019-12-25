@@ -1,13 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TicketItem from './TicketItem'
+import TicketItem from './TicketItem';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import axios from 'axios';
 import '../../../../App.css';
 
 class Tickets extends React.Component {
 
     state = {
         displayTickets : "open",
+        tickets : [],
+        dataFetched : false,
+    }
+
+    componentDidMount() {
+        axios.get(`/api/tickets/${this.props.projectId}/${this.props.folderPath}`)
+            .then(res => {
+                this.setState({tickets : res.data.tickets, dataFetched : true});
+            })
+            .catch(err => {
+                console.log("THER AN ERORR MAN");
+                console.log(err);
+            })
+    }
+
+    componentDidUpdate(prevProps){
+        console.log("IN THE UPDATE");
+        console.log(prevProps.addedTicketData);
+        console.log(this.props.addedTicketData);
+        if(this.props.addedTicketData !== prevProps.addedTicketData) {
+            console.log("SET STAET ON THE UPDATE");
+            this.setState({tickets : [...this.state.tickets, this.props.addedTicketData]});
+        }
     }
 
     formatTickets = (tickets, type) => {
@@ -64,24 +88,31 @@ class Tickets extends React.Component {
         console.log("Rendering tickets.js");
         console.log("TICKET PROPS");
         console.log(this.props);
-        var openTickets = this.formatTickets(this.props.tickets.filter(ticket => !ticket.closed && !ticket.pending).sort((a,b) => {return new Date(a.date) - new Date(b.date)}), "Open");
-        var pendingTickets = this.formatTickets(this.props.tickets.filter(ticket => ticket.pending).sort((a,b) => {return new Date(a.date) - new Date(b.date)}), "Pending")
-        var closedTickets = this.formatTickets(this.props.tickets.filter(ticket => ticket.closed).sort((a,b) => {return new Date(b.approved.date) - new Date(a.approved.date)}), "Closed");
 
-        return (
-            <div style={{margin : "15px 0px"}}>
-                <div style={{display : "flex"}}>
-                    <div className={"toolbar-header " + (this.state.displayTickets === "open" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "open"})}>Open Tickets</div>
-                    <div className={"toolbar-header " + (this.state.displayTickets === "pending" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "pending"})}>Pending Tickets</div>
-                    <div className={"toolbar-header " + (this.state.displayTickets === "closed" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "closed"})}>Closed Tickets</div>
+        if(!this.state.dataFetched) {
+            return (
+                <div>...Loading Tickets</div>
+            )
+        } else {
+            var openTickets = this.formatTickets(this.state.tickets.filter(ticket => !ticket.closed && !ticket.pending).sort((a,b) => {return new Date(a.date) - new Date(b.date)}), "Open");
+            var pendingTickets = this.formatTickets(this.state.tickets.filter(ticket => ticket.pending).sort((a,b) => {return new Date(a.date) - new Date(b.date)}), "Pending")
+            var closedTickets = this.formatTickets(this.state.tickets.filter(ticket => ticket.closed).sort((a,b) => {return new Date(b.approved.date) - new Date(a.approved.date)}), "Closed");
+
+            return (
+                <div style={{margin : "15px 0px"}}>
+                    <div style={{display : "flex"}}>
+                        <div className={"toolbar-header " + (this.state.displayTickets === "open" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "open"})}>Open Tickets</div>
+                        <div className={"toolbar-header " + (this.state.displayTickets === "pending" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "pending"})}>Pending Tickets</div>
+                        <div className={"toolbar-header " + (this.state.displayTickets === "closed" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({displayTickets : "closed"})}>Closed Tickets</div>
+                    </div>
+                    <div>
+                        <div style={{display : this.state.displayTickets === "open" ? "block" : "none"}}>{openTickets}</div>
+                        <div style={{display : this.state.displayTickets === "closed" ? "block" : "none"}}>{closedTickets}</div>
+                        <div style={{display : this.state.displayTickets === "pending" ? "block" : "none"}}>{pendingTickets}</div>
+                    </div>
                 </div>
-                <div>
-                    <div style={{display : this.state.displayTickets === "open" ? "block" : "none"}}>{openTickets}</div>
-                    <div style={{display : this.state.displayTickets === "closed" ? "block" : "none"}}>{closedTickets}</div>
-                    <div style={{display : this.state.displayTickets === "pending" ? "block" : "none"}}>{pendingTickets}</div>
-                </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
