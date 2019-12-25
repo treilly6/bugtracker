@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../../../../App.css';
+import axios from 'axios';
 
 class AddTask extends React.Component {
 
@@ -15,14 +16,38 @@ class AddTask extends React.Component {
         console.log(props);
     }
 
+    addTask = async (task) => {
+        console.log("ADDTASK FUNC IN PROJCET ITEM JS");
+        console.log(task);
+        var data = {};
+
+        await axios.post(`/api/tasks/${this.props.projectId}/${this.props.folderPath}`, task)
+            .then(res => {
+                console.log("HERE RES");
+                console.log(res);
+                data.message = res.data.message;
+                if(!res.data.error) {
+                    console.log("NO ERROR SAVED THE STATE FOR THE TASK");
+                    data.addedTask = res.data.task;
+                    // this.setState({tasks : [...this.state.tasks, res.data.task]});
+                }
+            })
+            .catch(err => {
+                console.log("ERROR ADD TASK FUNC");
+                console.log(err);
+            })
+        return data
+    }
+
     submit = async (e) => {
         e.preventDefault();
         console.log(this.state.title);
         var task = {
             "title" : this.state.title,
         };
-        var message = await this.props.addTask(task);
-        this.props.setMessage(message);
+        var data = await this.addTask(task);
+        this.props.setMessage(data.message);
+        this.props.getAddedTask(data.addedTask);
         this.setState({"title":""});
     }
 
