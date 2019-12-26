@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MessageBox from '../../../MessageBox';
+import axios from 'axios';
 import '../../../App.css';
 
 class AddProject extends React.Component {
@@ -16,18 +17,32 @@ class AddProject extends React.Component {
         this.setState({ [e.target.name] : e.target.value});
     }
 
+    addProject = async (newProject) => {
+        var data = {};
+        await axios.post('/api/projects', newProject)
+            .then((res) => {
+                console.log("changeing the styate");
+                data.message = res.data.message
+                data.addedProject = res.data.addedProject
+                console.log("state changed");
+            })
+            .catch(err => console.log(err));
+        return data;
+    }
+
     submit = async (e) => {
         e.preventDefault();
         var newProject = {
             "title" : this.state.title
         };
 
-        var message = await this.props.addProject(newProject);
+        var data = await this.addProject(newProject);
         this.setState({
             "title" : "",
-            message : message,
+            message : data.message,
             submitAttempt : this.state.submitAttempt + 1,
         });
+        this.props.getAddedProject(data.addedProject);
     }
 
     toggleForm = () => {

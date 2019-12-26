@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TicketItem from './TicketItem';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import LoadingCircle from '../../../LoadingCircle/LoadingCircle';
 import axios from 'axios';
 import '../../../../App.css';
 
@@ -91,7 +92,14 @@ class Tickets extends React.Component {
 
         if(!this.state.dataFetched) {
             return (
-                <div>...Loading Tickets</div>
+                <div style={{marginBottom:"20px"}}>
+                    <div style={{display : "flex"}}>
+                        <div className={"toolbar-header " + (this.state.displayTickets === "open" ? "toolbar-selected" : "")} style={{textAlign : "center"}}>Open Tickets</div>
+                        <div className={"toolbar-header " + (this.state.displayTickets === "pending" ? "toolbar-selected" : "")} style={{textAlign : "center"}}>Pending Tickets</div>
+                        <div className={"toolbar-header " + (this.state.displayTickets === "closed" ? "toolbar-selected" : "")} style={{textAlign : "center"}}>Closed Tickets</div>
+                    </div>
+                    <LoadingCircle content="Tickets" />
+                </div>
             )
         } else {
             var openTickets = this.formatTickets(this.state.tickets.filter(ticket => !ticket.closed && !ticket.pending).sort((a,b) => {return new Date(a.date) - new Date(b.date)}), "Open");

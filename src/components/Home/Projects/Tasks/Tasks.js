@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MessageBox from '../../../../MessageBox';
 import axios from 'axios';
+import LoadingCircle from '../../../LoadingCircle/LoadingCircle';
 import '../../../../App.css';
 
 class Tasks extends React.Component {
 
     state = {
+        showTasks : "open",
         tasks : [],
         dataFetched : false,
         manager  : null,
@@ -137,7 +139,16 @@ class Tasks extends React.Component {
         console.log(this.state);
 
         if(!this.state.dataFetched) {
-            return (<div>Loading Tasks ...</div>);
+            return (
+                <div style={{marginBottom:"20px"}}>
+                    <div style={{display : "flex"}}>
+                        <div className={"toolbar-header " + (this.state.showTasks === "open" ? "toolbar-selected" : "")} style={{textAlign : "center", display : "flex", alignItems : "center"}}>Tasks</div>
+                        <div className={"toolbar-header " + (this.state.showTasks === "completed" ? "toolbar-selected" : "")} style={{textAlign : "center", display : "flex", alignItems : "center"}}>Completed Tasks</div>
+                    </div>
+                    <LoadingCircle content="Tasks" />
+                </div>
+
+            )
         } else {
 
             // var openTasks = this.formatTasks(this.props.tasks.filter(task => (this.state.openTasks.has(task._id))), "Open", this.props.manager);
@@ -150,8 +161,8 @@ class Tasks extends React.Component {
             return (
                 <div>
                     <div style={{display : "flex"}}>
-                        <div className={"toolbar-header " + (this.state.showTasks === "open" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({showTasks : "open"})}>Tasks</div>
-                        <div className={"toolbar-header " + (this.state.showTasks === "completed" ? "toolbar-selected" : "")} style={{textAlign : "center"}} onClick={() => this.setState({showTasks : "completed"})}>Completed Tasks</div>
+                        <div className={"toolbar-header " + (this.state.showTasks === "open" ? "toolbar-selected" : "")} style={{textAlign : "center", display : "flex", alignItems : "center"}} onClick={() => this.setState({showTasks : "open"})}>Tasks</div>
+                        <div className={"toolbar-header " + (this.state.showTasks === "completed" ? "toolbar-selected" : "")} style={{textAlign : "center", display : "flex", alignItems : "center"}} onClick={() => this.setState({showTasks : "completed"})}>Completed Tasks</div>
                     </div>
                     <div className="taskCont">
                         <div style={{display : this.state.showTasks === "open" ? "block" : "none"}}>

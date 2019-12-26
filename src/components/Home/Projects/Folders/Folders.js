@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FolderItem from './FolderItem.js';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import LoadingCircle from '../../../LoadingCircle/LoadingCircle';
 import axios from 'axios';
 import '../../../../App.css';
 
@@ -46,8 +47,11 @@ class Folder extends React.Component {
     render() {
 
         if(!this.state.dataFetched) {
-            return(
-                <div>...Loading Folders</div>
+            return (
+                <div style={{marginBottom:"20px"}}>
+                    <h3 style={{display : "inline-block"}}>Folders</h3>
+                    <LoadingCircle content="Folders" />
+                </div>
             )
         } else {
             var folderItems = this.state.folders.map((folder) => (

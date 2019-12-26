@@ -10,28 +10,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 class Home extends React.Component {
 
     state = {
-        projects : [],
-    }
-
-    componentDidMount() {
-        axios.get('/api/projects')
-            .then(projects => this.setState({projects : projects.data}))
-            .catch(err => console.log(err));
-        console.log("mounted api for projects");
-    }
-
-    addProject = async (newProject) => {
-        var msg;
-        await axios.post('/api/projects', newProject)
-            .then((res) => {
-                console.log("changeing the styate");
-                msg = res.data.message
-                this.setState({projects : [...this.state.projects, res.data.project]});
-                console.log("state changed");
-            })
-            .catch(err => console.log(err));
-        console.log("HERE THE MSG FROM ADD PROJ ", msg);
-        return msg;
+        addedProjectData : null,
     }
 
     deleteProject = (projectID) => {
@@ -61,6 +40,10 @@ class Home extends React.Component {
         console.log("END");
     }
 
+    getAddedProject = (addedProject) => {
+        this.setState({addedProjectData : addedProject});
+    }
+
 
 
     render() {
@@ -74,8 +57,8 @@ class Home extends React.Component {
             <div>
                 <h1 style={{fontSize:"1.5em", textAlign : "center", margin:"15px 0px"}}>Projects</h1>
                 {message}
-                <AddProject addProject = {this.addProject} />
-                <Projects projects = {this.state.projects} deleteProject={this.deleteProject} />
+                <AddProject getAddedProject = {this.getAddedProject.bind(this)} />
+                <Projects addedProjectData={this.state.addedProjectData} deleteProject={this.deleteProject} />
             </div>
         )
     }

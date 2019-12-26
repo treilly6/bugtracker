@@ -138,7 +138,7 @@ router.post('/', (req, res) => {
             console.log(err);
             res.json({message : "Error : Server Error"});
         } else {
-            res.json({project:newProject, message : `Success : ${newProject.title} created`});
+            res.json({addedProject:newProject, message : `Success : ${newProject.title} created`});
         }
     })
 });
