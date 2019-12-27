@@ -45,14 +45,10 @@ class AddProject extends React.Component {
         this.props.getAddedProject(data.addedProject);
     }
 
-    toggleForm = () => {
-        this.setState({showForm : !this.state.showForm});
-    }
-
     render() {
         return (
             <div style={{display : "inline-block", padding: "0px 5px"}}>
-                <div className={this.state.showForm ? "toolbar-selected" : ""} style={{display:"inline-block", cursor : "pointer", border : "1px solid #d5d8dd", padding : "10px", borderRadius:"5px"}} onClick={this.toggleForm}>Add Project</div>
+                <div className={this.state.showForm ? "toolbar-selected" : ""} style={{display:"inline-block", cursor : "pointer", border : "1px solid #d5d8dd", padding : "10px", borderRadius:"5px"}}>Add Project</div>
                 <MessageBox key={this.state.submitAttempt} message={this.state.message} />
                 <div className="itemBorder" style={{display : this.state.showForm ? "block" : "none", padding : "10px"}}>
                     <form onSubmit={this.submit}>
@@ -60,7 +56,6 @@ class AddProject extends React.Component {
                             <input className="formInput" type="text" name="title" value={this.state.title} onChange={this.changeInput} />
                             <button className="plusButton" type="submit">+</button>
                         </div>
-
                     </form>
                 </div>
             </div>

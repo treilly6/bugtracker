@@ -183,6 +183,11 @@ body {
 
 .homeCard {
     width : 100%;
+    margin-bottom: 15px;
+}
+
+.homeCardText {
+    font-size : 1.25em;
 }
 
 .homeItem {
@@ -207,7 +212,7 @@ body {
 }
 
 .mobileNavMenu {
-    background-color : #000033;
+    background-color : #333;
     width : 220px;
     z-index : 1;
 }
@@ -241,6 +246,10 @@ body {
         width : 33%;
     }
 
+    .homeCardText {
+        font-size: 1.5em;
+    }
+
     .homeItem {
         margin : 5px;
     }
@@ -255,6 +264,10 @@ body {
 
     .mobileNavBar {
         display: none;
+    }
+
+    .mainPhoto {
+        width : 100%;
     }
 
 }

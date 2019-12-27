@@ -13,6 +13,7 @@ class Tasks extends React.Component {
         dataFetched : false,
         manager  : null,
         markedTasks : new Set([]),
+        displayTasks : true,
     }
 
     constructor(props){
@@ -132,6 +133,10 @@ class Tasks extends React.Component {
         return taskItems;
     }
 
+    toggleTasks = () => {
+        this.setState({displayTasks : !this.state.displayTasks});
+    }
+
 
     render() {
         console.log("RENDERING THE TASKS");
@@ -154,24 +159,40 @@ class Tasks extends React.Component {
             // var openTasks = this.formatTasks(this.props.tasks.filter(task => (this.state.openTasks.has(task._id))), "Open", this.props.manager);
             // var completedTasks = this.formatTasks(this.props.tasks.filter(task => (this.state.closedTasks.has(task._id))), "Completed", this.props.manager);
 
-            var openTasks = this.formatTasks(this.state.tasks.filter(task => (!task.completed)), "Open", this.props.manager);
-            var completedTasks = this.formatTasks(this.state.tasks.filter(task => (task.completed)), "Completed", this.props.manager);
+            var ot = this.state.tasks.filter(task => (!task.completed));
+            var ct = this.state.tasks.filter(task => (task.completed));
 
+            var openTasks = this.formatTasks(ot, "Open", this.props.manager);
+            var completedTasks = this.formatTasks(ct, "Completed", this.props.manager);
+
+            var toggleContent = (this.state.displayTasks ? "Hide" : "Show");
+
+            var taskCount = {
+                    open : ot.length,
+                    completed : ct.length,
+            };
+
+            var shownTasks = this.state.showTasks;
+
+            var spanDisplay = ((shownTasks === "open" || shownTasks === "completed") && taskCount[shownTasks] > 0 ? "flex" : "none");
 
             return (
                 <div>
                     <div style={{display : "flex"}}>
                         <div className={"toolbar-header " + (this.state.showTasks === "open" ? "toolbar-selected" : "")} style={{textAlign : "center", display : "flex", alignItems : "center"}} onClick={() => this.setState({showTasks : "open"})}>Tasks</div>
                         <div className={"toolbar-header " + (this.state.showTasks === "completed" ? "toolbar-selected" : "")} style={{textAlign : "center", display : "flex", alignItems : "center"}} onClick={() => this.setState({showTasks : "completed"})}>Completed Tasks</div>
+                        <span className="linkStyle hoverLink" style={{paddingLeft : "10px", fontSize : "15px", cursor:"pointer", display : spanDisplay, alignItems : "center"}} onClick={this.toggleTasks}>({toggleContent} Tasks)</span>
                     </div>
-                    <div className="taskCont">
+                    <div className="taskCont" style={{display : (this.state.displayTasks ? "block" : "none")}}>
                         <div style={{display : this.state.showTasks === "open" ? "block" : "none"}}>
                             <form onSubmit={this.submit}>
                                 {openTasks}
                                 <button style={{display : (this.state.markedTasks.size === 0 ? "none" : "block")}} type="submit">Mark Tasks Completed</button>
                             </form>
                         </div>
-                        <div style={{display : this.state.showTasks === "completed" ? "block" : "none"}}>{completedTasks}</div>
+                        <div style={{display : this.state.showTasks === "completed" ? "block" : "none"}}>
+                            {completedTasks}
+                        </div>
                     </div>
                 </div>
             )
