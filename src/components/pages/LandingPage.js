@@ -4,13 +4,15 @@ import projectImg1 from '../../images/projectImg.jpg';
 import projectImg2 from '../../images/projectImg2.jpg';
 import projectImg3 from '../../images/projectImg3.jpg';
 import '../../App.css';
+import LandingPageTitle from './LandingPageTitle';
 
 function LandingPage() {
+
     return (
         <div>
             <div style={imgCont}>
                 <img src={stockPhoto} alt="lp-Photo" className="mainPhoto" />
-                <h1 style={imgText}>Centralized Project Management</h1>
+                <LandingPageTitle />
             </div>
             <div className="flexWrapCont" style={{justifyContent:"center", margin:"10px 0px"}}>
                 <div className="homeCard">
@@ -41,7 +43,7 @@ function LandingPage() {
                 </div>
                 <div className="homeCard">
                     <div className="homeItem itemBorder" style={{height:"100%"}}>
-                        <div style={itemHeader}><div className="homeCardText">Collaborators</div></div>
+                        <div style={itemHeader}><div className="homeCardText">Collaborate</div></div>
                         <div style={itemContent}>
                             <div>
                                 <img src={projectImg2} alt="lp-photo2" style={{width : "100%"}} />
@@ -63,12 +65,6 @@ const imgCont = {
     alignItems:"center",
     position:"relative",
     overflowX : "hidden",
-}
-
-const imgText = {
-    position : "absolute",
-    textAlign:"center",
-    fontSize : "1.75em",
 }
 
 const itemHeader = {

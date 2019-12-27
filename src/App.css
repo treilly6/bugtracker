@@ -237,6 +237,13 @@ body {
     transform: rotate(45deg) translate(-5px, -5px);
 }
 
+.titleText {
+    position : absolute;
+    text-align:center;
+    font-size : 1.75em;
+    transition : 1s;
+}
+
 @media (min-width: 768px) {
     .projectItemCont {
         width : 50%;
