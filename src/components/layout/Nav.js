@@ -36,7 +36,7 @@ class Nav extends React.Component {
                     <div className="bar3" style={mobileMenuBar}></div>
                 </div>
 
-                <div className="mobileNavMenu" style={{position:"absolute",right:"-5px", top : "98%", display:(this.state.showMobileNav ? "block" : "none")}}>
+                <div className="mobileNavMenu" style={{position:"absolute",right:"-5px", borderRadius : "0px 0px 10px 10px", top : "98%", overflowY : "hidden", transition : ".15s", height:(this.state.showMobileNav ? "145px" : "0px")}}>
                     <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/">Home</Link></div>
                     <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/projects">Projects</Link></div>
                     <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/mail"><FontAwesomeIcon icon="envelope" /></Link></div>
