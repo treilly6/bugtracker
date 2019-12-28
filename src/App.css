@@ -239,9 +239,7 @@ body {
 
 .titleText {
     position : absolute;
-    text-align:center;
-    font-size : 1.75em;
-    transition : 1s;
+    text-align: center;
 }
 
 @media (min-width: 768px) {
