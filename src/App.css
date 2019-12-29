@@ -242,6 +242,10 @@ body {
     text-align: center;
 }
 
+.fade-box {
+    transition: 1s;
+}
+
 @media (min-width: 768px) {
     .projectItemCont {
         width : 50%;

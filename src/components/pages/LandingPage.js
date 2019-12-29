@@ -5,6 +5,7 @@ import projectImg2 from '../../images/projectImg2.jpg';
 import projectImg3 from '../../images/projectImg3.jpg';
 import '../../App.css';
 import LandingPageTitle from './LandingPageTitle';
+import ScrollComponent from '../Scroll/ScrollComponent';
 
 function LandingPage() {
 
@@ -15,7 +16,7 @@ function LandingPage() {
                 <LandingPageTitle />
             </div>
             <div className="flexWrapCont" style={{justifyContent:"center", margin:"10px 0px"}}>
-                <div className="homeCard">
+                <ScrollComponent class="homeCard">
                     <div className="homeItem itemBorder" style={{height:"100%"}}>
                         <div style={itemHeader}><div className="homeCardText">Projects</div></div>
                         <div style={itemContent}>
@@ -27,8 +28,9 @@ function LandingPage() {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="homeCard">
+                </ScrollComponent>
+
+                <ScrollComponent class="homeCard">
                     <div className="homeItem itemBorder" style={{height:"100%"}}>
                         <div style={itemHeader}><div className="homeCardText">Manage Teams</div></div>
                         <div style={itemContent}>
@@ -40,8 +42,9 @@ function LandingPage() {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="homeCard">
+                </ScrollComponent>
+
+                <ScrollComponent class="homeCard">
                     <div className="homeItem itemBorder" style={{height:"100%"}}>
                         <div style={itemHeader}><div className="homeCardText">Collaborate</div></div>
                         <div style={itemContent}>
@@ -53,7 +56,8 @@ function LandingPage() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </ScrollComponent>
+
             </div>
         </div>
     )
