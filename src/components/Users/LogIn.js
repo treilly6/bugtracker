@@ -15,6 +15,13 @@ class LogIn extends React.Component {
         "attempt" : 0,
     }
 
+    constructor(props) {
+        super(props);
+        if (this.props.location.state && this.props.location.state.message) {
+            this.state.message = this.props.location.state.message;
+        }
+    }
+
     changeInput = (e) => {
         this.setState({[e.target.name] : e.target.value})
     }
@@ -45,9 +52,8 @@ class LogIn extends React.Component {
 
     render() {
         var message;
-        if (this.props.location.state && this.props.location.state.message) {
-            message = <MessageBox key={this.state.attempt} message={this.props.location.state.message} />
-        } else if(this.state.message) {
+
+        if(this.state.message) {
             message = <MessageBox key={this.state.attempt} message={this.state.message} />
         }
 

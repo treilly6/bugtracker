@@ -15,30 +15,30 @@ class LandingPageTitle extends React.Component {
 
             setTimeout(() => {
                 this.setState({opacity1 : 1});
-            }, 1500);
+            }, 1250);
 
             setTimeout(() => {
                 this.setState({opacity2 : 1});
-            }, 3000);
+            }, 2500);
 
             setTimeout(() => {
                 this.setState({opacity3 : 1});
-            }, 4500);
+            }, 3750);
 
             setInterval(() => {
                 console.log("TIME VAR")
                 this.setState({opacity1 : 0, opacity2 : 0, opacity3 : 0});
                 setTimeout(() => {
                     this.setState({opacity1 : 1});
-                }, 1500);
+                }, 1250);
 
                 setTimeout(() => {
                     this.setState({opacity2 : 1});
-                }, 3000);
+                }, 2500);
 
                 setTimeout(() => {
                     this.setState({opacity3 : 1});
-                }, 4500);
+                }, 3750);
             }, 8000);
         }, 250);
     }

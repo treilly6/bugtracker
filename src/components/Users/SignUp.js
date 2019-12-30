@@ -4,6 +4,7 @@ import axios from "axios";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import MessageBox from '../../MessageBox';
 import { formContainer, formStyle, inputContainer, buttonStyle, titleStyle, inputStyle } from '../../styles/forms/formStyle';
+import '../../App.css';
 
 class SignUp extends React.Component {
 
@@ -76,7 +77,7 @@ class SignUp extends React.Component {
                         <input onChange={this.changeInput} style={inputStyle} value={this.state.password2} type="password" name="password2" />
                     </div>
                     <div style={{textAlign : "center"}}>
-                        <button style={buttonStyle}>Sign Up</button>
+                        <button className="toolbar-button">Sign Up</button>
                     </div>
                 </form>
             </div>

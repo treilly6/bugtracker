@@ -9,6 +9,7 @@ import ManagerHandler from '../../Users/Manager/ManagerHandler';
 import Toolbar from './Toolbar/Toolbar';
 import MessageBox from '../../../MessageBox';
 import BreadCrumb from '../../BreadCrumb/BreadCrumb';
+import LoadingCircle from '../../LoadingCircle/LoadingCircle';
 import axios from 'axios';
 
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
@@ -110,8 +111,11 @@ class ProjectItem extends React.Component {
 
     render() {
         if(!this.state.dataFetched) {
-            console.log("NULL RENDER");
-            return null;
+            return(
+                <div>
+                    <LoadingCircle content = "Project Data" />
+                </div>
+            )            
         // Need to actually make this error redirect thing
         } else if(this.state.errorRedirect) {
             return (
