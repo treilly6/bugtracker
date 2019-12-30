@@ -110,6 +110,7 @@ class Tasks extends React.Component {
     }
 
     formatTasks = (tasks, taskType, manager) => {
+        var empty = false;
         var taskItems = tasks.map(task => {
             var item;
             if (manager && taskType === "Open") {
@@ -127,10 +128,18 @@ class Tasks extends React.Component {
             return item;
         });
         if (taskItems.length === 0) {
+            empty = true;
             var type = (taskType === "Open" ? " " : " Completed ");
-            return <div>No{type}Tasks</div>
+            taskItems =
+            <div className="taskItem">
+                <div>No{type}Tasks</div>
+            </div>;
+
         }
-        return taskItems;
+        return {
+            tasks : taskItems,
+            empty : empty,
+        }
     }
 
     toggleTasks = () => {
@@ -162,8 +171,20 @@ class Tasks extends React.Component {
             var ot = this.state.tasks.filter(task => (!task.completed));
             var ct = this.state.tasks.filter(task => (task.completed));
 
-            var openTasks = this.formatTasks(ot, "Open", this.props.manager);
-            var completedTasks = this.formatTasks(ct, "Completed", this.props.manager);
+            var openVals = this.formatTasks(ot, "Open", this.props.manager);
+            var openTasks = openVals.tasks;
+            var openEmpty = openVals.empty;
+
+            var completedVals = this.formatTasks(ct, "Completed", this.props.manager);
+            var completedTasks = completedVals.tasks;
+
+            if(!openEmpty) {
+                openTasks =
+                <form onSubmit={this.submit}>
+                    {openTasks}
+                    <button style={{display : (this.state.markedTasks.size === 0 ? "none" : "block")}} type="submit">Mark Tasks Completed</button>
+                </form>;
+            }
 
             var toggleContent = (this.state.displayTasks ? "Hide" : "Show");
 
@@ -185,10 +206,7 @@ class Tasks extends React.Component {
                     </div>
                     <div className="taskCont" style={{display : (this.state.displayTasks ? "block" : "none")}}>
                         <div style={{display : this.state.showTasks === "open" ? "block" : "none"}}>
-                            <form onSubmit={this.submit}>
-                                {openTasks}
-                                <button style={{display : (this.state.markedTasks.size === 0 ? "none" : "block")}} type="submit">Mark Tasks Completed</button>
-                            </form>
+                            {openTasks}
                         </div>
                         <div style={{display : this.state.showTasks === "completed" ? "block" : "none"}}>
                             {completedTasks}
