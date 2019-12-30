@@ -12,6 +12,9 @@ router.post('/:ticketId', (req, res) => {
     console.log(req.params);
     console.log(req.body);
 
+    var author = req.user.username;
+    req.body.comment.author = author;
+
     try {
         var objId = new ObjectId(req.params.ticketId);
     } catch {

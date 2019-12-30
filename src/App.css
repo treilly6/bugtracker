@@ -201,9 +201,15 @@ body {
 
 .commentFlexDiv {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
     margin-bottom: 10px;
+}
+
+.postAuthorCont {
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    margin: 15px 0px;
 }
 
 .mobileNavDiv {
@@ -261,10 +267,6 @@ body {
 
     .homeItem {
         margin : 5px;
-    }
-
-    .commentFlexDiv {
-        justify-content: space-between;
     }
 
     .navBar {

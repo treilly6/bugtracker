@@ -4,6 +4,7 @@ import Comments from '../Comments/Comments';
 import AddComment from '../Comments/AddComment';
 import TicketStatus from './TicketStatus';
 import axios from 'axios';
+import CommentAuthor from '../Comments/CommentAuthor';
 import '../../../../App.css';
 
 class TicketItem extends React.Component {
@@ -81,7 +82,6 @@ class TicketItem extends React.Component {
             console.log(this.props);
             console.log("END OF THE PROPS IN RENDERING TICKERT");
             const title = this.props.title;
-            const description = "TESTING THE DESCRIPTION AREA";
             var addComments;
             if(!this.state.ticketItem.closed) {
                 addComments =
@@ -89,14 +89,28 @@ class TicketItem extends React.Component {
                     <AddComment addComment = {this.addComment}></AddComment>
                 </div>;
             }
+
+            var ticketDate = new Date(this.state.ticketItem.date);
+            var date = (ticketDate.getMonth() + 1).toString() + "/" + ticketDate.getDate().toString() + "/" + ticketDate.getFullYear().toString().substring(2);
+            var time = ticketDate.getHours().toString() + ":" + (ticketDate.getMinutes() < 10 ? "0" + ticketDate.getMinutes().toString() : ticketDate.getMinutes().toString());
+            var dt = date + " " + time;
+
             return (
                 <div style={mainCont}>
-                    <div className="itemBorder">
-                        <TicketStatus evalRequest={this.evalRequest.bind(this)} ticketItem={this.state.ticketItem} />
+                    <div className="itemBorder" style={{padding : "10px"}}>
+                        <div style={{display : "flex", alignItems : "flex-start", margin : "5px 0px"}}>
+                            <TicketStatus evalRequest={this.evalRequest.bind(this)} ticketItem={this.state.ticketItem} />
+                        </div>
+
                         <h2 style={titleStyle}>{this.state.ticketItem.title}</h2>
-                        <p>{this.state.ticketItem.description}</p>
+                        <div className="flexWrapCenter" style={{minHeight : "100px"}}>
+                            <div>{this.state.ticketItem.description}</div>
+                        </div>
+                        <div style={{display : "flex", justifyContent : "flex-end"}}>
+                            <CommentAuthor author={this.state.ticketItem.author} date={dt} />
+                        </div>
                     </div>
-                    <div>
+                    <div style={{marginTop : "10px"}}>
                         <Comments comments={this.state.ticketItem.comments}></Comments>
                     </div>
                     {addComments}

@@ -38,7 +38,7 @@ class TicketStatus extends React.Component {
         } else {
             if(this.props.ticketItem.closed) {
                 return(
-                    <div style={{marginTop: "15px"}}>
+                    <div>
                         <h6><span style={closedSpan} className="statusSpan">Closed</span> - Approved by {this.props.ticketItem.approved.user} on {this.props.ticketItem.approved.date}</h6>
                     </div>
                 )
@@ -46,7 +46,7 @@ class TicketStatus extends React.Component {
                 if(this.props.ticketItem.pending) {
                     if(this.state.manager) {
                         return (
-                            <div style={{marginTop: "15px"}}>
+                            <div>
                                 <h6><span style={openSpan} className="statusSpan">Pending Approval</span></h6>
                                 <button onClick={() => this.props.evalRequest({"command":"approve"})}>Approve Completion</button>
                                 <button onClick={() => this.props.evalRequest({"command":"reject"})}>Reject Completion</button>
@@ -54,14 +54,14 @@ class TicketStatus extends React.Component {
                         )
                     } else {
                         return (
-                            <div style={{marginTop: "15px"}}>
+                            <div>
                                 <h6><span style={openSpan} className="statusSpan">Pending Approval</span></h6>
                             </div>
                         )
                     }
                 } else {
                     return (
-                        <div style={{marginTop: "15px"}}>
+                        <div>
                             <h6><span style={openSpan} className="statusSpan">Open</span></h6>
                         </div>
                     )

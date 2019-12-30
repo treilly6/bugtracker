@@ -35,6 +35,7 @@ const TicketSchema = mongoose.Schema({
     },
     comments : [{body : String,
                 date : Date,
+                author : String,
                 completedRequest : {
                     request : Boolean,
                     approved : Boolean,

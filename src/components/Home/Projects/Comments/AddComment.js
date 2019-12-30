@@ -6,7 +6,6 @@ class AddComment extends React.Component {
 
     state = {
         "body":"",
-        "date":"9:37 AM Oct 9",
         "markCompleted" : false,
     }
 
@@ -26,7 +25,7 @@ class AddComment extends React.Component {
                 request : this.state.markCompleted,
                 approved : false,
             },
-            "date" : this.state.date,
+            "date" : new Date(),
         }
         this.props.addComment(newComment);
         this.setState({
@@ -41,11 +40,15 @@ class AddComment extends React.Component {
             <div className="itemBorder" style={divStyle}>
                 <form onSubmit={this.submit}>
                     <textarea onChange={this.changeInput} value={this.state.body} style={textAreaStyle} type="text" name="body" />
-                    <div>
-                        <label for="markCompleted">Mark completed</label>
-                        <input type="checkbox" checked={this.state.markCompleted} onChange={this.handleCheck} name="markCompleted" />
+                    <div style={buttonsContainer}>
+                        <div>
+                            <input type="checkbox" checked={this.state.markCompleted} onChange={this.handleCheck} name="markCompleted" />
+                            <label for="markCompleted">Mark Completed</label>
+                        </div>
+                        <div>
+                            <button type="submit" className="toolbar-button" style={{backgroundColor : "#33cc33"}}>Comment</button>
+                        </div>
                     </div>
-                    <button type="submit">Add Comment</button>
                 </form>
             </div>
         )
@@ -66,6 +69,14 @@ const textAreaStyle = {
     minWidth : "100%",
     maxWidth : "100%",
     height : "100px",
+    minHeight : "100px",
+}
+
+const buttonsContainer = {
+    display : "flex",
+    justifyContent : "space-between",
+    alignItems : "center",
+    margin : "10px 0px",
 }
 
 export default AddComment;
