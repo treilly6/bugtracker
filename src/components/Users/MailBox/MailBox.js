@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import Mail from './Mail';
+import LoadingCircle from '../../LoadingCircle/LoadingCircle';
 
 class MailBox extends React.Component {
     state = {
@@ -39,7 +40,8 @@ class MailBox extends React.Component {
         } else {
             return(
                 <div>
-                    <h4>Loading ...</h4>
+                    <h1 style={{fontSize: "1.5em", margin: "15px 0px", textAlign: "center",}}>Mailbox</h1>
+                    <LoadingCircle content="Mail" />
                 </div>
             )
         }
