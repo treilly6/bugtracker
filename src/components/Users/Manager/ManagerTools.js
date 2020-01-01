@@ -1,5 +1,6 @@
 import React from 'react';
 import InviteContributors from './InviteContributors';
+import AssignManager from './AssignManager';
 
 
 class ManagerTools extends React.Component {

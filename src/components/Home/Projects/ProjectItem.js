@@ -10,6 +10,7 @@ import Toolbar from './Toolbar/Toolbar';
 import MessageBox from '../../../MessageBox';
 import BreadCrumb from '../../BreadCrumb/BreadCrumb';
 import LoadingCircle from '../../LoadingCircle/LoadingCircle';
+import AssignManager from '../../Users/Manager/AssignManager';
 import axios from 'axios';
 
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
@@ -115,7 +116,7 @@ class ProjectItem extends React.Component {
                 <div>
                     <LoadingCircle content = "Project Data" />
                 </div>
-            )            
+            )
         // Need to actually make this error redirect thing
         } else if(this.state.errorRedirect) {
             return (
@@ -133,6 +134,7 @@ class ProjectItem extends React.Component {
                 <div>
                     <BreadCrumb match={this.props.match} projectItem={{title : this.state.projectItem.title, id : this.state.projectItem._id}}/>
                     <MessageBox key={this.state.messageNum} message={this.state.message} />
+                    <AssignManager projectId={this.state.projectItem._id} folderPath={this.state.folderPath} manager={this.state.manager} setMessage={this.setMessage.bind(this)} />
                     <div className="toolbar-div">
                         <Toolbar projectItem={this.state.projectItem} folderPath={this.state.folderPath} manager={this.state.manager} getAddedTask={this.getAddedTask.bind(this)} getAddedFolder={this.getAddedFolder.bind(this)} getAddedTicket={this.getAddedTicket.bind(this)} setMessage={this.setMessage.bind(this)} />
                     </div>

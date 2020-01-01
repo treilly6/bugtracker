@@ -8,7 +8,9 @@ class Footer extends React.Component {
     render() {
         return(
             <footer style = {footerStyle}>
-                <div>Here is some stuff in the footer</div>
+                <div style={footerCont}>
+                    <div>Created by Tom Reilly</div>
+                </div>
             </footer>
         )
     }
@@ -19,9 +21,13 @@ const footerStyle = {
     color : "#fff",
     padding : "0px 15px",
     height : "100px",
-    textAlign : "center",
-    display : "flex",
-    justifyContent : "space-between",
+}
+
+const footerCont = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
 }
 
 

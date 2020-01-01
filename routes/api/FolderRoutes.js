@@ -74,4 +74,43 @@ router.post('/:projectId/:folderPath*', (req,res) => {
         });
 })
 
+router.put('/:projectId/:folderPath*', async (req,res) => {
+    // USED TO ADD MANAGERS TO FOLDER PATH
+    console.log("IN THE PUT FOLDER REQ");
+    console.log(req.body);
+    console.log(req.params);
+    const user = req.body.user;
+    const folderPath = (req.params.folderPath == 'undefined' ? '' : req.params.folderPath + req.params["0"]);
+    console.log("FOLDER PATH AFTER TERNERY");
+    console.log(folderPath);
+
+    var objId = new ObjectId(req.params.projectId);
+    var message = {message : ''}
+
+    message.message = await Folder.findOne({project_id : objId, path : folderPath})
+        .then(folder => {
+            console.log("HERE FOLDER RESULT");
+            folder.managers = [...folder.managers, user];
+            return folder.save()
+                .then(savedFolder => {
+                    console.log("HERE THE SAVED FOLDER");
+                    console.log(savedFolder);
+                    return (`Success : Invited ${user} to be a manager`);
+                })
+                .catch(err => {
+                    console.log("ERROR ON SAVE PUT FOLDER");
+                    console.log(err);
+                    return (`Error : Failed to invite ${user} to be a manager`);
+                })
+        })
+        .catch(err => {
+            console.log("THERE AN ERROR");
+            console.log(err);
+        });
+
+    console.log("ABOUT TO RETURN");
+    console.log(message);
+    return res.json(message);
+})
+
 module.exports = router;
