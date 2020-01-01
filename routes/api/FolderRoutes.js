@@ -5,6 +5,7 @@ const router = express.Router();
 
 let Ticket = require('../../models/Ticket');
 let Folder = require('../../models/Folder');
+let Project = require('../../models/Project');
 
 router.get('/:projectId/:folderPath*', (req,res) => {
     console.log("HERE IS THE GET REQUEST FOR THE FOLDERS");
@@ -86,27 +87,52 @@ router.put('/:projectId/:folderPath*', async (req,res) => {
 
     var objId = new ObjectId(req.params.projectId);
     var message = {message : ''}
+    var valid;
 
-    message.message = await Folder.findOne({project_id : objId, path : folderPath})
-        .then(folder => {
-            console.log("HERE FOLDER RESULT");
-            folder.managers = [...folder.managers, user];
-            return folder.save()
-                .then(savedFolder => {
-                    console.log("HERE THE SAVED FOLDER");
-                    console.log(savedFolder);
-                    return (`Success : Invited ${user} to be a manager`);
-                })
-                .catch(err => {
-                    console.log("ERROR ON SAVE PUT FOLDER");
-                    console.log(err);
-                    return (`Error : Failed to invite ${user} to be a manager`);
-                })
+    // CHECK TO SEE IF THE USER IS A COLLABORATOR ON THE PROJECT
+    await Project.findOne({"_id" : objId})
+        .then(project => {
+            console.log("HERE THE PROJECT");
+            console.log(project);
+            if(project.contributors.includes(user)) {
+                console.log("THE USER IS A COLLABORATOR");
+                valid = true;
+            } else {
+                console.log("NOT A CONTIRUBSDFJG");
+                valid = false;
+            }
         })
         .catch(err => {
-            console.log("THERE AN ERROR");
             console.log(err);
         });
+
+
+    console.log("HERE VALID AFTER PROJECT CHECK ", valid);
+
+    if(valid){
+        message.message = await Folder.findOne({project_id : objId, path : folderPath})
+            .then(folder => {
+                console.log("HERE FOLDER RESULT");
+                folder.managers = [...folder.managers, user];
+                return folder.save()
+                    .then(savedFolder => {
+                        console.log("HERE THE SAVED FOLDER");
+                        console.log(savedFolder);
+                        return (`Success : Assigned Manager Privileges to ${user}`);
+                    })
+                    .catch(err => {
+                        console.log("ERROR ON SAVE PUT FOLDER");
+                        console.log(err);
+                        return (`Error : Failed to invite ${user} to be a manager`);
+                    })
+            })
+            .catch(err => {
+                console.log("THERE AN ERROR");
+                console.log(err);
+            });
+    } else {
+        message.message = `Error : Must invite ${user} to project before assigning Manager Privileges`;
+    }
 
     console.log("ABOUT TO RETURN");
     console.log(message);
