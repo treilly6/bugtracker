@@ -102,10 +102,6 @@ class ProjectItem extends React.Component {
         this.setState({message : message, messageNum : this.state.messageNum + 1});
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        console.log("PROJECT ITEM DID UPDATE FUNC");
-    }
-
     render() {
         if(!this.state.dataFetched) {
             return(

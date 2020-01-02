@@ -81,10 +81,19 @@ router.put('/:projectId/:folderPath*', async (req,res) => {
     console.log(req.body);
     console.log(req.params);
     const user = req.body.user;
-    const folderPath = (req.params.folderPath == 'undefined' ? '' : req.params.folderPath + req.params["0"]);
+    var folderPath = (req.params.folderPath == 'undefined' ? '' : req.params.folderPath + req.params["0"]);
     console.log("FOLDER PATH AFTER TERNERY");
     console.log(folderPath);
 
+    var splitPath = folderPath.split("/");
+    var folderTitle = splitPath.pop();
+    if(splitPath.length === 1) {
+        folderPath = splitPath[0];
+    } else {
+        folderPath = splitPath.join("/");
+    }
+
+    console.log("HERE IS THE FOLDER PATH ", folderPath);
     var objId = new ObjectId(req.params.projectId);
     var message = {message : ''}
     var valid;

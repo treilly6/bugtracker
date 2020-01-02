@@ -3,6 +3,7 @@ const router = express.Router();
 var ObjectId = require('mongodb').ObjectId;
 
 let Project = require('../../models/Project');
+let Folder = require('../../models/Folder');
 
 router.post('/', (req, res) => {
     console.log("Auth ROUTE CHECK");
@@ -39,6 +40,8 @@ router.get('/manager/:projectId/:folderPath*', async (req,res) => {
     console.log("IN THE MANAGER ROUTE");
     console.log(req.params);
 
+    var user = req.user.username;
+
     // below would be used for the nested heirarchy
     var folderPath = req.params.folderPath === 'undefined' ? '' : req.params.folderPath + req.params["0"];
     console.log("HERE THE FOLDER PATH ", folderPath);
@@ -68,17 +71,58 @@ router.get('/manager/:projectId/:folderPath*', async (req,res) => {
         }
     });
 
-    var queryPath = '';
-    console.log("IMPORTANT VALIDATION STUFF AUTH ROUTE NAH MEAN PLAYA");
-    if(folderPath !== '') {
-        console.log("NOT JUST A PROJECT ITEM");
-        const splitPaths = folderPath.split("/");
-        for (let title of splitPaths) {
-            console.log(title);
-            console.log(`Query for path of ${queryPath} and folder title of ${title}`);
-            queryPath = queryPath + title + "/";
+
+    console.log("STILL NO MANAGER ABOUT TO STATE THE LOOP MAN ", manager);
+
+    if(!manager) {
+        var queryPath = '';
+        console.log("IMPORTANT VALIDATION STUFF AUTH ROUTE NAH MEAN PLAYA");
+        if(folderPath !== '') {
+            console.log("NOT JUST A PROJECT ITEM");
+            const splitPaths = folderPath.split("/");
+            console.log(splitPaths);
+
+            (async () => {
+                console.log("HERE IN THE ASYNC ARROW FUNC");
+                for (let title of splitPaths) {
+                    console.log("START OF THE LOOP ", manager);
+                    console.log(title);
+                    if(manager){
+                        console.log("BREAKING OUT OF THE LOOP");
+                        break;
+                    }
+                    console.log(`Query for path of ${queryPath} and folder title of ${title}`);
+                    await Folder.findOne({project_id : projId, path : queryPath, title : title})
+                        .then(folder => {
+                            console.log("HERE THE FOLDER RES");
+                            console.log(folder);
+                            if(folder.managers.includes(user)) {
+                                console.log("IS A MANAGER MAN");
+                                manager = true;
+                            }
+                        })
+                        .catch(err => {
+                            console.log("HERER THE ERROR FOR THIS SHOIT");
+                            console.log(err);
+                        })
+                    queryPath = (queryPath === '' ? queryPath + title : queryPath + "/" + title);
+                }
+
+                if(manager) {
+                    console.log("RETURN TRU MANA");
+                    res.json({manager : true});
+                } else {
+                    console.log("RETURN NO MANAGER");
+                    res.json({manager : false});
+                }
+
+            })();
+        } else {
+            console.log("NO FOLDER PATH RETURN NO MANAGER");
+            res.json({manager : false});
         }
     }
+
 });
 
 router.get('/contributor/:projectId', (req,res) => {

@@ -5,7 +5,7 @@ class AssignManager extends React.Component {
     state = {
         managerUser : '',
         manager : false,
-        showForm : true,
+        showForm : false,
     }
 
     constructor(props){
