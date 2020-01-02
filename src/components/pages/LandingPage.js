@@ -24,7 +24,7 @@ function LandingPage() {
                                 <img src={projectImg1} alt="lp-photo1" style={{width : "100%"}} />
                             </div>
                             <div style={{fontSize : "1.2em"}}>
-                                Create projects to gain access to features such as tracking errors, discussing solutions, and settting goals
+                                Create projects to gain access to features such as tracking errors, discussing solutions, and setting goals
                             </div>
                         </div>
                     </div>

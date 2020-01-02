@@ -6,13 +6,14 @@ import '../../../App.css';
 class InviteContributors extends React.Component {
     state = {
         inviteUser : '',
+        tool : null,
     }
 
     constructor(props){
         super(props);
         console.log("INVITE CONTIB PROPS");
         console.log(props);
-        this.setState({tool : this.props.tool});
+        this.state.tool = this.props.tool;
     }
 
     toggleForm = (e) => {

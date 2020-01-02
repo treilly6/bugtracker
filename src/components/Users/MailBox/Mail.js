@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import MailItem from './MailItem';
 import axios from 'axios';
 import '../../../App.css';
 
@@ -28,6 +29,7 @@ class Mail extends React.Component {
             })
             .catch(err => console.log(err));
     }
+
 
     render() {
         var mailItems = this.props.mail.map((mail) => {
@@ -58,12 +60,12 @@ class Mail extends React.Component {
             }
             return (
                 <div className="mailItemDiv">
-                    <div style={{display : "flex", justifyContent : "space-between", flexWrap : "wrap"}}>
-                        <div>{mail.title}</div>
-                        <div><span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span></div>
-                    </div>
-                    <p>{mail.body}</p>
-                    {metaDiv}
+                    <Link to={`/mail/${mail._id}`}>
+                        <div style={{display : "flex", justifyContent : "space-between", flexWrap : "wrap"}} onClick={this.handleMailHeight}>
+                            <div>{mail.title}</div>
+                            <div><span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span></div>
+                        </div>
+                    </Link>
                 </div>
             )
         });
