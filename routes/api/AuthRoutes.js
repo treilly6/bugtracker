@@ -35,13 +35,13 @@ router.post('/', (req, res) => {
 
 // Eventually want to add the manager validation to have features of nested hierarchy
 // i.e --> managers have manager priveledges to a specific project path and all child descendants of that path
-router.get('/manager/:projectId', async (req,res) => {
+router.get('/manager/:projectId/:folderPath*', async (req,res) => {
     console.log("IN THE MANAGER ROUTE");
     console.log(req.params);
 
     // below would be used for the nested heirarchy
-    // var folderPath = req.params.folderPath === 'undefined' ? '' : req.params.folderPath + req.params["0"];
-    // console.log("HERE THE FOLDER PATH ", folderPath);
+    var folderPath = req.params.folderPath === 'undefined' ? '' : req.params.folderPath + req.params["0"];
+    console.log("HERE THE FOLDER PATH ", folderPath);
 
     try {
         var projId = new ObjectId(req.params.projectId)
@@ -49,6 +49,7 @@ router.get('/manager/:projectId', async (req,res) => {
         return res.json({"message" : "Error : Project Id does not exist"});
     }
 
+    var manager = false;
     // query project managers
     await Project.findOne({"_id": projId}, (err, project) => {
         if(err) {
@@ -58,16 +59,26 @@ router.get('/manager/:projectId', async (req,res) => {
             if(project) {
                 if(project.managers.includes(req.user.username)) {
                     console.log("IS MANAGER");
-                    res.json({"manager":true})
-                } else {
-                    console.log("IS NOT MANAGER");
-                    res.json({"manager":false})
+                    res.json({"manager":true});
+                    manager = true;
                 }
             } else {
                 return res.json({"message" : "Error : This project does not exist"});
             }
         }
-    })
+    });
+
+    var queryPath = '';
+    console.log("IMPORTANT VALIDATION STUFF AUTH ROUTE NAH MEAN PLAYA");
+    if(folderPath !== '') {
+        console.log("NOT JUST A PROJECT ITEM");
+        const splitPaths = folderPath.split("/");
+        for (let title of splitPaths) {
+            console.log(title);
+            console.log(`Query for path of ${queryPath} and folder title of ${title}`);
+            queryPath = queryPath + title + "/";
+        }
+    }
 });
 
 router.get('/contributor/:projectId', (req,res) => {

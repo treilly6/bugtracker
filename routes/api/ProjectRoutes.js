@@ -37,9 +37,10 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
     var folderPath = fullPath.split("/");
     // folder title
     console.log("CURRENT ITEM NAME");
+    // get the current name of the folder
     var folderTitle = folderPath[folderPath.length - 1];
     console.log(folderTitle);
-    // Current project item path
+    // get the folder path leading up to but not including the folderTitle
     folderPath = folderPath.slice(0, folderPath.length - 1).join("/");
     console.log("HERE FOLDER PATH");
     console.log(folderPath);
@@ -58,25 +59,22 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
     }
 
     if(!valid) {
-        res.json({"message":"Error : Project Does Not Exist"});
-        return
+        return res.json({"message":"Error : Project Does Not Exist"});
     }
 
     var query = {"_id": objID};
     console.log("HERE IS THE QUERY");
     console.log(query);
     var data = {};
-    // Validate the project is valid
+    // Validate the project exists
     await Project.findOne(query, (err, project) => {
         if (err) {
             console.log(err);
             console.log("ERROR IN PROJETS");
         } else {
-            console.log("HERE THE PROJECTS");
             console.log(project);
             if (project) {
                 data.project = project;
-                // res.json(project);
             } else {
                 res.json({"message" : "Error : Project does not exist"});
             }
@@ -85,6 +83,7 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
 
     // CHECK FOR IF THE CURRENT PROJECT ITEM EXISTS (can be a project or a folder)
     if (folderTitle == 'undefined') {
+        // the current ittem is the root folder of project
         data.currentItem = data.project;
     } else {
         await Folder.findOne({"project_id" : objID, "path" : folderPath, "title" : folderTitle}, (err, projectItem) => {
@@ -94,7 +93,7 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
                 console.log("HERE THE PROJECT ITEM");
                 if (!projectItem) {
                     console.log("NO ITEM IS PRESENT HERE");
-                    res.json({"message":"Error : This path of the project does not exist"});
+                    return res.json({"message":"Error : This path of the project does not exist"});
                 } else {
                     console.log(projectItem);
                     data.currentItem = projectItem;
@@ -103,17 +102,9 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
         });
     }
 
-
-    console.log("AFTER THE PORJECT SEARCH");
-    console.log(fullPath);
-    if (fullPath == 'undefined') {
-        fullPath = '';
-    }
-
-
-    console.log("END OF THIS SHIT");
+    console.log("ABUT TO RETURN FROM PROJECT ROUTE");
     console.log(data);
-    res.json(data);
+    return res.json(data);
 });
 
 router.post('/', (req, res) => {

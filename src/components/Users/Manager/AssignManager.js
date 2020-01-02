@@ -46,8 +46,8 @@ class AssignManager extends React.Component {
         if(this.state.manager) {
             return(
                 <div style={{marginBottom : "15px"}}>
-                    <div onClick={this.toggleForm} style={{cursor : "pointer"}}>Assign Manager</div>
-                    <div className="itemBorder" style={{ display : (this.state.showForm ? "block" : "none"), width : "100%"}}>
+                    <div ><span onClick={this.toggleForm} style={{cursor : "pointer", color: "#0366d6"}}>Assign Manager</span></div>
+                    <div className="itemBorder" style={{ display : (this.state.showForm ? "block" : "none"), width : "100%", padding:"10px"}}>
                         <form onSubmit={this.submit}>
                             <div className="inputCont">
                                 <input className="formInput" type="text" name="managerUser" value={this.state.managerUser} placeholder="Enter Username" onChange={this.changeInput} />

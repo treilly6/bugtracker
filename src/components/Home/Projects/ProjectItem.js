@@ -36,14 +36,19 @@ class ProjectItem extends React.Component {
         console.log("ITEM CONSTRUCTOR projectitem.js");
         console.log(this.state);
         console.log(props);
-
         this.state.folderPath = this.props.match.params.folders;
+        console.log("HERE THE FOLDER PATH ", this.state.folderPath);
+    }
 
-        const projectId = this.props.match.params.projectID;
-        const folderPath = (this.props.match.params.folders === undefined ? undefined : this.props.match.params.folders);
-        console.log("HERE THE FOLDER PATH ", folderPath);
-
-        axios.all([axios.get(`/api/projects/${projectId}/${folderPath}`), axios.get(`/api/auth/manager/${projectId}`)])
+    // need to add here a method that retrieves the given project record and sets the
+    // state to hold all that projects folders and tickets
+    componentDidMount() {
+        console.log("MOUNTING PROPS OF THE PROJECT ITEM");
+        console.log(this.state);
+        console.log(this.props);
+        var projectId = this.props.match.params.projectID;
+        var folderPath = (this.props.match.params.folders === undefined ? undefined : this.props.match.params.folders);
+        axios.all([axios.get(`/api/projects/${projectId}/${folderPath}`), axios.get(`/api/auth/manager/${projectId}/${folderPath}`)])
             .then(axios.spread((project, manager) => {
                 console.log("AXIOS SPREAD RESULT");
                 console.log(project);
@@ -55,10 +60,10 @@ class ProjectItem extends React.Component {
                     console.log("NUH");
                     if(manager.data.manager) {
                         console.log("IS A MANAGER");
-                        this.setState({currentItem:project.data.currentItem, projectItem:project.data.project, manager:true, dataFetched:true, folderPath : folderPath});
+                        this.setState({currentItem:project.data.currentItem, projectItem:project.data.project, manager:true, dataFetched:true});
                     } else {
                         console.log("NO MANAGER");
-                        this.setState({currentItem:project.data.currentItem, projectItem:project.data.project, dataFetched:true, folderPath : folderPath})
+                        this.setState({currentItem:project.data.currentItem, projectItem:project.data.project, dataFetched:true})
                     }
                 }
             }))
@@ -66,15 +71,6 @@ class ProjectItem extends React.Component {
                 console.log("ERROR ON THE AXIOS SPREAD IN PROJECT ITEMS.JS");
                 console.log(err);
             })
-        console.log("HUH?")
-    }
-
-    // need to add here a method that retrieves the given project record and sets the
-    // state to hold all that projects folders and tickets
-    componentDidMount() {
-        console.log("MOUNTING PROPS OF THE PROJECT ITEM");
-        console.log(this.state);
-        console.log(this.props); //This stuff has the params needed to perform necessary shit. Gonna have to move to contructor
     }
 
 
