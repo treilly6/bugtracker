@@ -11,6 +11,10 @@ const MailBoxSchema = mongoose.Schema({
             title : String,
             body : String,
             date : Date,
+            read : {
+                type : Boolean,
+                default : false,
+            },
             meta : {
                 messageType : String,
                 projectId : String,
