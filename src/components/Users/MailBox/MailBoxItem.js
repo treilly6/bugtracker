@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MailToolbar from './MailToolbar';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class MailBoxItem extends React.Component {
@@ -39,8 +40,9 @@ class MailBoxItem extends React.Component {
                                     <span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span>
                                 </div>
                                 <div style={{display : (this.state.hover ? "flex" : "none")}}>
-                                    <div style={{padding : "0px 5px"}}>Delete</div>
-                                    <div style={{padding : "0px 5px"}}>Read/Unread</div>
+                                    <MailToolbar />
+                                    {/* <div style={{padding : "0px 5px"}}>Delete</div>
+                                    <div style={{padding : "0px 5px"}}>Read/Unread</div> */}
                                 </div>
                             </div>
                         </div>

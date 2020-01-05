@@ -15,12 +15,14 @@ import MailBox from './components/Users/MailBox/MailBox';
 import MailItem from './components/Users/MailBox/MailItem';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faUser, faTrashAlt, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
 
 // Style
 import './App.css';
 
 library.add(faEnvelope);
+library.add(faTrashAlt);
+library.add(faEnvelopeOpenText);
 library.add(faUser);
 
 class App extends React.Component {
