@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MailToolbar from './MailToolbar';
+import MobileMailToolbar from './MobileMailToolbar';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class MailBoxItem extends React.Component {
@@ -33,16 +34,17 @@ class MailBoxItem extends React.Component {
             <div className="mailItemDiv" style={{height : (this.state.hover ? "75px" : "")}} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
                 <div style={{width : "100%", padding : "10px"}}>
                     <Link to={`/mail/${mail._id}`} style={{textDecoration : "none", color : "#000", fontWeight : (mail.read ? "" : "bold")}}>
-                        <div style={{display : "flex", justifyContent : "space-between", flexWrap : "wrap"}} onClick={this.handleMailHeight}>
+                        <div style={{display : "flex", justifyContent : "space-between", flexWrap : "wrap", alignItems : "center"}} onClick={this.handleMailHeight}>
                             <div>{mail.title}</div>
-                            <div>
+                            <div className="dateToolCont">
                                 <div style={{display : (this.state.hover ? "none" : "block")}}>
                                     <span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span>
                                 </div>
                                 <div style={{display : (this.state.hover ? "flex" : "none")}}>
                                     <MailToolbar />
-                                    {/* <div style={{padding : "0px 5px"}}>Delete</div>
-                                    <div style={{padding : "0px 5px"}}>Read/Unread</div> */}
+                                </div>
+                                <div>
+                                    <MobileMailToolbar />
                                 </div>
                             </div>
                         </div>
