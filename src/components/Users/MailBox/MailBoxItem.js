@@ -33,9 +33,10 @@ class MailBoxItem extends React.Component {
         return (
             <div className="mailItemDiv" style={{height : (this.state.hover ? "75px" : "")}} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
                 <div style={{width : "100%", padding : "10px"}}>
-                    <Link to={`/mail/${mail._id}`} style={{textDecoration : "none", color : "#000", fontWeight : (mail.read ? "" : "bold")}}>
-                        <div style={{display : "flex", justifyContent : "space-between", flexWrap : "wrap", alignItems : "center"}} onClick={this.handleMailHeight}>
-                            <div>{mail.title}</div>
+                        <div style={{display : "flex", justifyContent : "space-between", alignItems : "center"}} onClick={this.handleMailHeight}>
+                            <Link to={`/mail/${mail._id}`} style={{textDecoration : "none", width : "100%", color : "#000", fontWeight : (mail.read ? "" : "bold")}}>
+                                <div>{mail.title}</div>
+                            </Link>
                             <div className="dateToolCont">
                                 <div style={{display : (this.state.hover ? "none" : "block")}}>
                                     <span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span>
@@ -48,7 +49,6 @@ class MailBoxItem extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </Link>
                 </div>
             </div>
         )

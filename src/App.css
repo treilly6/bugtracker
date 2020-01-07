@@ -268,12 +268,17 @@ body {
 
 .mobileMailToolbar {
     display: flex;
+    position: relative;
+    z-index: 10;
 }
 
 @media (max-width : 767px) {
     .dateToolCont {
+        padding-left: 10px;
+        width: 100%;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
+        width: 175px;
     }
 }
 

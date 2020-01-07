@@ -4,7 +4,7 @@ import '../../../App.css';
 
 class MobileMailToolbar extends React.Component {
     state = {
-
+        showMenu : false,
     }
 
     constructor(props) {
@@ -14,13 +14,22 @@ class MobileMailToolbar extends React.Component {
     componentDidMount() {
     }
 
+    handleClick = (e) => {
+        console.log("IN THE HANDLE CLICK");
+        console.log("STOPPED PROPOGATION");
+        this.setState({showMenu : !this.state.showMenu});
+    }
+
 
     render() {
 
         return (
-            <div className="mobileMailToolbar">
-                <div>...</div>
-                <div></div>
+            <div className="mobileMailToolbar" onClick={this.handleClick}>
+                <div style = {{transform : "rotate(90deg)"}}>...</div>
+                <div style={{display : (this.state.showMenu ? "block" : "none"), position : "absolute"}}>
+                    <div>Delete</div>
+                    <div>Mark Read</div>
+                </div>
             </div>
         )
     }
