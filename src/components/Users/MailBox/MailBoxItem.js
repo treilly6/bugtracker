@@ -38,6 +38,8 @@ class MailBoxItem extends React.Component {
     }
 
     render() {
+        console.log("MAILBOX ITEM RENDER");
+        console.log(this.state);
         if(this.state.mailItem === null) {
             return null;
         } else {
@@ -59,10 +61,10 @@ class MailBoxItem extends React.Component {
                                         <span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span>
                                     </div>
                                     <div style={{display : (this.state.hover ? "flex" : "none")}}>
-                                        <MailToolbar deleteMail={() => this.deleteMail.bind(this)} markMail={() => this.markMail.bind(this)}/>
+                                        <MailToolbar deleteMail={this.deleteMail.bind(this)} markMail={this.markMail.bind(this)}/>
                                     </div>
                                     <div>
-                                        <MobileMailToolbar deleteMail={() => this.deleteMail.bind(this)} markMail={() => this.markMail.bind(this)} />
+                                        <MobileMailToolbar deleteMail={this.deleteMail.bind(this)} markMail={this.markMail.bind(this)} />
                                     </div>
                                 </div>
                             </div>

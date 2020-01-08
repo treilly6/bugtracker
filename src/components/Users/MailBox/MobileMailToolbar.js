@@ -35,7 +35,7 @@ class MobileMailToolbar extends React.Component {
 
     handleMark = () => {
         console.log("HANDLE MARK");
-        this.props.handleMark();
+        this.props.markMail();
     }
 
 

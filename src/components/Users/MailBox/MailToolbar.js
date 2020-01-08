@@ -27,16 +27,19 @@ class MailToolbar extends React.Component {
 
     handleDelete = () => {
         console.log("DELETING THSI SHIT");
+        var test = this.props.deleteMail();
         console.log("PROPS HERE");
         console.log(this.props);
-        this.props.deleteMail();
+        console.log("RESULT HERE", test);
+
     }
 
     handleMark = () => {
         console.log("HANDLE MARK");
+        var test = this.props.markMail();
         console.log("PROPS HERE");
         console.log(this.props);
-        this.props.handleMark();
+        console.log("RESULT HERE", test);
     }
 
     render() {
