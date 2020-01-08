@@ -26,7 +26,7 @@ class MobileMailToolbar extends React.Component {
         return (
             <div className="mobileMailToolbar" onClick={this.handleClick}>
                 <div style = {{transform : "rotate(90deg)"}}>...</div>
-                <div style={{display : (this.state.showMenu ? "block" : "none"), position : "absolute"}}>
+                <div className="mailToolCont" style={{display : (this.state.showMenu ? "flex" : "none")}}>
                     <div>Delete</div>
                     <div>Mark Read</div>
                 </div>

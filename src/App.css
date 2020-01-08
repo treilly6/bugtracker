@@ -270,6 +270,16 @@ body {
     display: flex;
     position: relative;
     z-index: 10;
+    width: 30px;
+}
+
+.mailToolCont {
+    display: flex;
+    position: absolute;
+    top: -20px;
+    right: 30px;
+    background-color: #fff;
+    padding: 10px 0px 10px 10px;
 }
 
 @media (max-width : 767px) {
