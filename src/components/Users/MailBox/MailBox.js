@@ -16,6 +16,11 @@ class MailBox extends React.Component {
         super(props);
         console.log("CONTRUCTOR PROPS OF MAILBOX");
         console.log(props);
+
+    }
+
+    componentDidMount() {
+        console.log("MAILBOX.js MOUNTING");
         axios.get('/api/mailBox')
             .then(res => {
                 console.log("THEN OF THE GET API THING");
@@ -23,10 +28,6 @@ class MailBox extends React.Component {
                 this.setState({mailBox : res.data.mailbox, message : res.data.message, dataFetched : true})
             })
             .catch(err => console.log(err));
-    }
-
-    componentDidMount() {
-
     }
 
     render() {

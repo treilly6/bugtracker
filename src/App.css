@@ -94,6 +94,7 @@ body {
     margin: 5px 0px;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .taskItem {
@@ -268,27 +269,29 @@ body {
 
 .mobileMailToolbar {
     display: flex;
-    position: relative;
-    z-index: 10;
-    width: 30px;
+    padding-left: 10px;
 }
 
 .mailToolCont {
     display: flex;
-    position: absolute;
-    top: -20px;
-    right: 30px;
+    justify-content: space-around;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 100%;
     background-color: #fff;
-    padding: 10px 0px 10px 10px;
+    position: absolute;
+    top: 0;
+    right : 0;
+    width: 0%;
+    transition: .25s;
 }
 
 @media (max-width : 767px) {
     .dateToolCont {
         padding-left: 10px;
-        width: 100%;
         display: flex;
         justify-content: space-between;
-        width: 175px;
     }
 }
 

@@ -25,6 +25,20 @@ class MailToolbar extends React.Component {
         }
     }
 
+    handleDelete = () => {
+        console.log("DELETING THSI SHIT");
+        console.log("PROPS HERE");
+        console.log(this.props);
+        this.props.deleteMail();
+    }
+
+    handleMark = () => {
+        console.log("HANDLE MARK");
+        console.log("PROPS HERE");
+        console.log(this.props);
+        this.props.handleMark();
+    }
+
     render() {
 
         var trashDiv = (this.state.trashHover ? {backgroundColor : "#f2f2f2", color : "#000"} : {backgroundColor : "#fff", color : "#333"});
@@ -33,8 +47,8 @@ class MailToolbar extends React.Component {
 
         return (
             <div className="mailToolbar" style={{justifyContent : "space-around", width : "90px"}}>
-                <div className="iconContainer" style={trashDiv} onMouseEnter={() => this.handleHover("trash")} onMouseLeave={() => this.handleHover("trash")}><FontAwesomeIcon icon="trash-alt" /></div>
-                <div className="iconContainer" style={envelopeDiv} onMouseEnter={() => this.handleHover("envelope")} onMouseLeave={() => this.handleHover("envelope")}><FontAwesomeIcon icon="envelope" /></div>
+                <div className="iconContainer" style={trashDiv} onMouseEnter={() => this.handleHover("trash")} onMouseLeave={() => this.handleHover("trash")} onClick={this.handleDelete}><FontAwesomeIcon icon="trash-alt" /></div>
+                <div className="iconContainer" style={envelopeDiv} onMouseEnter={() => this.handleHover("envelope")} onMouseLeave={() => this.handleHover("envelope")} onClick={this.handleMark}><FontAwesomeIcon icon="envelope" /></div>
             </div>
         )
     }
