@@ -48,10 +48,12 @@ class MailToolbar extends React.Component {
         var envelopeDiv = (this.state.envelopeHover ? {backgroundColor : "#f2f2f2", color : "#000"} : {backgroundColor : "#fff", color : "#333"});
 
 
+        var mailIcon = (this.props.mailRead ? <FontAwesomeIcon icon="envelope" /> : <FontAwesomeIcon icon="envelope-open-text" />);
+
         return (
             <div className="mailToolbar" style={{justifyContent : "space-around", width : "90px"}}>
                 <div className="iconContainer" style={trashDiv} onMouseEnter={() => this.handleHover("trash")} onMouseLeave={() => this.handleHover("trash")} onClick={this.handleDelete}><FontAwesomeIcon icon="trash-alt" /></div>
-                <div className="iconContainer" style={envelopeDiv} onMouseEnter={() => this.handleHover("envelope")} onMouseLeave={() => this.handleHover("envelope")} onClick={this.handleMark}><FontAwesomeIcon icon="envelope" /></div>
+                <div className="iconContainer" style={envelopeDiv} onMouseEnter={() => this.handleHover("envelope")} onMouseLeave={() => this.handleHover("envelope")} onClick={this.handleMark}>{mailIcon}</div>
             </div>
         )
     }

@@ -28,6 +28,7 @@ class MobileMailToolbar extends React.Component {
     handleMark = () => {
         console.log("HANDLE MARK");
         this.props.markMail(this.props.mailId);
+        this.setState({showMenu : false});
     }
 
 
@@ -44,11 +45,13 @@ class MobileMailToolbar extends React.Component {
             divStyle.marginRight = "20px";
         }
 
+        var readStatus = (this.props.mailRead ? <span>Mark Unread</span> : <span>Mark Read</span>);
+
         return (
             <div className="mobileMailToolbar">
                 <div className="mailToolCont" style={{width : (this.state.showMenu ? "100%" : "0%"), padding : (this.state.showMenu ? "0px 10px" : "0px"), marginRight : (this.state.showMenu ? "0px" : "30px")}}>
                     <div style={{color : "#ff0000"}} onClick={this.handleDelete}>Delete</div>
-                    <div style={{color : "#4d79ff"}} onClick={this.handleMark}>Mark Read</div>
+                    <div style={{color : "#4d79ff"}} onClick={this.handleMark}>{readStatus}</div>
                 </div>
                 <div onClick={this.handleClick} style={{zIndex : "1"}}>
                     <div style = {{transform : "rotate(90deg)", display : (this.state.showMenu ? "none" : "block")}}>...</div>

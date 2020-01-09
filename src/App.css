@@ -285,6 +285,7 @@ body {
     right : 0;
     width: 0%;
     transition: .25s;
+    border-radius: 5px;
 }
 
 @media (max-width : 767px) {

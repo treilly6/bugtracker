@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MailToolbar from './MailToolbar';
 import MobileMailToolbar from './MobileMailToolbar';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import axios from 'axios';
 
 class MailBoxItem extends React.Component {
     state = {
@@ -35,11 +36,35 @@ class MailBoxItem extends React.Component {
 
     deleteMail = (mailId) => {
         console.log("REMOVING THE MAIL ITEM", mailId);
-        this.setState({mailItem : null});
+        axios.delete(`/api/mailBox/${mailId}`)
+            .then(res => {
+                console.log("HERE RES");
+                console.log(res);
+                if(res.data.deleted == true) {
+                    this.setState({mailItem : null});
+                }                
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     markMail = (mailId) => {
         console.log("MARKING THE MAIL", mailId);
+        var updatedMail = Object.assign({}, this.state.mailItem);
+        updatedMail.read = !updatedMail.read;
+        this.setState({mailItem : updatedMail});
+        axios.put(`/api/mailBox/${mailId}`)
+            .then(res => {
+                console.log("HERE IS THE RESULT");
+                console.log(res);
+                var mailCopy = Object.assign({}, this.state.mailItem);
+                mailCopy.read = res.data.read;
+                this.setState({mailItem : mailCopy});
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     render() {
@@ -55,7 +80,7 @@ class MailBoxItem extends React.Component {
             var time = mailDate.getHours().toString() + ":" + (mailDate.getMinutes() < 10 ? "0" + mailDate.getMinutes().toString() : mailDate.getMinutes().toString());
 
             return (
-                <div className="mailItemDiv" style={{border : (this.state.hover ? "75px" : "")}} onMouseEnter={() => this.handleHover("enter")} onMouseLeave={() => this.handleHover("leave")}>
+                <div className="mailItemDiv" style={{height : (this.state.hover ? "75px" : "")}} onMouseEnter={() => this.handleHover("enter")} onMouseLeave={() => this.handleHover("leave")}>
                     <div style={{width : "100%", padding : "10px"}}>
                             <div style={{display : "flex", justifyContent : "space-between", alignItems : "center"}} onClick={this.handleMailHeight}>
                                 <Link to={`/mail/${mail._id}`} style={{textDecoration : "none", width : "100%", color : "#000", fontWeight : (mail.read ? "" : "bold")}}>
@@ -66,10 +91,10 @@ class MailBoxItem extends React.Component {
                                         <span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span>
                                     </div>
                                     <div style={{display : (this.state.hover ? "flex" : "none")}}>
-                                        <MailToolbar mailId={mail._id} deleteMail={this.deleteMail.bind(this)} markMail={this.markMail.bind(this)}/>
+                                        <MailToolbar mailId={mail._id} mailRead={mail.read} deleteMail={this.deleteMail.bind(this)} markMail={this.markMail.bind(this)}/>
                                     </div>
                                     <div>
-                                        <MobileMailToolbar mailId={mail._id} deleteMail={this.deleteMail.bind(this)} markMail={this.markMail.bind(this)} />
+                                        <MobileMailToolbar mailId={mail._id} mailRead={mail.read} deleteMail={this.deleteMail.bind(this)} markMail={this.markMail.bind(this)} />
                                     </div>
                                 </div>
                             </div>
