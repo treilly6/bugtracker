@@ -20,22 +20,14 @@ class MobileMailToolbar extends React.Component {
         this.setState({showMenu : !this.state.showMenu});
     }
 
-    // deleteMail = () => {
-    //     console.log("DELETE THE MAIL");
-    // }
-    //
-    // markMail = () => {
-    //     console.log("MARK MAIL");
-    // }
-
     handleDelete = () => {
         console.log("DELETING THSI SHIT");
-        this.props.deleteMail();
+        this.props.deleteMail(this.props.mailId);
     }
 
     handleMark = () => {
         console.log("HANDLE MARK");
-        this.props.markMail();
+        this.props.markMail(this.props.mailId);
     }
 
 

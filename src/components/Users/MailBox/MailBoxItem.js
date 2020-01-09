@@ -19,22 +19,27 @@ class MailBoxItem extends React.Component {
 
     }
 
-    handleHover = () => {
+    handleHover = (eventType) => {
         console.log("HANDLING THE HOVER HEERE THE STATE");
+        console.log(eventType);
         if(window.matchMedia('(min-width: 768px)').matches) {
             console.log(this.state);
             console.log("CHAGING STATE");
-            this.setState({hover : !this.state.hover});
+            if(eventType === "enter" && this.state.hover === false) {
+                this.setState({hover : true});
+            } else if(eventType === "leave" && this.state.hover === true) {
+                this.setState({hover : false});
+            }
         }
     }
 
-    deleteMail = () => {
-        console.log("REMOVING THE MAIL ITEM");
+    deleteMail = (mailId) => {
+        console.log("REMOVING THE MAIL ITEM", mailId);
         this.setState({mailItem : null});
     }
 
-    markMail = () => {
-        console.log("MARKING THE MAIL");
+    markMail = (mailId) => {
+        console.log("MARKING THE MAIL", mailId);
     }
 
     render() {
@@ -50,7 +55,7 @@ class MailBoxItem extends React.Component {
             var time = mailDate.getHours().toString() + ":" + (mailDate.getMinutes() < 10 ? "0" + mailDate.getMinutes().toString() : mailDate.getMinutes().toString());
 
             return (
-                <div className="mailItemDiv" style={{height : (this.state.hover ? "75px" : "")}} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
+                <div className="mailItemDiv" style={{border : (this.state.hover ? "75px" : "")}} onMouseEnter={() => this.handleHover("enter")} onMouseLeave={() => this.handleHover("leave")}>
                     <div style={{width : "100%", padding : "10px"}}>
                             <div style={{display : "flex", justifyContent : "space-between", alignItems : "center"}} onClick={this.handleMailHeight}>
                                 <Link to={`/mail/${mail._id}`} style={{textDecoration : "none", width : "100%", color : "#000", fontWeight : (mail.read ? "" : "bold")}}>
@@ -61,10 +66,10 @@ class MailBoxItem extends React.Component {
                                         <span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span>
                                     </div>
                                     <div style={{display : (this.state.hover ? "flex" : "none")}}>
-                                        <MailToolbar deleteMail={this.deleteMail.bind(this)} markMail={this.markMail.bind(this)}/>
+                                        <MailToolbar mailId={mail._id} deleteMail={this.deleteMail.bind(this)} markMail={this.markMail.bind(this)}/>
                                     </div>
                                     <div>
-                                        <MobileMailToolbar deleteMail={this.deleteMail.bind(this)} markMail={this.markMail.bind(this)} />
+                                        <MobileMailToolbar mailId={mail._id} deleteMail={this.deleteMail.bind(this)} markMail={this.markMail.bind(this)} />
                                     </div>
                                 </div>
                             </div>
