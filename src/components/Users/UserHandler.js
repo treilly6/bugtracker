@@ -19,6 +19,14 @@ class UserHandler extends React.Component {
         super(props);
         console.log("CONTSTRUCTOR OF THE USER HANDLER PAGE");
         console.log(props);
+    }
+
+    clearState() {
+        this.setState({authenticated : false, user : '', dataFetched : false});
+    }
+
+    componentDidMount() {
+        console.log("MOUNT OF THE USER HANDLER");
         axios.post('/api/auth')
             .then(res => {
                 console.log("AXIOS RESULT USER HANDLER");
@@ -34,23 +42,14 @@ class UserHandler extends React.Component {
             .catch(err => console.log(err))
     }
 
-    clearState() {
-        this.setState({authenticated : false, user : '', dataFetched : false});
-    }
-
-    componentDidMount() {
-        console.log("MOUNT OF THE USER HANDLER");
-    }
-
     render() {
-        // Add some kind of logic here that will change what the output is based on whether the user is loged in or not
         if(!this.state.dataFetched) {
             return null;
         } else {
             var userBox;
             if(this.state.authenticated == true) {
                 userBox =
-                    <div style={userDiv}>
+                    <div className="userLogOut" style={userDiv}>
                         <h3 style={{paddingRight: "5px"}}><FontAwesomeIcon icon="user" /><span>{this.state.user}</span></h3>
                         <div>
                             <LogOut setParentState={this.clearState.bind(this)}></LogOut>
@@ -66,19 +65,18 @@ class UserHandler extends React.Component {
             }
 
             return (
-                <React.Fragment>
+                <div className="userNavCont">
                     <div style={{marginTop : "5px"}}>
                         {userBox}
                     </div>
-                    <Nav userAuthenticated={this.state.authenticated}/>
-                </React.Fragment>
+                    <Nav userAuthenticated={this.state.authenticated} username={this.state.user} />
+                </div>
             )
         }
     }
 }
 
 const userDiv = {
-    display : "flex",
     justifyContent : "flex-end",
     flexWrap : "wrap-reverse",
 }
@@ -86,7 +84,6 @@ const userDiv = {
 const noPadLinkStyle = {
     textDecoration : "none",
     color : "#fff",
-    padding : "0px 10px",
 }
 
 export default UserHandler;

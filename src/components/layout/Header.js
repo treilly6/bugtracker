@@ -11,9 +11,9 @@ class Header extends React.Component {
         return(
             <header style = {headerStyle}>
                 <h1 style={brandStyle}>BugTracker</h1>
-                <div style = {navLinksDiv}>
+                <div>
                     <UserHandler></UserHandler>
-                </div>
+                </div>                
             </header>
         )
     }
@@ -27,13 +27,9 @@ const headerStyle = {
     textAlign : "center",
     display : "flex",
     justifyContent : "space-between",
+    position : "relative",
 }
 
-const navLinksDiv = {
-    display : "flex",
-    flexDirection : "column",
-    justifyContent : "space-around",
-}
 
 const brandStyle = {
     alignSelf : "center",

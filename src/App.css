@@ -222,6 +222,11 @@ body {
 .mobileNavMenu {
     background-color : #333;
     width : 220px;
+    overflow-y: hidden;
+    border-radius: 0px 0px 10px 10px;
+    transition: .15s;
+    position: absolute;
+    right: -8px;
     z-index : 1;
 }
 
@@ -231,6 +236,9 @@ body {
 
 .mobileNavBar {
     display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 .mobileMenuDown .bar1 {
@@ -288,6 +296,10 @@ body {
     border-radius: 5px;
 }
 
+.userLogOut {
+    display: none;
+}
+
 @media (max-width : 767px) {
     .dateToolCont {
         padding-left: 10px;
@@ -297,6 +309,17 @@ body {
 }
 
 @media (min-width: 768px) {
+    
+    .userNavCont {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+    }
+
+    .userLogOut {
+        display: flex;
+    }
+
     .mailToolbar {
         display: flex;
     }

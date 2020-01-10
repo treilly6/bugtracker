@@ -26,10 +26,9 @@ class LogOut extends React.Component {
 
     render() {
         return (
-            <div style={{alignSelf:"center"}}>
-                <span className="navLink hoverLink" onClick={this.click} style={{fontSize : ".65em", paddingRight : "5px"}}>Log Out</span>
-            </div>
-
+            <React.Fragment>
+                <span className="navLink hoverLink" onClick={this.click}>Log Out</span>
+            </React.Fragment>
         )
     }
 }
