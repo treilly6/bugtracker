@@ -16,8 +16,6 @@ class LogOut extends React.Component {
                 console.log(this.props);
                 console.log("ABOIVE IS THE PROPS");
                 if (res.data.redirect) {
-                    console.log("GONNA INVOKE SET PARENT STATE");
-                    this.props.setParentState({authenticated : false, user : '', dataFetched : false});
                     window.location = res.data.redirect;
                 }
             })

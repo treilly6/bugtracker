@@ -21,10 +21,6 @@ class UserHandler extends React.Component {
         console.log(props);
     }
 
-    clearState() {
-        this.setState({authenticated : false, user : '', dataFetched : false});
-    }
-
     componentDidMount() {
         console.log("MOUNT OF THE USER HANDLER");
         axios.post('/api/auth')
@@ -47,13 +43,12 @@ class UserHandler extends React.Component {
             return null;
         } else {
             var userBox;
+            var divStyle = {};
             if(this.state.authenticated == true) {
                 userBox =
                     <div className="userLogOut" style={userDiv}>
                         <h3 style={{paddingRight: "5px"}}><FontAwesomeIcon icon="user" /><span>{this.state.user}</span></h3>
-                        <div>
-                            <LogOut setParentState={this.clearState.bind(this)}></LogOut>
-                        </div>
+                        <div><LogOut></LogOut></div>
 
                     </div>;
             } else {
@@ -62,10 +57,11 @@ class UserHandler extends React.Component {
                     <Link to="/signup" className="hoverLink" style={noPadLinkStyle}><div>Sign Up</div></Link>
                     <Link to="/login" className="hoverLink" style={noPadLinkStyle}><div>Log in</div></Link>
                 </div>;
+                divStyle = noAuthStyle;
             }
 
             return (
-                <div className="userNavCont">
+                <div className={(this.state.authenticated ? "userNavCont" : "")} style={divStyle}>
                     <div style={{marginTop : "5px"}}>
                         {userBox}
                     </div>
@@ -84,6 +80,12 @@ const userDiv = {
 const noPadLinkStyle = {
     textDecoration : "none",
     color : "#fff",
+}
+
+const noAuthStyle = {
+    position: "absolute",
+    right: "10px",
+    bottom: "10px",
 }
 
 export default UserHandler;
