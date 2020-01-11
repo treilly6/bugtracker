@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
         console.log("No authenticate");
         return res.json({
             authenticated : false,
-            message : "Error : Log in to required"
+            message : "Error : Log in required"
         });
     }
     console.log("END");
@@ -42,7 +42,7 @@ router.get('/manager/:projectId/:folderPath*', async (req,res) => {
 
     var user = req.user.username;
 
-    // below would be used for the nested heirarchy
+    // below used for the nested heirarchy
     var folderPath = req.params.folderPath === 'undefined' ? '' : req.params.folderPath + req.params["0"];
     console.log("HERE THE FOLDER PATH ", folderPath);
 
@@ -134,16 +134,6 @@ router.get('/contributor/:projectId', (req,res) => {
     if (req.user === undefined) {
         return res.json({"message":"Error : User not logged in"});
     }
-
-    // This stuff below is if i want to validate the user by the ID instead of username
-    // } else {
-    //     try {
-    //         userId = new ObjectId(req.user._id);
-    //     }
-    //     catch {
-    //         return res.json({"error":"Invalid user Id"});
-    //     }
-    // }
 
     try {
         objId = new ObjectId(req.params.projectId)

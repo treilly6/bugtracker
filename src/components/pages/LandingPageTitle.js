@@ -51,12 +51,18 @@ class LandingPageTitle extends React.Component {
     render() {
         return(
             <div className="titleText">
-                <h1 style={{opacity : this.state.opacity1, transition : "1s", fontSize : "2em"}}>Centralized</h1>
-                <h1 style={{opacity : this.state.opacity2, transition : "1s", fontSize : "2em"}}>Project</h1>
-                <h1 style={{opacity : this.state.opacity3, transition : "1s", fontSize : "2em"}}>Management</h1>
+                <h1 style={{...{opacity : this.state.opacity1}, ...wordStyle}}>Centralized</h1>
+                <h1 style={{...{opacity : this.state.opacity2}, ...wordStyle}}>Project</h1>
+                <h1 style={{...{opacity : this.state.opacity3}, ...wordStyle}}>Management</h1>
             </div>
         )
     }
+}
+
+const wordStyle = {
+    transition : "1s",
+    fontSize : "2em",
+    fontFamily : "sans-serif",
 }
 
 export default LandingPageTitle;

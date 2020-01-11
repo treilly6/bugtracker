@@ -23,8 +23,7 @@ router.post('/login', (req, res, next) => {
         if (err) {
             console.log("issa an error");
             console.log(err);
-            res.json({"error" : err})
-            return
+            return res.json({"error" : err});
         }
         if (!user) {
             console.log("thers no user mane");

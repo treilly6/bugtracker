@@ -7,13 +7,17 @@ class Header extends React.Component {
 
     state = {}
 
+    homeRedirect = () => {
+        window.location = '/';
+    }
+
     render() {
         return(
             <header style = {headerStyle}>
-                <h1 style={brandStyle}>BugTracker</h1>
+                <h1 style={brandStyle} onClick={this.homeRedirect}>BugTracker</h1>
                 <div>
                     <UserHandler></UserHandler>
-                </div>                
+                </div>
             </header>
         )
     }
@@ -33,6 +37,7 @@ const headerStyle = {
 
 const brandStyle = {
     alignSelf : "center",
+    fontSize : "1.8em",
 }
 
 export default Header;

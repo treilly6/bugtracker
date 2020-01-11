@@ -35,7 +35,7 @@ class App extends React.Component {
             <Router>
                 <div className="App">
                     <Header />
-                    <div style={contentContainer}>
+                    <div className="mainContentContainer">
                         <Route exact path="/" render={props => (
                             <React.Fragment>
                                 <LandingPage />
@@ -55,11 +55,5 @@ class App extends React.Component {
     }
 }
 
-const contentContainer = {
-    maxWidth : "1500px",
-    margin : "0 auto",
-    backgroundColor: "#f1f2f4",
-    padding : "0px 15px",
-}
 
 export default App;

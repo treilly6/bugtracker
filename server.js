@@ -38,9 +38,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Connect Flash
-// app.use(flash());
-
 // Routes
 app.use('/api/tickets', Ticket);
 app.use('/api/projects', Project);
@@ -51,12 +48,6 @@ app.use('/api/auth', Auth);
 app.use('/api/singleTicket', SingleTicket);
 app.use('/api/mailBox', MailBox);
 app.use('/api/tasks', Task);
-
-app.get("/about", (req,res) => {
-    console.log("HERE WE GO");
-    console.log("SERVER ON THE BACKEND ABOIUT THIS SHEIT YALL");
-
-});
 
 // Connect to DB
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser : true }, (err) =>

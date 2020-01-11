@@ -93,11 +93,7 @@ class Tasks extends React.Component {
     }
 
     setTasks = (taskId) => {
-        console.log("HERE TEH TASK");
-        console.log(this.state.markedTasks)
-        console.log("HERE TEH ID");
-        console.log(taskId);
-        console.log(this.state.markedTasks.has(taskId));
+        // used to update the makred tasks set in the state
         if (this.state.markedTasks.has(taskId)) {
             var copySet = new Set(this.state.markedTasks);
             copySet.delete(taskId);
@@ -132,7 +128,7 @@ class Tasks extends React.Component {
             var type = (taskType === "Open" ? " " : " Completed ");
             taskItems =
             <div className="taskItem">
-                <div>No{type}Tasks</div>
+                <div style={{textAlign : "center"}}>No{type}Tasks</div>
             </div>;
 
         }

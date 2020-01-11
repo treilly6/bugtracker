@@ -2,11 +2,19 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size : 25px;
+    font-size : 21px;
+    font-family: sans-serif;
 }
 
 body {
     background-color: #f1f2f4;
+}
+
+.mainContentContainer {
+    max-width : 1500px;
+    margin : 0 auto;
+    background-color: #f1f2f4;
+    padding : 0px 7px;
 }
 
 .toolbar-button {
@@ -256,6 +264,11 @@ body {
 .titleText {
     position : absolute;
     text-align: center;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 100%;
+    padding: 20% 0;
 }
 
 .fade-box {
@@ -309,11 +322,15 @@ body {
 }
 
 @media (min-width: 768px) {
-    
+
     .userNavCont {
         position: absolute;
         right: 10px;
         bottom: 10px;
+    }
+
+    .mainContentContainer {
+        padding : 0px 15px;
     }
 
     .userLogOut {

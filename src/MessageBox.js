@@ -5,9 +5,11 @@ class MessageBox extends React.Component {
 
     // To use the MessageBox componenet in the current configuration you must pass the message
     // to the MessageBox component through a prop called 'message'
+    // Also use a key on the component so it remounts each time
 
     state = {
         showingMessage : false,
+        opacity : false,
     }
 
     constructor(props) {
@@ -19,8 +21,12 @@ class MessageBox extends React.Component {
     componentDidMount() {
         console.log("COMPONENET MOUNTEED MESSAGE BOX");
         console.log(this.props);
-        this.setState({showingMessage : true});
-        console.log("SET THE MESSAGE TO TRUE");
+        this.setState({showingMessage : true, opacity : true});
+
+        setTimeout(() => {
+            console.log("OPACITY TIMEOUT");
+            this.setState({opacity : false});
+        }, 4400);
 
         setTimeout(() => {
             this.setState({showingMessage : false});
@@ -29,7 +35,7 @@ class MessageBox extends React.Component {
 
     render() {
         if(this.state.showingMessage && this.props.message) {
-            var styles = (this.props.message.includes("Error")) ? Object.assign({}, messageBoxCont, errorBox) : Object.assign({}, messageBoxCont, successBox);
+            var styles = (this.props.message.includes("Error")) ? Object.assign({}, messageBoxCont, errorBox, {opacity : (this.state.opacity ? "1" : "0")}) : Object.assign({}, messageBoxCont, successBox, {opacity : (this.state.opacity ? "1" : "0")});
             return(
                 <div style={styles}>
                     <div>
@@ -52,6 +58,7 @@ var messageBoxCont = {
     maxWidth : "400px",
     textAlign : "center",
     borderRadius : "5px",
+    transition : ".5s",
 }
 
 const errorBox = {
