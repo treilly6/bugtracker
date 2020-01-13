@@ -12,6 +12,7 @@ const Comment = require('./routes/api/CommentRoutes');
 const Auth = require('./routes/api/AuthRoutes');
 const MailBox = require('./routes/api/MailBoxRoutes');
 const Task = require('./routes/api/TaskRoutes');
+const UserAuth = require('./routes/api/AuthLoginRoutes');
 
 const passport = require('passport');
 
@@ -48,6 +49,7 @@ app.use('/api/auth', Auth);
 app.use('/api/singleTicket', SingleTicket);
 app.use('/api/mailBox', MailBox);
 app.use('/api/tasks', Task);
+app.use('/api/authLogin', authLogin);
 
 // Connect to DB
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser : true }, (err) =>

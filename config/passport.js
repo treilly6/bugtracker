@@ -1,6 +1,8 @@
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+require("dotenv/config");
 
 const User = require('../models/User');
 
@@ -29,6 +31,16 @@ module.exports = function(passport) {
                 .catch(err => console.log(err));
         })
     );
+
+    passport.use(
+        new GoogleStrategy({
+            // options for strategy
+            clientID: process.env.CLIENT_ID,
+            clientSecret : process.env.CLIENT_SECRET,
+        }), () => {
+            // call back function
+        }
+    )
 
     passport.serializeUser((user, done) => {
         done(null, user.id)

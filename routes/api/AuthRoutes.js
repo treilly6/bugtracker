@@ -33,7 +33,6 @@ router.post('/', (req, res) => {
     console.log("END");
 });
 
-
 // Eventually want to add the manager validation to have features of nested hierarchy
 // i.e --> managers have manager priveledges to a specific project path and all child descendants of that path
 router.get('/manager/:projectId/:folderPath*', async (req,res) => {
