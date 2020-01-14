@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require('passport');
 var ObjectId = require('mongodb').ObjectId;
 
 // let Project = require('../../models/Project');
@@ -7,8 +8,10 @@ var ObjectId = require('mongodb').ObjectId;
 
 // google login
 router.get('/google', (req, res) => {
-    console.log("GOOGLE AUTH LOGIN");
-    // handle with Passport
+    console.log("TRYING THE GOOGLE AUTH ROUTE");
+    passport.authenticate("google",{
+        scope:['profile']
+    })
 });
 
 module.exports = router;

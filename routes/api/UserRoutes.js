@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth');
 var ObjectId = require('mongodb').ObjectId;
 
 let User = require('../../models/User');

@@ -31,6 +31,17 @@ class LogIn extends React.Component {
         console.log(this.props);
     }
 
+    googleLogin = () => {
+        console.log("GOOGLE LOGIN");
+        // NEED TO FIGURE OUT HOW TO DO GOOGLE REDIRECT HERE
+        axios.get('/api/authLogin/google')
+            .then(res => {
+                console.log("GOOGLE AUTH");
+                console.log(res);
+            })
+            .catch(err => console.log(err));
+    }
+
     submit = (e) => {
         e.preventDefault();
         axios.post('/api/user/login', {"username": this.state.username, "password" : this.state.password})
@@ -76,6 +87,7 @@ class LogIn extends React.Component {
                         <button className="toolbar-button">Log in</button>
                     </div>
                 </form>
+                <div onClick={this.googleLogin}>LOGIN USING GOOGLE</div>
             </div>
 
         )

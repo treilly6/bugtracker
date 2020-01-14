@@ -35,11 +35,12 @@ module.exports = function(passport) {
     passport.use(
         new GoogleStrategy({
             // options for strategy
+            callbackURL : "/authLogin/google/redirect",
             clientID: process.env.CLIENT_ID,
             clientSecret : process.env.CLIENT_SECRET,
-        }), () => {
+        }, () => {
             // call back function
-        }
+        })
     )
 
     passport.serializeUser((user, done) => {
