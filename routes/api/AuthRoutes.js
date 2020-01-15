@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
             console.log("Yes authenticate");
             return res.json({
                 authenticated : true,
-                user : req.user.username,
+                user : req.user,
                 message : "Success : User logged in",
             });
         } else {

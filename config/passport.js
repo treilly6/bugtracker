@@ -38,24 +38,48 @@ module.exports = function(passport) {
             callbackURL : "/authLogin/google/callback",
             clientID: process.env.CLIENT_ID,
             clientSecret : process.env.CLIENT_SECRET,
-        }, (accessToken, refreshToken, profile, cb) => {
+        }, (accessToken, refreshToken, profile, done) => {
             // call back function
             console.log("GOOGLE STRATEGY CALLBACK");
-            console.log(profile);
-            console.log("END PROFILE");
-            console.log(cb);
-            // return cb(null, profile);
-        })
+            const googleName = profile.displayName;
+            const googleId = profile.id;
+            console.log(googleName, googleId);
+            // check if user already exists
+            User.findOne({googleId : googleId})
+                .then(currentUser => {
+                    if(currentUser) {
+                        // user exists
+                        console.log("GOOGLE USER ALREADY EXISTS", currentUser);
+                        done(null, currentUser);
+                    } else {
+                        // user does not exist
+                        console.log("NEW GOOGLE USER", currentUser)
+                        const newUser = new User({
+                            name : googleName,
+                            googleId : googleId,
+                        })
+                        newUser.save()
+                            .then(user => {
+                                console.log("NEW USER CREATED");
+                                console.log(user);
+                                done(null, user);
+                            });
+                    }
+                })
+            })
+            // console.log(cb);
+            // return done(null, profile);
     )
 
     passport.serializeUser((user, done) => {
-        done(null, user.id)
+        done(null, user.id);
     });
 
     passport.deserializeUser((id, done) => {
-        User.findById(id, (err, user) => {
-            done(err, user);
-        });
+        User.findById(id)
+            .then(user => {
+                done(null, user);
+            });
     });
 
 }
