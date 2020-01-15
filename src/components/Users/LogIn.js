@@ -33,13 +33,14 @@ class LogIn extends React.Component {
 
     googleLogin = () => {
         console.log("GOOGLE LOGIN");
+        window.location = "authLogin/google";
         // NEED TO FIGURE OUT HOW TO DO GOOGLE REDIRECT HERE
-        axios.get('/api/authLogin/google')
-            .then(res => {
-                console.log("GOOGLE AUTH");
-                console.log(res);
-            })
-            .catch(err => console.log(err));
+        // axios.get('/api/authLogin/google')
+        //     .then(res => {
+        //         console.log("GOOGLE AUTH");
+        //         console.log(res);
+        //     })
+        //     .catch(err => console.log(err));
     }
 
     submit = (e) => {

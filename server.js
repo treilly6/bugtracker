@@ -49,7 +49,7 @@ app.use('/api/auth', Auth);
 app.use('/api/singleTicket', SingleTicket);
 app.use('/api/mailBox', MailBox);
 app.use('/api/tasks', Task);
-app.use('/api/authLogin', AuthLogin);
+app.use('/authLogin', AuthLogin);
 
 // Connect to DB
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser : true }, (err) =>

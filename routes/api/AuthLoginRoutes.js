@@ -7,11 +7,17 @@ var ObjectId = require('mongodb').ObjectId;
 // let Folder = require('../../models/Folder');
 
 // google login
-router.get('/google', (req, res) => {
-    console.log("TRYING THE GOOGLE AUTH ROUTE");
-    passport.authenticate("google",{
+// need to figure out how react can redirect to the google consent page
+router.get('/google', passport.authenticate("google", {
         scope:['profile']
-    })
+}));
+
+router.get('/google/callback', passport.authenticate("google"), (req, res) => {
+        console.log("CALLBACK GOOGLE URI HERE NICE JOB MAN");
+        res.redirect("/");
 });
+
+
+
 
 module.exports = router;

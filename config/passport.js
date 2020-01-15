@@ -35,11 +35,16 @@ module.exports = function(passport) {
     passport.use(
         new GoogleStrategy({
             // options for strategy
-            callbackURL : "/authLogin/google/redirect",
+            callbackURL : "/authLogin/google/callback",
             clientID: process.env.CLIENT_ID,
             clientSecret : process.env.CLIENT_SECRET,
-        }, () => {
+        }, (accessToken, refreshToken, profile, cb) => {
             // call back function
+            console.log("GOOGLE STRATEGY CALLBACK");
+            console.log(profile);
+            console.log("END PROFILE");
+            console.log(cb);
+            // return cb(null, profile);
         })
     )
 
