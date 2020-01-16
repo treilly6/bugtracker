@@ -34,13 +34,11 @@ class LogIn extends React.Component {
     googleLogin = () => {
         console.log("GOOGLE LOGIN");
         window.location = "authLogin/google";
-        // NEED TO FIGURE OUT HOW TO DO GOOGLE REDIRECT HERE
-        // axios.get('/api/authLogin/google')
-        //     .then(res => {
-        //         console.log("GOOGLE AUTH");
-        //         console.log(res);
-        //     })
-        //     .catch(err => console.log(err));
+    }
+
+    githubLogin = () => {
+        console.log("GITHUB LOGIN");
+        window.location = "authLogin/github";
     }
 
     submit = (e) => {
@@ -89,6 +87,7 @@ class LogIn extends React.Component {
                     </div>
                 </form>
                 <div onClick={this.googleLogin}>LOGIN USING GOOGLE</div>
+                <div onClick={this.githubLogin}>LOGIN USING GITHUB</div>
             </div>
 
         )

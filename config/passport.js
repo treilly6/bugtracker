@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GitHubStrategy = require('passport-github').Strategy;
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 require("dotenv/config");
@@ -67,8 +68,38 @@ module.exports = function(passport) {
                     }
                 })
             })
-            // console.log(cb);
-            // return done(null, profile);
+    )
+
+    passport.use(
+        new GitHubStrategy({
+            clientID : process.env.GITHUB_CLIENT_ID,
+            clientSecret : process.env.GITHUB_CLIENT_SECRET,
+            callbackURL : "/authLogin/github/callback",
+        }, (accessToken, refreshToken, profile, done) => {
+            console.log("GITHUB PASSPORT CALLBACK FUNCTION");
+            console.log(profile);
+            const githubId = profile.id;
+            const githubName = profile.login;
+            User.findOne({githubId : githubId})
+                .then(currentUser => {
+                    if(currentUser) {
+                        console.log("THERE IS USER LOG THEM IN");
+                        done(null, currentUser);
+                    } else {
+                        console.log("NEW GITHUB USER");
+                        const newUser = new User({
+                            name : githubName,
+                            githubId : githubId,
+                        })
+                        newUser.save()
+                            .then(user => {
+                                console.log("NEW USER CREATED");
+                                done(null, user);
+                            })
+                    }
+                })
+            console.log("END OF PROFILE");
+        })
     )
 
     passport.serializeUser((user, done) => {

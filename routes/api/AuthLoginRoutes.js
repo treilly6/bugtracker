@@ -17,6 +17,13 @@ router.get('/google/callback', passport.authenticate("google"), (req, res) => {
         res.redirect("/projects");
 });
 
+router.get('/github', passport.authenticate("github"));
+
+router.get('/github/callback', passport.authenticate("github"), (req, res) => {
+    console.log("SERVER GITHUB CALLBACK");
+    res.redirect("/projects");
+});
+
 
 
 
