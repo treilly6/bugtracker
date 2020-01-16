@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LogOut from '../Users/LogOut';
+import UserLoginIcon from '../Users/UserLoginIcon';
 
 class Nav extends React.Component {
     state = {
@@ -13,7 +14,7 @@ class Nav extends React.Component {
     }
 
     componentDidMount(){
-
+     console.log("NAVBAR IS MOUNTING HERE");
     }
 
     toggleMobileNav = () => {
@@ -30,6 +31,8 @@ class Nav extends React.Component {
     render() {
         var navBar;
         var mobileNavBar;
+        console.log("IN THE NAV RENDER HERE THE PROPS");
+        console.log(this.props);
         if(this.props.userAuthenticated) {
             navBar =
             <div className="navBar">
@@ -48,7 +51,7 @@ class Nav extends React.Component {
                         <div className="bar3" style={mobileMenuBar}></div>
                     </div>
                     <div className="mobileNavMenu" style={{height:(this.state.showMobileNav ? "240px" : "0px")}}>
-                        <div className="mobileNavDiv"><FontAwesomeIcon icon="user" /><span>{this.props.username}</span></div>
+                        <div className="mobileNavDiv"><UserLoginIcon loginType={this.props.loginType} /><span>{this.props.username}</span></div>
                         <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/" onClick={() => this.closeMobileNav()}>Home</Link></div>
                         <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/projects" onClick={() => this.closeMobileNav()}>Projects</Link></div>
                         <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/mail" onClick={() => this.closeMobileNav()}><FontAwesomeIcon icon="envelope" /></Link></div>

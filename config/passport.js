@@ -79,7 +79,7 @@ module.exports = function(passport) {
             console.log("GITHUB PASSPORT CALLBACK FUNCTION");
             console.log(profile);
             const githubId = profile.id;
-            const githubName = profile.login;
+            const githubName = profile.username;
             User.findOne({githubId : githubId})
                 .then(currentUser => {
                     if(currentUser) {

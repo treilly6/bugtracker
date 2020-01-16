@@ -5,13 +5,14 @@ import LogOut from './LogOut';
 import axios from 'axios';
 import Nav from  '../layout/Nav';
 import '../../App.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import UserLoginIcon from './UserLoginIcon';
 
 class UserHandler extends React.Component {
 
     state = {
         authenticated : false,
         user : '',
+        loginType : '',
         dataFetched : false,
     }
 
@@ -28,7 +29,9 @@ class UserHandler extends React.Component {
                 console.log("AXIOS RESULT USER HANDLER");
                 console.log(res);
                 if (res.data.authenticated) {
-                    this.setState({authenticated:true, user:res.data.user, dataFetched:true});
+                    console.log("RESDATA SHIT MAN ", "\n", "\n", res.data);
+                    var logType = res.data.loginType == undefined ? 'local' : res.data.loginType;
+                    this.setState({authenticated:true, user:res.data.user, loginType : logType, dataFetched:true});
                 } else {
                     this.setState({dataFetched : true});
                 }
@@ -45,10 +48,11 @@ class UserHandler extends React.Component {
             var userBox;
             var divStyle = {};
             var username = this.state.user.username || this.state.user.name;
+            var loginType = this.state.loginType;
             if(this.state.authenticated == true) {
                 userBox =
                     <div className="userLogOut" style={userDiv}>
-                        <h3 style={{paddingRight: "5px"}}><FontAwesomeIcon icon="user" /><span>{username}</span></h3>
+                        <h3 style={{paddingRight: "5px"}}><UserLoginIcon loginType={loginType} /><span>{username}</span></h3>
                         <div><LogOut></LogOut></div>
 
                     </div>;
@@ -66,7 +70,7 @@ class UserHandler extends React.Component {
                     <div style={{marginTop : "5px"}}>
                         {userBox}
                     </div>
-                    <Nav userAuthenticated={this.state.authenticated} username={username} />
+                    <Nav userAuthenticated={this.state.authenticated} username={username} loginType={loginType} />
                 </div>
             )
         }

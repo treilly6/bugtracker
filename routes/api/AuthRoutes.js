@@ -7,13 +7,16 @@ let Folder = require('../../models/Folder');
 
 router.post('/', (req, res) => {
     console.log("Auth ROUTE CHECK");
+    console.log(req.isAuthenticated());
     console.log(req.session);
     try {
         if (req.session.passport.user) {
+            // copy req object and remove password
             console.log("Yes authenticate");
             return res.json({
                 authenticated : true,
                 user : req.user,
+                loginType : req.session.passport.loginType,
                 message : "Success : User logged in",
             });
         } else {

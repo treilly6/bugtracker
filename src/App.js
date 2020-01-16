@@ -16,6 +16,7 @@ import MailItem from './components/Users/MailBox/MailItem';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faUser, faTrashAlt, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
+import { faGithubSquare, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
 
 // Style
 import './App.css';
@@ -24,6 +25,8 @@ library.add(faEnvelope);
 library.add(faTrashAlt);
 library.add(faEnvelopeOpenText);
 library.add(faUser);
+library.add(faGithubSquare);
+library.add(faGooglePlus);
 
 class App extends React.Component {
     state = {}

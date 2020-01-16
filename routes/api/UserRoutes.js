@@ -118,7 +118,7 @@ router.get('/logout', (req, res, next) => {
     console.log("IN the logout");
     if (req.isAuthenticated()) {
         const username = req.user.username;
-        req.logout();
+        req.session.destroy();
         res.json({"success":`${username} successfully logged out`, "redirect" : "/"});
     } else {
         res.json({"error":"there is no user logged in atm"});
