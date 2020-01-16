@@ -1,9 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
-// import session from "express-session";
-const { ensureAuthenticated } = require('./auth');
-
 
 class AuthRoute extends React.Component {
 
@@ -11,6 +8,7 @@ class AuthRoute extends React.Component {
         isLoading : true,
         isAuthenticated : false,
         isContributor : true,
+        checkContributor : false,
         message : '',
     }
 
@@ -18,24 +16,22 @@ class AuthRoute extends React.Component {
         super(props);
 
         console.log("IN CONTRUCTOR OF THE AUTH ROUTE");
-        console.log(this.state);
         console.log(props);
-
-        var checkContributor = false;
-
-
         console.log(props.match.path);
+
+        // If it is a specific project path, set the state checkContributor to true
         if (props.match.path === '/projects/:projectID/:folders*') {
             console.log("ITS A PROJECT ITEM SHOULD CHECK IF CONTRIBUTOR");
-            checkContributor = true;
-            var projectId = props.match.params.projectID;
-        } else if(props.match.path === '/projects') {
-            console.log("ITS THE PROJECT PATH JUST NEED TO MAKE SURE USER IS LOGGED IN");
+            this.state.checkContributor = true;
+
         }
+    }
 
-
-        if(checkContributor) {
-            console.log("IN IF BLOCK BEFOER AXIOS ALL ", projectId);
+    componentDidMount() {
+        console.log("PROTECTED ROUTE COMPONENET DID MOUNT");
+        if(this.state.checkContributor) {
+            var projectId = this.props.match.params.projectID;
+            // Check the user is authenticated and check the user is a contributor to the project
             axios.all([axios.post('/api/auth'), axios.get(`/api/auth/contributor/${projectId}`)])
                 .then(axios.spread((auth, contributor) => {
                     console.log("IN AXIOS BOTH SPREAD THING");
@@ -51,13 +47,13 @@ class AuthRoute extends React.Component {
                         // IS A CONTRIBUTOR and AUTHENTICATED should add data to state
                         this.setState({isAuthenticated : true, isLoading : false, message : "Success"});
                     }
-                    console.log("END");
                 }))
                 .catch(err => {
                     console.log("ERROR ON THE AXIOS SPREAD IN PROTECTED ROUTE.js");
                     console.log(err);
                 })
         } else {
+            // Check the user is authenticated
             axios.post('/api/auth')
                 .then(res => {
                     console.log("ENSUREAUTHEN IN THE CLASS");
@@ -70,10 +66,6 @@ class AuthRoute extends React.Component {
                 })
                 .catch(err => console.log("ERROR ON THE PROTECTED ROUTE CLASS"));
         }
-    }
-
-    componentDidMount() {
-        console.log("PROTECTED ROUTE COMPONENET DID MOUNT");
     }
 
     render() {

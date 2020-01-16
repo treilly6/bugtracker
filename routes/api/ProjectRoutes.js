@@ -8,27 +8,28 @@ let Folder = require('../../models/Folder');
 let Ticket = require('../../models/Ticket');
 let Task = require('../../models/Task');
 
-
+// Method for getting the projects a user is involved in
 router.get('/', (req, res) => {
-    console.log("In Projects API REq no extra url stuff");
-    console.log(req.user);
-    // PROB WANNA CHANGE THE AUTHOR QUERY HERE TO BE A ID AND ALSO INCLUDE IF
-    // NOT JUST A CRAEATOR BUT A CONTRIBUTOR
-    query = {"contributors": `${req.user.username}`};
+    // get the string of the user's mongodb user id
+    const userId = req.session.passport.user;
+
+    // query for projects where the user is a contributor
+    query = {"contributors": `${userId}`};
     Project.find(query, (err, projects) => {
         if (err) {
             console.log(err);
-            console.log("ERROR IN PROJETS");
         } else {
             console.log("HERE THE PROJECTS");
             console.log(projects);
+            // add the projects into the response object
             res.json(projects);
-            console.log("Working");
-            console.log(projects);
         }
     });
 });
 
+
+// Method used to get the specific project item based on the url
+// This can be either a project item (if on the highest level) or a folder item (if in a nested level)
 router.get('/:projectId/:folderPath*', async (req, res) => {
     console.log("In Projects API REq");
     console.log(req.params);
@@ -107,23 +108,24 @@ router.get('/:projectId/:folderPath*', async (req, res) => {
     return res.json(data);
 });
 
+
+// Post method for createing a new project
 router.post('/', (req, res) => {
-    console.log("ISSA POST");
-    console.log(req.body);
+    console.log("Posting a new project...");
     console.log(req.body.title);
-    console.log(req.user)
-    console.log("sope");
-    // var newProject = new Project({
-    //     title : "Post Topic",
-    //     creator : "Bob Nuttdug",
-    // });
+
+    // get the string value of the user's mongodb id
+    const userId = req.session.passport.user;
+
+    // create new project instance
     var newProject = new Project({
         title : req.body.title,
-        creator : req.user.username,
-        contributors : [req.user.username],
-        managers : [req.user.username],
+        creator : userId,
+        contributors : [userId],
+        managers : [userId],
     });
 
+    // save the project
     newProject.save(err => {
         if (err) {
             console.log(err);
@@ -134,6 +136,11 @@ router.post('/', (req, res) => {
     })
 });
 
+
+// Route to delete a project -- currently not used
+// may remove this method to prevent project from being deleted
+// Or only allow the creator of the project to delete the project
+// Maybe could add a method which allows contributors to leave a project
 router.delete('/', (req, res) => {
     console.log("IN THE DELETE AREA");
     console.log(req.body);
@@ -141,16 +148,15 @@ router.delete('/', (req, res) => {
     const id = req.body.id;
     query = {_id : req.body.id};
     Project.deleteOne(query)
-    .then((result) => {
-        console.log("SUCCESS MANE");
-        console.log(result);
-        console.log(id);
-        res.json(id);
-    })
-    .catch((err) => {
-        console.log("messed uip");
-        console.log(err);
-    });
+        .then((result) => {
+            console.log("SUCCESS Delete");
+            console.log(result);
+            console.log(id);
+            res.json(id);
+        })
+            .catch((err) => {
+            console.log(err);
+        });
 });
 
 module.exports = router;

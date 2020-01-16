@@ -9,6 +9,7 @@ let User = require('../../models/User');
 let MailBox = require('../../models/MailBox');
 let Project = require('../../models/Project');
 
+// method for local passport login
 router.post('/login', (req, res, next) => {
     console.log("In user login passport stuff");
     console.log(req.session);
@@ -40,6 +41,7 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 });
 
+// method used for local signups
 router.post('/signup', async (req, res) => {
     console.log("in the use signup");
     console.log(req.body)
@@ -75,24 +77,30 @@ router.post('/signup', async (req, res) => {
         return;
     }
 
+    // encrypt the password
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(req.body.password, salt);
     console.log("here theencryptions stuff");
     console.log(salt);
     console.log(hashPassword);
 
+    // create a new user instance
     const newUser = new User({
         "username" : req.body.username,
         "password" : hashPassword,
     });
 
+    // Save the user
     newUser.save()
         .then((user) => {
-            console.log(user);
-            console.log("ABOVE IS USER AFTER SAVE");
-            // flagged - need consistency for references to user for the mailbox and managers
-            // const objId = new ObjectId(user._id);
-            const newMailBox = new MailBox({"user" : user.username, "messages":[]});
+
+            // Get the user's string of id
+            const userId = user._id.toString();
+
+            // create new mailbox
+            const newMailBox = new MailBox({"user" : userId, "messages":[]});
+
+            // save mailbox
             newMailBox.save()
                 .then((mailbox) => {
                     console.log("HERE IS THE MAILBOX");
@@ -114,10 +122,13 @@ router.post('/signup', async (req, res) => {
 
 });
 
+// method for logging out users
 router.get('/logout', (req, res, next) => {
     console.log("IN the logout");
     if (req.isAuthenticated()) {
         const username = req.user.username;
+
+        // destroy the session (holds passport.js info of user)
         req.session.destroy();
         res.json({"success":`${username} successfully logged out`, "redirect" : "/"});
     } else {
@@ -126,6 +137,7 @@ router.get('/logout', (req, res, next) => {
 
 });
 
+// method for inviting user to projects
 router.post('/invite', (req, res) => {
     console.log("INVITE API");
     console.log(req.body);
@@ -176,22 +188,30 @@ router.post('/invite', (req, res) => {
         .catch(err => console.log(err))
 })
 
+
+// method for accepting an invite to a project
 router.post('/acceptInvite', (req,res) => {
     console.log("ACCEPTING THE INVITE API");
     console.log(req.body);
     console.log(req.user.username);
+
+    // get the user's id
+    const userId = req.session.passport.user;
+
     try {
         var projId = new ObjectId(req.body.projectId);
     } catch {
         return res.json({"message" : "Error : Cannot find Project"})
     }
 
+    // find the project
     Project.findOne({"_id" : projId})
         .then(project => {
-            project.contributors.push(req.user.username)
+            // add user to contributors
+            project.contributors.push(userId)
+            // save project
             project.save(err => {
                 if(err) {
-                    console.log("ERROR ON SAVE");
                     console.log(err);
                     return res.json({"message" : "Error : Issue when saving"});
                 }

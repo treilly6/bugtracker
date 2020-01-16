@@ -20,18 +20,22 @@ class Mail extends React.Component {
     }
 
     render() {
-        var mailItems = this.props.mail.map((mail) => {
-            return(
-                <MailBoxItem mail={mail} />
-            )
-        });
+        var mailItems;
+        console.log("MAIL ITEMS IN MAIL JS ", this.props.mail);
 
-        if (mailItems.length === 0) {
+        if (this.props.mail === undefined) {
             mailItems =
-            <div>
-                <h5>Empty Mailbox</h5>
+            <div style={{margin : "60px 0px"}}>
+                <h5 style={{textAlign : "center"}}>Inbox Empty</h5>
             </div>
+        } else {
+            mailItems = this.props.mail.map((mail) => {
+                return(
+                    <MailBoxItem mail={mail} />
+                )
+            });
         }
+
         return(
             <div>
                 {mailItems}

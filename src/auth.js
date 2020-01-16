@@ -1,5 +1,8 @@
 const axios = require('axios');
 // ***Conver this to using a cookie at some point*** //
+// Not using this method at the moment //
+
+
 module.exports = {
     ensureAuthenticated : async () => {
         var valid;

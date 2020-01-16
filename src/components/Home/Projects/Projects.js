@@ -50,7 +50,7 @@ class Projects extends React.Component {
             var flexCenter = false;
             if (projectItems.length == 0) {
                 flexCenter = true;
-                projectItems = <h4>You are not currently involved in any projects</h4>;
+                projectItems = <h4 style={{margin : "60px 0px", textAlign : "center"}}>You are not currently involved in any projects</h4>;
             }
 
             return (

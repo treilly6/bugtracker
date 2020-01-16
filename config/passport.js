@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 require("dotenv/config");
 
 const User = require('../models/User');
+const MailBox = require('../models/MailBox');
 
 module.exports = function(passport) {
     passport.use(
@@ -63,7 +64,26 @@ module.exports = function(passport) {
                             .then(user => {
                                 console.log("NEW USER CREATED");
                                 console.log(user);
-                                done(null, user);
+
+                                // get user_id in string format
+                                const userId = user._id.toString();
+
+                                // create new mailbox
+                                const newMailBox = new MailBox({"user" : userId, "messages":[]});
+
+                                // save mailbox
+                                newMailBox.save()
+                                    .then((mailbox) => {
+                                        console.log("HERE IS THE MAILBOX");
+                                        console.log(mailbox);
+
+                                        // sign in the user
+                                        done(null, user);
+                                    })
+                                    .catch(err => {
+                                        console.log("ERROR WHEN SAVING MAILBOX");
+                                        console.log(err);
+                                    })
                             });
                     }
                 })
@@ -94,7 +114,27 @@ module.exports = function(passport) {
                         newUser.save()
                             .then(user => {
                                 console.log("NEW USER CREATED");
-                                done(null, user);
+
+                                // get user_id in string format
+                                const userId = user._id.toString();
+
+                                // create new mailbox
+                                const newMailBox = new MailBox({"user" : userId, "messages":[]});
+
+                                // save mailbox
+                                newMailBox.save()
+                                    .then((mailbox) => {
+                                        console.log("HERE IS THE MAILBOX");
+                                        console.log(mailbox);
+
+                                        // sign in the user
+                                        done(null, user);
+                                    })
+                                    .catch(err => {
+                                        console.log("ERROR WHEN SAVING MAILBOX");
+                                        console.log(err);
+                                    })
+
                             })
                     }
                 })

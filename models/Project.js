@@ -11,11 +11,9 @@ const ProjectSchema = mongoose.Schema({
     },
     contributors : [{
         type : String,
-        ref : 'User',
     }],
     managers : [{
         type : String,
-        ref : 'User',
     }],
 });
 
