@@ -26,6 +26,8 @@ export default function AddUsername({ userData, setUserData }) {
                     const newUserData = Object.assign({}, userData);
                     newUserData.username = res.data.savedUsername;
                     setUserData(newUserData);
+                } else if(res.data.usernameInUse){
+                    console.log("THE USERNAME IS IN USE");
                 }
             })
             .catch(err => console.log(err));
@@ -33,7 +35,7 @@ export default function AddUsername({ userData, setUserData }) {
 
     return (
         <div>
-            <div onClick={toggleForm}>Set Username</div>
+            <div onClick={toggleForm} style={{color: "#0366d6", fontSize : ".75em"}}>(<span className="hoverLink" style={{fontSize : ".75em"}}>Set Username</span>)</div>
             <div className="formStyle" style={{display : (showForm ? "block" : "none")}}>
                 <form onSubmit={submit}>
                     <input style={{height : "30px", width : "90%"}} type="text" placeholder="Enter Username" value={usernameInput} onChange={changeInput} />

@@ -238,18 +238,31 @@ router.post('/acceptInvite', (req,res) => {
 router.post('/setName', (req, res) => {
     console.log("HERE IS THE NAME FOR THE REQ ", req.body.username, req.user);
 
-    User.findOne({_id : req.user._id})
+    const reqUsername = req.body.username.trim();
+
+    User.findOne({username : new RegExp(`${reqUsername}`, 'i')})
         .then(user => {
-            console.log("HERE IS THE USER FROM QUERY ", user);
-            user.username = req.body.username;
-            user.save()
-                .then(savedUser => {
-                    console.log("LIVE RN HERE ", savedUser);
-                    res.json({success : true, savedUsername : savedUser.username});                   
-                })
-                .catch(err => console.log(err, "Error on save in post setname route"));
+            if(!user) {
+                User.findOne({_id : req.user._id})
+                    .then(user => {
+                        console.log("HERE IS THE USER FROM QUERY ", user);
+                        user.username = reqUsername;
+                        user.save()
+                            .then(savedUser => {
+                                console.log("LIVE RN HERE ", savedUser);
+                                res.json({success : true, savedUsername : savedUser.username});
+                            })
+                            .catch(err => console.log(err, "Error on save in post setname route"));
+                    })
+                    .catch(err => console.log(err));
+            } else {
+                console.log("USERNAME ALREADY in USE");
+                res.json({success : false, savedUsername : null, usernameInUse : true});
+            }
         })
         .catch(err => console.log(err));
+
+
 });
 
 module.exports = router;

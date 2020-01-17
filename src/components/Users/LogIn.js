@@ -73,7 +73,7 @@ class LogIn extends React.Component {
                 <div className="messageCont">
                     {message}
                 </div>
-                <form style={formStyle} onSubmit={this.submit}>
+                <form style={{padding : "10px 10px 0px 10px"}} onSubmit={this.submit}>
                     <div style={inputContainer}>
                         <label for="username">Username:</label>
                         <input style={inputStyle} value={this.state.username} onChange={this.changeInput} type="text" name="username" />
@@ -83,11 +83,15 @@ class LogIn extends React.Component {
                         <input style={inputStyle} value={this.state.password} onChange={this.changeInput} type="password" name="password" />
                     </div>
                     <div style={{textAlign : "center"}}>
-                        <button className="toolbar-button">Log in</button>
+                        <button className="toolbar-button" style={{minWidth : "200px", margin : "8px"}}>Log in</button>
                     </div>
                 </form>
-                <div onClick={this.googleLogin}>LOGIN USING GOOGLE</div>
-                <div onClick={this.githubLogin}>LOGIN USING GITHUB</div>
+                <div className="authMethodCont">
+                    <div className="authMethod google" onClick={this.googleLogin}>Login with Google</div>
+                    <div className="authMethod github" onClick={this.githubLogin}>Login with GitHub</div>
+                    <div className="authMethod amazon" onClick={this.githubLogin}>Login with Amazon</div>
+                </div>
+
             </div>
 
         )

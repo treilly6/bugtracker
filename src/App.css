@@ -10,6 +10,36 @@ body {
     background-color: #f1f2f4;
 }
 
+.authMethod {
+    padding: 10px;
+    border-radius: 5px;
+    margin : 8px;
+    text-align: center;
+    min-width: 200px;
+}
+
+.authMethodCont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.google {
+    border : 1px solid black;
+}
+
+.github {
+    color : #fff;
+    background-color: #333;
+    border : 1px solid #333;
+}
+
+.amazon {
+    background-color: #ffdb4d;
+    border: 1px solid black;
+}
+
 .mainContentContainer {
     max-width : 1500px;
     margin : 0 auto;
