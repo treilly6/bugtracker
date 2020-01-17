@@ -52,9 +52,8 @@ class UserHandler extends React.Component {
             if(this.state.authenticated == true) {
                 userBox =
                     <div className="userLogOut" style={userDiv}>
-                        <h3 style={{paddingRight: "5px"}}><UserLoginIcon loginType={loginType} /><span>{username}</span></h3>
+                        <Link to="/profile" className="hoverLink" style={noPadLinkStyle}><h3 style={{paddingRight: "5px"}}><UserLoginIcon loginType={loginType} /><span>{username}</span></h3></Link>
                         <div><LogOut></LogOut></div>
-
                     </div>;
             } else {
                 userBox =

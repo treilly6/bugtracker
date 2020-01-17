@@ -51,7 +51,7 @@ class Nav extends React.Component {
                         <div className="bar3" style={mobileMenuBar}></div>
                     </div>
                     <div className="mobileNavMenu" style={{height:(this.state.showMobileNav ? "240px" : "0px")}}>
-                        <div className="mobileNavDiv"><UserLoginIcon loginType={this.props.loginType} /><span>{this.props.username}</span></div>
+                        <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/profile" onClick={() => this.closeMobileNav()}><UserLoginIcon loginType={this.props.loginType} /><span>{this.props.username}</span></Link></div>
                         <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/" onClick={() => this.closeMobileNav()}>Home</Link></div>
                         <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/projects" onClick={() => this.closeMobileNav()}>Projects</Link></div>
                         <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/mail" onClick={() => this.closeMobileNav()}><FontAwesomeIcon icon="envelope" /></Link></div>

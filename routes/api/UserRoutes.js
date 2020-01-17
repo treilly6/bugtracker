@@ -9,6 +9,15 @@ let User = require('../../models/User');
 let MailBox = require('../../models/MailBox');
 let Project = require('../../models/Project');
 
+// Get the current user object
+router.get('/', (req, res) => {
+    console.log("IN THE USER GET REQ");
+    console.log(req.session);
+    console.log(req.session.passport.user);
+    console.log(req.user);
+    res.json({user : req.user});
+});
+
 // method for local passport login
 router.post('/login', (req, res, next) => {
     console.log("In user login passport stuff");
@@ -222,6 +231,25 @@ router.post('/acceptInvite', (req,res) => {
             console.log("ERROR ON FINDING PROJECT ACCEPT INVITE API");
             console.log(err);
         })
-})
+});
+
+
+// used to set the username from profile
+router.post('/setName', (req, res) => {
+    console.log("HERE IS THE NAME FOR THE REQ ", req.body.username, req.user);
+
+    User.findOne({_id : req.user._id})
+        .then(user => {
+            console.log("HERE IS THE USER FROM QUERY ", user);
+            user.username = req.body.username;
+            user.save()
+                .then(savedUser => {
+                    console.log("LIVE RN HERE ", savedUser);
+                    res.json({success : true, savedUsername : savedUser.username});                   
+                })
+                .catch(err => console.log(err, "Error on save in post setname route"));
+        })
+        .catch(err => console.log(err));
+});
 
 module.exports = router;

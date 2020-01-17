@@ -13,6 +13,7 @@ import LogIn from './components/Users/LogIn';
 import SignUp from './components/Users/SignUp';
 import MailBox from './components/Users/MailBox/MailBox';
 import MailItem from './components/Users/MailBox/MailItem';
+import UserProfile from './components/Users/Profile/UserProfile';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faUser, faTrashAlt, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
@@ -50,6 +51,7 @@ class App extends React.Component {
                         <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
                         <ProtectedRoute path="/mail" exact component={MailBox} />
                         <ProtectedRoute path="/mail/:mailId" exact component={MailItem} />
+                        <ProtectedRoute path="/profile" exact component={UserProfile} />
                     </div>
                     <Footer />
                 </div>
