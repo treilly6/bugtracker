@@ -3,10 +3,13 @@ import axios from 'axios';
 import AddUsername from './AddUsername';
 import './Profile.css';
 import '../../../App.css';
+import MessageBox from '../../../MessageBox';
 
 export default function UserProfile() {
     const [dataFetched, setDataFetched] = useState(false);
     const [userData, setUserData] = useState(null);
+    const [attempt, setAttempt] = useState(0);
+    const [message, setMessage] = useState(null);
 
     useEffect(() => {
         axios.get('/api/user')
@@ -31,7 +34,7 @@ export default function UserProfile() {
         var localName = userData.username || "None";
         var addUsername;
         if(localName === "None") {
-            addUsername = <AddUsername userData={userData} setUserData={setUserData}/>
+            addUsername = <AddUsername userData={userData} setUserData={setUserData} attempt={attempt} setAttempt={setAttempt} setMessage={setMessage} />
         }
 
         var usernameDiv = <div className="localUsernameDiv">{localName} {addUsername}</div>
@@ -46,15 +49,20 @@ export default function UserProfile() {
         }
 
         return(
-            <div className="profileMainCont">
-                <div>User Profile</div>
-                <div className="ProfileRow">
-                    <div className="profileCol">Bugtracker Username :</div>
-                    {usernameDiv}
-                </div>
-                <div className="ProfileRow">
-                    <div className="profileCol">Third Party Authentication :</div>
-                    {authType}
+            <div className="profileCont">
+                <MessageBox key={attempt} message={message} />
+                <div className="profileMainCont">
+                    <div className="profileHeader">User Profile</div>
+                    <div className="profileContent">
+                        <div className="ProfileRow">
+                            <div className="profileCol">Bugtracker Username :</div>
+                            {usernameDiv}
+                        </div>
+                        <div className="ProfileRow">
+                            <div className="profileCol">Third Party Authentication :</div>
+                            {authType}
+                        </div>
+                    </div>
                 </div>
             </div>
         )

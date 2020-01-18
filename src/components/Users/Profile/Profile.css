@@ -2,11 +2,23 @@
     display: grid;
     grid-template-columns: 50% 50%;
     min-height: 60px;
+    padding: 5px;
 }
 
 .profileMainCont {
     text-align: center;
-    margin-top: 30px;
+    border : 1px solid #d5d8dd;
+    width : 100%;
+    border-radius : 5px;
+    background-color : #fff;
+}
+
+.profileCont {
+    margin: 30px 0px;
+}
+
+.profileContent {
+    padding : 10px 0px;
 }
 
 .localUsernameDiv {
@@ -20,4 +32,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.profileHeader {
+    border-bottom: 1px solid #d5d8dd;
+    padding : 10px 0px;
 }

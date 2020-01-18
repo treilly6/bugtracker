@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Profile.css';
 import '../../../App.css';
 
-export default function AddUsername({ userData, setUserData }) {
+export default function AddUsername({ userData, setUserData, attempt, setAttempt, setMessage }) {
     const [showForm, setShowForm] = useState(false);
     const [usernameInput, setUsernameInput] = useState('');
 
@@ -26,8 +26,12 @@ export default function AddUsername({ userData, setUserData }) {
                     const newUserData = Object.assign({}, userData);
                     newUserData.username = res.data.savedUsername;
                     setUserData(newUserData);
+                    setMessage(res.data.message);
+                    setAttempt(attempt + 1);
                 } else if(res.data.usernameInUse){
                     console.log("THE USERNAME IS IN USE");
+                    setMessage(res.data.message);
+                    setAttempt(attempt + 1);
                 }
             })
             .catch(err => console.log(err));

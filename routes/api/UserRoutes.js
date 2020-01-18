@@ -250,14 +250,14 @@ router.post('/setName', (req, res) => {
                         user.save()
                             .then(savedUser => {
                                 console.log("LIVE RN HERE ", savedUser);
-                                res.json({success : true, savedUsername : savedUser.username});
+                                res.json({success : true, savedUsername : savedUser.username, message : `Success : Set username to ${savedUser.username}`});
                             })
                             .catch(err => console.log(err, "Error on save in post setname route"));
                     })
                     .catch(err => console.log(err));
             } else {
                 console.log("USERNAME ALREADY in USE");
-                res.json({success : false, savedUsername : null, usernameInUse : true});
+                res.json({success : false, savedUsername : null, usernameInUse : true, message : `Error : ${reqUsername} is already in user`});
             }
         })
         .catch(err => console.log(err));

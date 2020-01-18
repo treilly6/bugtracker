@@ -15,7 +15,8 @@ body {
     border-radius: 5px;
     margin : 8px;
     text-align: center;
-    min-width: 200px;
+    width: 210px;
+    cursor: pointer;
 }
 
 .authMethodCont {

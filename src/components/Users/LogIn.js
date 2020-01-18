@@ -83,7 +83,7 @@ class LogIn extends React.Component {
                         <input style={inputStyle} value={this.state.password} onChange={this.changeInput} type="password" name="password" />
                     </div>
                     <div style={{textAlign : "center"}}>
-                        <button className="toolbar-button" style={{minWidth : "200px", margin : "8px"}}>Log in</button>
+                        <button className="toolbar-button" style={{width : "210px", margin : "8px", cursor : "pointer"}}>Log in</button>
                     </div>
                 </form>
                 <div className="authMethodCont">

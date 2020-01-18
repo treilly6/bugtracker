@@ -51,6 +51,16 @@ class SignUp extends React.Component {
         this.setState({[e.target.name] : e.target.value});
     }
 
+    googleSignup = () => {
+        console.log("GOOGLE Signup");
+        window.location = "authLogin/google";
+    }
+
+    githubSignup = () => {
+        console.log("GITHUB Signup");
+        window.location = "authLogin/github";
+    }
+
     render() {
         var message;
         if (this.props.location.state && this.props.location.state.message) {
@@ -63,7 +73,7 @@ class SignUp extends React.Component {
             <div style={formContainer}>
                 <h2 style={titleStyle}>Sign Up</h2>
                 {message}
-                <form style={formStyle} onSubmit={this.submit}>
+                <form style={{padding : "10px 10px 0px 10px"}} onSubmit={this.submit}>
                     <div style={inputContainer}>
                         <label for="username">Username:</label>
                         <input onChange={this.changeInput} style={inputStyle} value={this.state.username} type="text" name="username" />
@@ -77,9 +87,14 @@ class SignUp extends React.Component {
                         <input onChange={this.changeInput} style={inputStyle} value={this.state.password2} type="password" name="password2" />
                     </div>
                     <div style={{textAlign : "center"}}>
-                        <button className="toolbar-button">Sign Up</button>
+                        <button className="toolbar-button" style={{width : "210px", margin : "8px", cursor : "pointer"}}>Sign Up</button>
                     </div>
                 </form>
+                <div className="authMethodCont">
+                    <div className="authMethod google" onClick={this.googleSignup}>Sign up with Google</div>
+                    <div className="authMethod github" onClick={this.githubSignup}>Sign up with GitHub</div>
+                    <div className="authMethod amazon" onClick={this.githubSignup}>Sign up with Amazon</div>
+                </div>
             </div>
 
         )
