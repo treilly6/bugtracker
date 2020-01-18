@@ -44,7 +44,7 @@ router.post('/login', (req, res, next) => {
             if (err) {
                 return res.json({"error":`User ${req.body.username} failed log in`, "message" : err});
             }
-            res.json({"message":`Success : User ${req.body.username} logged in`, "redirect" : "/projects"});
+            res.json({"message" : `Welcome back ${req.body.username}!`, "redirect" : "/projects"});
         });
 
     })(req, res, next);
@@ -55,80 +55,76 @@ router.post('/signup', async (req, res) => {
     console.log("in the use signup");
     console.log(req.body)
 
+    const reqUsername = req.body.username.trim();
+    const password = req.body.password.trim();
+    const password2 = req.body.password2.trim();
+
     // PW VALIDATION
-    if(req.body.password.length < 5) {
+    if(password.length < 5) {
         // password empty
-        res.json({"message" : "Error : Password must be at least 5 characters long"});
-        return;
-    } else if (req.body.password !== req.body.password2) {
+        return res.json({"message" : "Error : Password must be at least 5 characters long"});
+    } else if (password !== password2) {
         // passwords dont match
-        res.json({"message" : "Error : Passwords do not match"});
-        return;
+        return res.json({"message" : "Error : Passwords do not match"});
     }
 
     // Check if username exists //
-    var validUser = true;
-    await User.find({"username" : req.body.username}, (err, users) => {
-        if(err){
-            console.log(err);
-            console.log("Error on the user route checking for username already used");
-        } else {
-            console.log("INNA ELSE");
-            console.log(users);
-            if(users.length !== 0) {
-                res.json({"message" : `Error : The username ${req.body.username} is already taken`});
-                validUser = false;
+    User.find({"username" : new RegExp(`${reqUsername}`, 'i')})
+        .then(users => {
+            console.log("HERE ARE THE USERS LOOKING FOR THIS SHIT ", users, users.length);
+            // if username is already used
+            if(users.length > 0) {
+                return res.json({"message" : `Error : ${reqUsername} is already in use`})
+            } else {
+                // if username is available
+
+                // create salt for hash
+                bcrypt.genSalt((err, salt) => {
+                    // encrypt the password
+                    bcrypt.hash(password, salt, (err, hashPassword) => {
+                        // create a new user instance
+                        const newUser = new User({
+                            "username" : reqUsername,
+                            "password" : hashPassword,
+                        });
+
+                        // Save the user
+                        newUser.save()
+                            .then((user) => {
+
+                                // Get the user's string of id
+                                const userId = user._id.toString();
+                                // create new mailbox
+                                const newMailBox = new MailBox({"user" : userId, "messages":[]});
+                                // save mailbox
+                                newMailBox.save()
+                                    .then((mailbox) => {
+                                        res.json({
+                                            "message" : `Success : User ${newUser.username} Created`,
+                                            "redirect" : "/projects",
+                                        });
+                                    })
+                                    .catch(err => {
+                                        console.log("ERROR WHEN SAVING MAILBOX");
+                                        console.log(err);
+                                    })
+
+                                // login the new user
+                                req.login(user, (err) => {
+                                    if(err) {
+                                        console.log("ERROR ON THE LOGIN FROM SIGNUP ", err);
+                                    }
+                                });
+
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    })
+                });
             }
-        }
-    });
-
-    if(!validUser) {
-        return;
-    }
-
-    // encrypt the password
-    const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt.hash(req.body.password, salt);
-    console.log("here theencryptions stuff");
-    console.log(salt);
-    console.log(hashPassword);
-
-    // create a new user instance
-    const newUser = new User({
-        "username" : req.body.username,
-        "password" : hashPassword,
-    });
-
-    // Save the user
-    newUser.save()
-        .then((user) => {
-
-            // Get the user's string of id
-            const userId = user._id.toString();
-
-            // create new mailbox
-            const newMailBox = new MailBox({"user" : userId, "messages":[]});
-
-            // save mailbox
-            newMailBox.save()
-                .then((mailbox) => {
-                    console.log("HERE IS THE MAILBOX");
-                    console.log(mailbox);
-                    res.json({
-                        "message" : `Success : ${newUser.username} successfully created`,
-                        "redirect" : "/projects",
-                    });
-                })
-                .catch(err => {
-                    console.log("ERROR WHEN SAVING MAILBOX");
-                    console.log(err);
-                })
         })
-        .catch(err => {
-            console.log(err);
-            err.json();
-        });
-
+        .catch(err => console.log(err));
 });
 
 // method for logging out users
@@ -157,10 +153,8 @@ router.post('/invite', (req, res) => {
             console.log(user);
             if (user) {
                 console.log("IS USER");
-                // const userId = new ObjectId(user._id);
-                // send message to that users inbox
-                // Finding the mailbox using username
-                MailBox.findOne({"user":req.body.inviteUser})
+                // Finding the mailbox using user id
+                MailBox.findOne({"user":user._id})
                     .then(mailbox => {
                         console.log("IN THEN OF THE MAILBOX");
                         console.log(mailbox);
@@ -224,7 +218,7 @@ router.post('/acceptInvite', (req,res) => {
                     console.log(err);
                     return res.json({"message" : "Error : Issue when saving"});
                 }
-                return res.json({"message" : `Success : You've been added to ${project.title}`});
+                return res.json({"message" : `Success : You've been added to ${project.title}`, redirect : `/projects/${project._id}`});
             })
         })
         .catch(err => {
@@ -261,7 +255,6 @@ router.post('/setName', (req, res) => {
             }
         })
         .catch(err => console.log(err));
-
 
 });
 

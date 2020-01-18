@@ -62,7 +62,7 @@ router.get('/manager/:projectId/:folderPath*', async (req,res) => {
             console.log(err);
         } else {
             if(project) {
-                if(project.managers.includes(req.user.username)) {
+                if(project.managers.includes(req.user._id)) {
                     console.log("IS MANAGER");
                     res.json({"manager":true});
                     manager = true;
@@ -155,8 +155,8 @@ router.get('/contributor/:projectId', (req,res) => {
             if (project) {
                 console.log("PROJECT DO EXIST IN THE IF BLOCK");
                 // console.log("HERE THE USER ID ", userId);
-                console.log("HERE THE USERNAME ", req.user.username);
-                if(project.contributors.includes(req.user.username)) {
+                console.log("HERE THE USERs ID", req.user._id, typeof(req.user._id));
+                if(project.contributors.includes(req.user._id)) {
                     console.log("IS CONTRIB");
                     res.json({"contributor" : true, "message" : null});
                 } else {

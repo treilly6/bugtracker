@@ -11,46 +11,39 @@ class Home extends React.Component {
 
     state = {
         addedProjectData : null,
-    }
-
-    deleteProject = (projectID) => {
-        console.log("IN THE DELETE FUNC");
-        var config = {
-            headers: {
-                'User-Agent':'',
-                'Accept':'',
-                'Host':''
-            }
-        };
-        var data = {
-            "id" : projectID
-        };
-        console.log("HERE");
-        axios.delete('/api/projects', {data : data}, config)
-        .then((res) => {
-            console.log("sucess shit mans");
-            console.log(res.data);
-            this.setState({projects : this.state.projects.filter((elem) => elem._id != res.data)});
-            console.log("worked");
-        })
-        .catch((err) => {
-            console.log("ON NOEE");
-            console.log(err)
-        });
-        console.log("END");
+        missingUsername : false,
     }
 
     getAddedProject = (addedProject) => {
         this.setState({addedProjectData : addedProject});
     }
 
-
+    componentDidMount() {
+        console.log("MOUNTING PROJECTS HOME...");
+        axios.get('/api/user')
+            .then(res => {
+                console.log("HERE THE USER RESULT");
+                if(!res.data.user.username) {
+                    console.log("THIS MUTHAFUCK NEEDS A USERNAME");
+                    this.setState({missingUsername : true});
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
 
     render() {
 
         var message;
+        console.log("HERE IS THE stuff ");
+        console.log(this.props.location.state);
         if (this.props.location.state && this.props.location.state.message) {
+            console.log("MESSAGE BOX STUFF");
             message = <MessageBox message={this.props.location.state.message} />
+        } else if (this.state.missingUsername) {
+            console.log("MESSAGE BOX Missing User");
+            message = <MessageBox message={"missing username"} />
         }
 
         return (

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, Link } from 'react-router-dom';
+import './App.css';
 
 class MessageBox extends React.Component {
 
@@ -21,28 +22,42 @@ class MessageBox extends React.Component {
     componentDidMount() {
         console.log("COMPONENET MOUNTEED MESSAGE BOX");
         console.log(this.props);
-        this.setState({showingMessage : true, opacity : true});
+        if(this.props.message) {
+            this.setState({showingMessage : true, opacity : true});
 
-        setTimeout(() => {
-            console.log("OPACITY TIMEOUT");
-            this.setState({opacity : false});
-        }, 4400);
+            setTimeout(() => {
+                console.log("OPACITY TIMEOUT");
+                this.setState({opacity : false});
+            }, 6400);
 
-        setTimeout(() => {
-            this.setState({showingMessage : false});
-        }, 5000);
+            setTimeout(() => {
+                this.setState({showingMessage : false});
+            }, 7000);
+        }
+
     }
 
     render() {
         if(this.state.showingMessage && this.props.message) {
-            var styles = (this.props.message.includes("Error")) ? Object.assign({}, messageBoxCont, errorBox, {opacity : (this.state.opacity ? "1" : "0")}) : Object.assign({}, messageBoxCont, successBox, {opacity : (this.state.opacity ? "1" : "0")});
-            return(
-                <div style={styles}>
-                    <div>
-                        <h5>{this.props.message}</h5>
+            if(this.props.message === "missing username") {
+                var styles = Object.assign({}, messageBoxCont, warningBox, {opacity : (this.state.opacity ? "1" : "0")});
+                return(
+                    <div style={styles}>
+                        <div>
+                            <h5>Please go to <Link className="hoverLink" style={{color:"#0366d6"}} to="/profile">your profile</Link> and set a username. You will not be able to invite or be invited to projects until a username is set</h5>
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            } else {
+                var styles = (this.props.message.includes("Error")) ? Object.assign({}, messageBoxCont, errorBox, {opacity : (this.state.opacity ? "1" : "0")}) : Object.assign({}, messageBoxCont, successBox, {opacity : (this.state.opacity ? "1" : "0")});
+                return(
+                    <div style={styles}>
+                        <div>
+                            <h5>{this.props.message}</h5>
+                        </div>
+                    </div>
+                )
+            }
         } else {
             return(
                 <div style={{display:"none"}}></div>
@@ -71,6 +86,12 @@ const successBox = {
     backgroundColor : "#d6f5d6",
     border : "1px solid #33cc33",
     color : "#33cc33",
+}
+
+const warningBox = {
+    backgroundColor : "#fffae6",
+    border : "1px solid #ffcc00",
+    color : "#ffcc00",
 }
 
 export default MessageBox;

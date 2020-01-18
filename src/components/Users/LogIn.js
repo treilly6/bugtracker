@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import MessageBox from '../../MessageBox';
 import { formContainer, formStyle, inputContainer, buttonStyle, titleStyle, inputStyle } from '../../styles/forms/formStyle';
 import '../../App.css';
@@ -13,6 +13,7 @@ class LogIn extends React.Component {
         "password" : "",
         "message" : "",
         "attempt" : 0,
+        redirect : null,
     }
 
     constructor(props) {
@@ -48,9 +49,7 @@ class LogIn extends React.Component {
                 console.log(res.data);
                 if(res.data.redirect) {
                     // handle a successful Login
-                    console.log("in if redirect");
-                    console.log(res.data.redirect);
-                    window.location = res.data.redirect;
+                    this.setState({redirect : res.data.redirect, message : res.data.message})
                 } else {
                     // handle an unseccessful login
                     console.log("not a valid login");
@@ -62,6 +61,15 @@ class LogIn extends React.Component {
 
     render() {
         var message;
+
+        if(this.state.redirect) {
+            return (
+                <Redirect to={{
+                    pathname : this.state.redirect,
+                    state : {message : this.state.message},
+                }} />
+            )
+        }
 
         if(this.state.message) {
             message = <MessageBox key={this.state.attempt} message={this.state.message} />

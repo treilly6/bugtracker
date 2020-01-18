@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from "axios";
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import MessageBox from '../../MessageBox';
 import { formContainer, formStyle, inputContainer, buttonStyle, titleStyle, inputStyle } from '../../styles/forms/formStyle';
 import '../../App.css';
@@ -9,10 +9,12 @@ import '../../App.css';
 class SignUp extends React.Component {
 
     state = {
-        "username" : "",
-        "password" : "",
-        "password2" : "",
-        "attempt" : 0,
+        username : "",
+        password : "",
+        password2 : "",
+        attempt : 0,
+        redirect : null,
+        message : null,
     }
 
     submit = (e) => {
@@ -24,12 +26,12 @@ class SignUp extends React.Component {
         }
         console.log(newUser);
         axios.post('/api/user/signup', newUser)
-            .then((res) => {
+            .then(async (res) => {
                 console.log("YEEET");
                 console.log(res);
                 if(res.data.redirect) {
                     // successful signup
-                    window.location.href = res.data.redirect;
+                    this.setState({redirect : res.data.redirect, message : res.data.message});
                 } else {
                     // unseccessful singup
                     this.setState({message : res.data.message, attempt : this.state.attempt + 1});
@@ -62,42 +64,51 @@ class SignUp extends React.Component {
     }
 
     render() {
-        var message;
-        if (this.props.location.state && this.props.location.state.message) {
-            message = <MessageBox key={this.state.attempt} message={this.props.location.state.message} />
-        } else if(this.state.message) {
-            message = <MessageBox key={this.state.attempt} message={this.state.message} />
-        }
+        if(this.state.redirect) {
+            return(
+                <Redirect to={{
+                    pathname : this.state.redirect,
+                    state : { message : this.state.message }
+                }} />
+            )
+        } else {
+            var message;
+            if (this.props.location.state && this.props.location.state.message) {
+                message = <MessageBox key={this.state.attempt} message={this.props.location.state.message} />
+            } else if(this.state.message) {
+                message = <MessageBox key={this.state.attempt} message={this.state.message} />
+            }
 
-        return (
-            <div style={formContainer}>
-                <h2 style={titleStyle}>Sign Up</h2>
-                {message}
-                <form style={{padding : "10px 10px 0px 10px"}} onSubmit={this.submit}>
-                    <div style={inputContainer}>
-                        <label for="username">Username:</label>
-                        <input onChange={this.changeInput} style={inputStyle} value={this.state.username} type="text" name="username" />
+            return (
+                <div style={formContainer}>
+                    <h2 style={titleStyle}>Sign Up</h2>
+                    {message}
+                    <form style={{padding : "10px 10px 0px 10px"}} onSubmit={this.submit}>
+                        <div style={inputContainer}>
+                            <label for="username">Username:</label>
+                            <input onChange={this.changeInput} style={inputStyle} value={this.state.username} type="text" name="username" />
+                        </div>
+                        <div style={inputContainer}>
+                            <label for="password">Password:</label>
+                            <input onChange={this.changeInput} style={inputStyle} value={this.state.password} type="password" name="password" />
+                        </div>
+                        <div style={inputContainer}>
+                            <label for="password2">Confirm Password:</label>
+                            <input onChange={this.changeInput} style={inputStyle} value={this.state.password2} type="password" name="password2" />
+                        </div>
+                        <div style={{textAlign : "center"}}>
+                            <button className="toolbar-button" style={{width : "210px", margin : "8px", cursor : "pointer"}}>Sign Up</button>
+                        </div>
+                    </form>
+                    <div className="authMethodCont">
+                        <div className="authMethod google" onClick={this.googleSignup}>Sign up with Google</div>
+                        <div className="authMethod github" onClick={this.githubSignup}>Sign up with GitHub</div>
+                        <div className="authMethod amazon" onClick={this.githubSignup}>Sign up with Amazon</div>
                     </div>
-                    <div style={inputContainer}>
-                        <label for="password">Password:</label>
-                        <input onChange={this.changeInput} style={inputStyle} value={this.state.password} type="password" name="password" />
-                    </div>
-                    <div style={inputContainer}>
-                        <label for="password2">Confirm Password:</label>
-                        <input onChange={this.changeInput} style={inputStyle} value={this.state.password2} type="password" name="password2" />
-                    </div>
-                    <div style={{textAlign : "center"}}>
-                        <button className="toolbar-button" style={{width : "210px", margin : "8px", cursor : "pointer"}}>Sign Up</button>
-                    </div>
-                </form>
-                <div className="authMethodCont">
-                    <div className="authMethod google" onClick={this.googleSignup}>Sign up with Google</div>
-                    <div className="authMethod github" onClick={this.githubSignup}>Sign up with GitHub</div>
-                    <div className="authMethod amazon" onClick={this.githubSignup}>Sign up with Amazon</div>
                 </div>
-            </div>
 
-        )
+            )
+        }
     }
 }
 

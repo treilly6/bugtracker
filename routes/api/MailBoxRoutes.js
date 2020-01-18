@@ -10,7 +10,7 @@ router.get('/', (req,res) => {
     console.log("HERE IS THE GET REQUEST FOR Mailbox");
     console.log(req.params);
     console.log(req.user);
-    MailBox.findOne({"user" : req.user.username}, (err, mailbox) => {
+    MailBox.findOne({"user" : req.user._id}, (err, mailbox) => {
         if(err) {
             console.log(err);
             console.log("ERR ON THE FIND MAILBOX");
@@ -34,7 +34,7 @@ router.get('/:mailId', async (req,res) => {
     console.log("HERE THE MAIL ID ", mailId);
     var mailItem;
 
-    await MailBox.findOne({"user" : req.user.username})
+    await MailBox.findOne({"user" : req.user._id})
         .then(mailbox => {
             console.log("HERE THE MAILBOX");
             console.log(mailbox);

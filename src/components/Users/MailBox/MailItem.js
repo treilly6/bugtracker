@@ -1,13 +1,15 @@
 import React from 'react';
 import LoadingCircle from '../../LoadingCircle/LoadingCircle';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import '../../../App.css';
 
 class MailItem extends React.Component {
     state = {
         dataFetched : false,
         mailItem : null,
+        redirect : null,
+        message : null,
     }
 
     constructor(props){
@@ -42,11 +44,23 @@ class MailItem extends React.Component {
             .then(res => {
                 console.log("ITS LIT");
                 console.log(res);
+                if(res.data.redirect) {
+                    console.log("OYA WE ADDIN THIS BITCH");
+                    this.setState({redirect : res.data.redirect, message : res.data.message});
+                }
             })
             .catch(err => console.log(err));
     }
 
     render(){
+        if(this.state.redirect) {
+            return(
+                <Redirect to={{
+                    pathname : this.state.redirect,
+                    state : {message : this.state.message},
+                }} />
+            )
+        }
         if(this.state.dataFetched) {
 
             var metaDiv = null;
