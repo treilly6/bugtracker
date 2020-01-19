@@ -46,6 +46,10 @@ class ProjectItem extends React.Component {
         console.log("MOUNTING PROPS OF THE PROJECT ITEM");
         console.log(this.state);
         console.log(this.props);
+        if(this.props.location.state && this.props.location.state.message) {
+            this.setState({message : this.props.location.state.message})
+        }
+
         var projectId = this.props.match.params.projectID;
         var folderPath = (this.props.match.params.folders === undefined ? undefined : this.props.match.params.folders);
         axios.all([axios.get(`/api/projects/${projectId}/${folderPath}`), axios.get(`/api/auth/manager/${projectId}/${folderPath}`)])

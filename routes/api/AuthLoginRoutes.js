@@ -16,6 +16,12 @@ router.get('/google/callback', passport.authenticate("google"), (req, res) => {
         console.log("CALLBACK GOOGLE URI HERE NICE JOB MAN");
         // add login type to the session
         req.session.passport.loginType = "google";
+        req.session.freshLogin = true;
+
+        // this is where i want to figure out how to have the passport authenticate method manipulate the req object
+        // and add freshSignup to the session, then have a conditional redirect
+        // if freshSignup {res.redirect("/profile")} else {res.redirect("/projects")}
+        // and do the same for all passport strategies except local strategy
         res.redirect("/projects");
 });
 
@@ -23,11 +29,10 @@ router.get('/github', passport.authenticate("github"));
 
 router.get('/github/callback', passport.authenticate("github"), (req, res) => {
     console.log("SERVER GITHUB CALLBACK");
-    // console.log(req.session);
+
     // add the type of login to the session
     req.session.passport.loginType = "github";
-    // console.log("")
-    // console.log(req.session);
+    req.session.freshLogin = true;
     res.redirect("/projects");
 });
 

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ProtectedRoute } from './ProtectedRoute';
+import { NoAuthRoute } from './components/ProtectedRoutes/NoAuthRoute';
 
 // Components
 import Header from './components/layout/Header';
@@ -45,8 +46,10 @@ class App extends React.Component {
                                 <LandingPage />
                             </React.Fragment>
                         )} />
-                        <Route path="/signup" exact component={SignUp} />
-                        <Route path="/login" exact component={LogIn} />
+                        <NoAuthRoute path="/signup" exact component={SignUp} />
+                        <NoAuthRoute path="/login" exact component={LogIn} />
+                        <Route  />
+                        <Route  />
                         <ProtectedRoute path="/projects" exact component={Home} />
                         <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
                         <ProtectedRoute path="/mail" exact component={MailBox} />

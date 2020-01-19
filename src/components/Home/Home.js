@@ -12,6 +12,7 @@ class Home extends React.Component {
     state = {
         addedProjectData : null,
         missingUsername : false,
+        freshLogin : false,
     }
 
     getAddedProject = (addedProject) => {
@@ -26,6 +27,8 @@ class Home extends React.Component {
                 if(!res.data.user.username) {
                     console.log("THIS MUTHAFUCK NEEDS A USERNAME");
                     this.setState({missingUsername : true});
+                } else {
+                    this.setState({freshLogin : res.data.freshLogin});
                 }
             })
             .catch(err => {
@@ -44,12 +47,17 @@ class Home extends React.Component {
         } else if (this.state.missingUsername) {
             console.log("MESSAGE BOX Missing User");
             message = <MessageBox message={"missing username"} />
+        } else if(this.state.freshLogin) {
+            console.log("FRESH LOG BOX");
+            message = <MessageBox message={"Welcome Back!"} />
         }
 
         return (
             <div>
                 <h1 style={{fontSize:"1.5em", textAlign : "center", margin:"15px 0px"}}>Projects</h1>
-                {message}
+                <div style={{display : "flex", justifyContent : "center"}}>
+                    {message}
+                </div>                
                 <AddProject getAddedProject = {this.getAddedProject.bind(this)} />
                 <Projects addedProjectData={this.state.addedProjectData} deleteProject={this.deleteProject} />
             </div>

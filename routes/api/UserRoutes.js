@@ -15,7 +15,13 @@ router.get('/', (req, res) => {
     console.log(req.session);
     console.log(req.session.passport.user);
     console.log(req.user);
-    res.json({user : req.user});
+    res.json({user : req.user, freshLogin : req.session.freshLogin});
+    if(req.session.freshLogin) {
+        console.log("SESSION BEFORE DELETE " , req.session, "\n","\n");
+        req.session.freshLogin = false;
+        console.log("SESSION AFTER DELETE " , req.session, "\n","\n");
+        req.session.save();
+    }
 });
 
 // method for local passport login
@@ -39,12 +45,17 @@ router.post('/login', (req, res, next) => {
             console.log("thers no user mane");
             return res.json({"message" : "Error : Invalid Username or Password"});
         }
-        console.log("theres no error or user issues so i guess do the login")
+
+        // Login user
         req.logIn(user, (err) => {
             if (err) {
                 return res.json({"error":`User ${req.body.username} failed log in`, "message" : err});
             }
             res.json({"message" : `Welcome back ${req.body.username}!`, "redirect" : "/projects"});
+            console.log("LOGGING THE USER HERE SOME LINES " , req.session, "\n", "\n", "\n");
+            req.session.freshLogin = true;
+            req.session.save();
+            console.log("LOGGING THE USER end lines " , req.session, "\n", "\n", "\n");
         });
 
     })(req, res, next);
@@ -91,7 +102,6 @@ router.post('/signup', async (req, res) => {
                         // Save the user
                         newUser.save()
                             .then((user) => {
-
                                 // Get the user's string of id
                                 const userId = user._id.toString();
                                 // create new mailbox
@@ -114,6 +124,8 @@ router.post('/signup', async (req, res) => {
                                     if(err) {
                                         console.log("ERROR ON THE LOGIN FROM SIGNUP ", err);
                                     }
+                                    req.session.freshSignup = true;
+                                    req.session.save();
                                 });
 
                             })

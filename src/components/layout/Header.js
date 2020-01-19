@@ -7,11 +7,17 @@ class Header extends React.Component {
 
     state = {}
 
+    constructor(props){
+        super(props);
+    }
+
     homeRedirect = () => {
         window.location = '/';
     }
 
     render() {
+        console.log("HEADER RENDER HERE ARE THE PROPS");
+        console.log(this.props);
         return(
             <header style = {headerStyle}>
                 <h1 style={brandStyle} onClick={this.homeRedirect}>BugTracker</h1>

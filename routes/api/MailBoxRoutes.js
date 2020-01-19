@@ -57,7 +57,7 @@ router.put('/:mailId', async (req,res) => {
     const mailId = req.params.mailId;
     var mailItem;
 
-    await MailBox.findOne({"user" : req.user.username})
+    await MailBox.findOne({"user" : req.user._id})
         .then(mailbox => {
             mailItem = mailbox.messages.find(mail => mail._id.toString() === mailId);
             console.log("HERE IS THE maikItem");

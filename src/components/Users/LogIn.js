@@ -49,7 +49,8 @@ class LogIn extends React.Component {
                 console.log(res.data);
                 if(res.data.redirect) {
                     // handle a successful Login
-                    this.setState({redirect : res.data.redirect, message : res.data.message})
+                    window.location = '/projects';
+                    // this.setState({redirect : res.data.redirect, message : res.data.message})
                 } else {
                     // handle an unseccessful login
                     console.log("not a valid login");
@@ -62,14 +63,15 @@ class LogIn extends React.Component {
     render() {
         var message;
 
-        if(this.state.redirect) {
-            return (
-                <Redirect to={{
-                    pathname : this.state.redirect,
-                    state : {message : this.state.message},
-                }} />
-            )
-        }
+        // if(this.state.redirect) {
+        //
+        //     return (
+        //         <Redirect to={{
+        //             pathname : this.state.redirect,
+        //             state : {message : this.state.message},
+        //         }} />
+        //     )
+        // }
 
         if(this.state.message) {
             message = <MessageBox key={this.state.attempt} message={this.state.message} />
