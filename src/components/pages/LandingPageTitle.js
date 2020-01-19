@@ -6,6 +6,7 @@ class LandingPageTitle extends React.Component {
         opacity1 : 0,
         opacity2 : 0,
         opacity3 : 0,
+        timer : null,
     }
 
     textHandler = () => {
@@ -45,7 +46,13 @@ class LandingPageTitle extends React.Component {
 
     componentDidMount() {
         console.log("COMPONENT DID MOUNT");
-        this.textHandler();
+        this.timer = this.textHandler();
+    }
+
+    componentWillUnmount() {
+        console.log("UNMOUNTNG THE LANIG PAGE TITLE");
+        console.log(this.timer);
+        clearInterval(this.timer);
     }
 
     render() {
