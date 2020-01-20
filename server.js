@@ -70,12 +70,27 @@ const server = app.listen(port, () => console.log(`Server started at port ${port
 // Socket config
 const io = require('socket.io')(server);
 
+// make a dict to map socket connections
+const socketMap = {};
+
 // Socket Connections
-io.on('connection', (client) => {
+io.on('connection', (socket) => {
     console.log("CONNECTION TO THE IO SERVER THING");
 
-    client.on('ticket comments', (updatedTicketItem) => {
-        console.log("HERE IS updated ticket item ", updatedTicketItem);
-        io.emit('ticket comments', updatedTicketItem);
+    // when a user connects to socket ask for the current ticket ID
+    socket.on('ticketId', (ticketId) => {
+        console.log("HERE THE TICKET ID ON THE SERVER SIDE ", ticketId);
+
+        // might need a conditional here to prevent re assingment
+        socketMap[ticketId] = socket.id;
     })
+
+    socket.on('ticket comments', (updatedTicketItem) => {
+        console.log("HERE IS updated ticket item ", updatedTicketItem);
+        console.log("HERE IS THE ID OF THE TICKET ", updatedTicketItem._id)
+        // io.emit('ticket comments', updatedTicketItem);
+
+        // send to all of that tickets ID
+        io.emit(`${updatedTicketItem._id}`, updatedTicketItem);
+    });
 });
