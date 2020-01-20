@@ -31,28 +31,24 @@ class TicketItem extends React.Component {
             socket = io(':5000');
             socket.on('ticket comments', (updatedTicketItem) => {
                 console.log("HERE IS THE UPDATED TICKET ON CLIENT SIDE ", updatedTicketItem)
+                console.log("GONNA SET THE STATE");
+                console.log("BEFORE : ", this.state.ticketItem);
                 this.setState({ticketItem : updatedTicketItem});
+                console.log("AFTER : ", this.state.ticketItem);
             })
-        }
-
-
-        if (this.props.location.state === undefined) {
-            axios.get(`/api/singleTicket/${this.props.match.params.projectID}/${this.props.match.params.folders}`)
-                .then(res => {
-                    console.log("IN THEN OF TICKET ITEM JS API CALL");
-                    console.log(res);
-                    this.setState({ticketItem : res.data.ticket, message : res.data.message, dataFetched : true});
-                })
-                .catch(err => console.log(err));
-        } else {
-            this.state.ticketItem = this.props.location.state.ticketItem;
-            this.state.dataFetched = true;
         }
     }
 
     // Need to add an api call herer that sets the state of the comments
     componentDidMount(){
         console.log("MOUNTING OF THE TICKET ITEM COMPONENT");
+        axios.get(`/api/singleTicket/${this.props.match.params.projectID}/${this.props.match.params.folders}`)
+            .then(res => {
+                console.log("IN THEN OF TICKET ITEM JS API CALL");
+                console.log(res);
+                this.setState({ticketItem : res.data.ticket, message : res.data.message, dataFetched : true});
+            })
+            .catch(err => console.log(err));
     }
 
     sendToSocket = (socket, comment) => {

@@ -62,10 +62,7 @@ class Tickets extends React.Component {
                 <div style={ticketDiv}>
                     <div style={ticketCont}>
                         <div><Link className="linkStyle hoverLink" to={{
-                            pathname : `ticket/${ticket.title}`,
-                            state : {
-                                ticketItem : ticket,
-                            }
+                            pathname : `ticket/${ticket.title}`
                         }} >{ ticket.title }</Link><div style={{display:"inline-block", marginTop : "5px", padding:"0px 5px"}}>{ ticketStatus }</div></div>
                         <div style={{textAlign : "right"}}><span style={{padding : "0px 3px"}}>{date}</span><span style={{padding : "0px 3px"}}>{time}</span></div>
                     </div>
