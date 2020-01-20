@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+
 require("dotenv/config");
 
 // Importing Route Files
@@ -64,5 +65,17 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser : true }, (err) =>
 );
 
 const port = 5000;
+const server = app.listen(port, () => console.log(`Server started at port ${port}`));
 
-app.listen(port, () => console.log(`Server started at port ${port}`));
+// Socket config
+const io = require('socket.io')(server);
+
+// Socket Connections
+io.on('connection', (client) => {
+    console.log("CONNECTION TO THE IO SERVER THING");
+
+    client.on('ticket comments', (updatedTicketItem) => {
+        console.log("HERE IS updated ticket item ", updatedTicketItem);
+        io.emit('ticket comments', updatedTicketItem);
+    })
+});

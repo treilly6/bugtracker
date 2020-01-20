@@ -7,6 +7,11 @@ import axios from 'axios';
 import CommentAuthor from '../Comments/CommentAuthor';
 import '../../../../App.css';
 
+import io from 'socket.io-client';
+
+// init the socket var outside the class
+let socket;
+
 class TicketItem extends React.Component {
 
     state = {
@@ -19,6 +24,18 @@ class TicketItem extends React.Component {
         super(props);
         console.log("CONTRUCTOR OF TICKET ITEM");
         console.log(props);
+
+        // if no socket then create one listening to the server port
+        if(!socket) {
+            console.log("CREATING A SOCKET IN THE TICKET ITEM CONSTRUCTOR");
+            socket = io(':5000');
+            socket.on('ticket comments', (updatedTicketItem) => {
+                console.log("HERE IS THE UPDATED TICKET ON CLIENT SIDE ", updatedTicketItem)
+                this.setState({ticketItem : updatedTicketItem});
+            })
+        }
+
+
         if (this.props.location.state === undefined) {
             axios.get(`/api/singleTicket/${this.props.match.params.projectID}/${this.props.match.params.folders}`)
                 .then(res => {
@@ -38,6 +55,11 @@ class TicketItem extends React.Component {
         console.log("MOUNTING OF THE TICKET ITEM COMPONENT");
     }
 
+    sendToSocket = (socket, comment) => {
+        console.log("IN THE SEND SOCKET FUNCTION");
+        socket.emit('ticket comments', comment);
+    }
+
     addComment = async (comment) => {
         console.log("I THE TICKET ITEM JS DOOMMENT CFUIFND");
         console.log(window.location.href);
@@ -48,10 +70,18 @@ class TicketItem extends React.Component {
                 console.log(res);
                 // var updatedItem = this.state.ticketItem;
                 // updatedItem.comments.push(res.data.savedComment);
-                this.setState({ticketItem: res.data.ticketSaved});
+
+                // with sockets might not need this
+                // this.setState({ticketItem: res.data.ticketSaved});
+
+                // is calling the socket function
+                // should probably only be the comment but im not sure
+                // how sockets work fully yet
+                this.sendToSocket(socket, res.data.ticketSaved);
             })
             .catch(err => console.log(err));
         console.log("DONE");
+
     };
 
     evalRequest = (data) => {
@@ -73,6 +103,8 @@ class TicketItem extends React.Component {
         console.log("RENDERING TICKET ITEM COMPONENT");
         console.log(this.state);
         console.log("ABOVE STATE");
+
+        console.log("MOST IMPORTANT SOCKET INFORmation");
 
         if(!this.state.dataFetched) {
             console.log("NULL RENDER");
