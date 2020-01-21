@@ -37,7 +37,7 @@ class Nav extends React.Component {
             navBar =
             <div className="navBar">
                 <div>
-                    <Link className="navLink hoverLink" to="/">Home</Link> | <Link className="navLink hoverLink" to="/projects">Projects</Link> | <Link className="navLink hoverLink" to="/mail"><FontAwesomeIcon icon="envelope" /></Link>
+                    <Link className="navLink hoverLink" to="/">Home</Link> | <Link className="navLink hoverLink" to="/projects">Projects</Link> | <Link className="navLink hoverLink" to="/mail"><FontAwesomeIcon icon="envelope" /></Link> | <Link className="navLink hoverLink" to="/chat"><FontAwesomeIcon icon="comments" /></Link>
                 </div>
             </div>;
 
@@ -50,11 +50,12 @@ class Nav extends React.Component {
                         <div className="bar2" style={mobileMenuBar}></div>
                         <div className="bar3" style={mobileMenuBar}></div>
                     </div>
-                    <div className="mobileNavMenu" style={{height:(this.state.showMobileNav ? "240px" : "0px")}}>
+                    <div className="mobileNavMenu" style={{height:(this.state.showMobileNav ? "264px" : "0px")}}>
                         <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/profile" onClick={() => this.closeMobileNav()}><UserLoginIcon loginType={this.props.loginType} /><span>{this.props.username}</span></Link></div>
                         <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/" onClick={() => this.closeMobileNav()}>Home</Link></div>
                         <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/projects" onClick={() => this.closeMobileNav()}>Projects</Link></div>
                         <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/mail" onClick={() => this.closeMobileNav()}><FontAwesomeIcon icon="envelope" /></Link></div>
+                        <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/chat" onClick={() => this.closeMobileNav()}><FontAwesomeIcon icon="comments" /></Link></div>
                         <div className="mobileNavDiv"><LogOut></LogOut></div>
                     </div>
                 </div>

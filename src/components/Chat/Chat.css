@@ -1,0 +1,26 @@
+.chatCont {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.chatComponentContainer {
+    padding : 0px 15px;
+    display: flex;
+}
+
+.chatContacts {
+    flex : 1;
+    padding-right: 10px;
+    border-right : 1px solid #d5d8dd;
+}
+
+.chatWindow {
+    flex : 2;
+    padding-left: 10px;
+}
+
+.chatTitle {
+    padding : 10px 0px;
+    border-bottom: 1px solid #d5d8dd;
+    text-align: center;
+}

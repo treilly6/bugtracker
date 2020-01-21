@@ -41,14 +41,7 @@ class TicketItem extends React.Component {
                 console.log(res);
                 this.setState({ticketItem : res.data.ticket, message : res.data.message, dataFetched : true});
 
-                // socket.on('ticket comments', (updatedTicketItem) => {
-                //     console.log("HERE IS THE UPDATED TICKET ON CLIENT SIDE ", updatedTicketItem)
-                //     console.log("GONNA SET THE STATE");
-                //     console.log("BEFORE : ", this.state.ticketItem);
-                //     this.setState({ticketItem : updatedTicketItem});
-                //     console.log("AFTER : ", this.state.ticketItem);
-                // });
-
+                // When server emits a socket of the ticket items ID
                 socket.on(`${res.data.ticket._id}`, (updatedTicketItem) => {
                     console.log("HERE IS THE UPDATED TICKET ON CLIENT SIDE SPECIFIC SHIT", updatedTicketItem)
                     console.log("GONNA SET THE STATE");
@@ -57,12 +50,6 @@ class TicketItem extends React.Component {
                     console.log("AFTER : ", this.state.ticketItem);
                 });
 
-                // if(!socket) {
-                //     socket = io()
-                // }
-
-
-                // socket.emit('ticketId', res.data.ticket._id);
             })
             .catch(err => console.log(err));
     }

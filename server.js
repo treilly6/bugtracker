@@ -73,24 +73,27 @@ const io = require('socket.io')(server);
 // make a dict to map socket connections
 const socketMap = {};
 
-// Socket Connections
+// Socket Connections Files
+// const SocketRoutes = require('./sockets/SocketRoutes');
+
+
 io.on('connection', (socket) => {
     console.log("CONNECTION TO THE IO SERVER THING");
 
-    // when a user connects to socket ask for the current ticket ID
-    socket.on('ticketId', (ticketId) => {
-        console.log("HERE THE TICKET ID ON THE SERVER SIDE ", ticketId);
-
-        // might need a conditional here to prevent re assingment
-        socketMap[ticketId] = socket.id;
-    })
+    // // used for ticketItem
+    // socket.on('ticketId', (ticketId) => {
+    //     console.log("HERE THE TICKET ID ON THE SERVER SIDE ", ticketId);
+    //
+    //     // might need a conditional here to prevent re assingment
+    //     socketMap[ticketId] = socket.id;
+    // })
 
     socket.on('ticket comments', (updatedTicketItem) => {
         console.log("HERE IS updated ticket item ", updatedTicketItem);
         console.log("HERE IS THE ID OF THE TICKET ", updatedTicketItem._id)
         // io.emit('ticket comments', updatedTicketItem);
 
-        // send to all of that tickets ID
+        // send to all of the sockets connected to that ticket's Id
         io.emit(`${updatedTicketItem._id}`, updatedTicketItem);
     });
 });

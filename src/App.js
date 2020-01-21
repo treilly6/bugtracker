@@ -15,10 +15,11 @@ import SignUp from './components/Users/SignUp';
 import MailBox from './components/Users/MailBox/MailBox';
 import MailItem from './components/Users/MailBox/MailItem';
 import UserProfile from './components/Users/Profile/UserProfile';
+import Chat from './components/Chat/Chat';
 import NotFoundPage from './components/404/NotFoundPage';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faUser, faTrashAlt, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faUser, faTrashAlt, faEnvelopeOpenText, faComments } from '@fortawesome/free-solid-svg-icons';
 import { faGithubSquare, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
 
 // Style
@@ -30,6 +31,7 @@ library.add(faEnvelopeOpenText);
 library.add(faUser);
 library.add(faGithubSquare);
 library.add(faGooglePlus);
+library.add(faComments);
 
 class App extends React.Component {
     state = {}
@@ -54,6 +56,7 @@ class App extends React.Component {
                             <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
                             <ProtectedRoute path="/mail" exact component={MailBox} />
                             <ProtectedRoute path="/mail/:mailId" exact component={MailItem} />
+                            <ProtectedRoute path="/chat" exact component={Chat} />
                             <ProtectedRoute path="/profile" exact component={UserProfile} />
                             <NotFoundPage />
                         </Switch>
