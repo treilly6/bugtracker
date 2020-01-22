@@ -14,6 +14,7 @@ const Auth = require('./routes/api/AuthRoutes');
 const MailBox = require('./routes/api/MailBoxRoutes');
 const Task = require('./routes/api/TaskRoutes');
 const AuthLogin = require('./routes/api/AuthLoginRoutes');
+const Chats = require('./routes/api/ChatRoutes');
 
 const passport = require('passport');
 
@@ -51,6 +52,7 @@ app.use('/api/singleTicket', SingleTicket);
 app.use('/api/mailBox', MailBox);
 app.use('/api/tasks', Task);
 app.use('/authLogin', AuthLogin);
+app.use('/api/chats', Chats);
 
 // Connect to DB
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser : true }, (err) =>
@@ -78,7 +80,7 @@ const socketMap = {};
 
 
 io.on('connection', (socket) => {
-    console.log("CONNECTION TO THE IO SERVER THING");
+    console.log("Server socket connection");
 
     // // used for ticketItem
     // socket.on('ticketId', (ticketId) => {
@@ -96,4 +98,8 @@ io.on('connection', (socket) => {
         // send to all of the sockets connected to that ticket's Id
         io.emit(`${updatedTicketItem._id}`, updatedTicketItem);
     });
+
+    socket.on('new chat', (chatObj) => {
+        console.log("HERE IS THE CHAT OBJ ON SERVER SIDE ", chatObj);
+    })
 });

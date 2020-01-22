@@ -4,18 +4,27 @@ import './Chat.css';
 import ChatWindow from './ChatWindow';
 import ChatContacts from './ChatContacts';
 
+import io from 'socket.io-client';
+
+let socket;
 
 class Chat extends React.Component {
     state = {}
 
     constructor(props){
         super(props);
+
+        // if no socket then create one listening to the server port
+        if(!socket) {
+            console.log("CREATING A SOCKET IN THE create chat CONSTRUCTOR");
+            socket = io(':5000');
+        }
     }
 
     componentDidMount() {
         console.log("CHAT MOUNTED");
 
-        // I will put the socket in here
+
 
         // when a chat is selected in the chat contacts I can pass it up to here then down to the Chat window to display the proper chat
 
@@ -30,10 +39,10 @@ class Chat extends React.Component {
                 <div className="chatTitle">Chat</div>
                 <div className="chatComponentContainer">
                     <div className = "chatContacts">
-                        <ChatContacts />
+                        <ChatContacts socket = {socket}  />
                     </div>
                     <div className = "chatWindow">
-                        <ChatWindow />
+                        <ChatWindow socket = {socket} />
                     </div>
                 </div>
             </div>

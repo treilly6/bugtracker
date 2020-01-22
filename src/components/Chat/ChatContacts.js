@@ -1,6 +1,46 @@
 import React from 'react';
 import CreateChat from './CreateChat';
 
+
+const testContacts = {
+    chats : [
+        {
+            users : [1,4,6,7],
+            messages : [
+                {
+                body : "Test Message 1",
+                author : 1
+                },
+                {
+                body : "Test Message 2",
+                author : 4
+                },
+                {
+                body : "Test Message 3",
+                author : 6
+                },
+            ]
+        },
+        {
+            users : [1,4],
+            messages : [
+                {
+                body : "Test Message 1",
+                author : 1
+                },
+                {
+                body : "Test Message 2",
+                author : 4
+                },
+                {
+                body : "Test Message 3",
+                author : 6
+                },
+            ]
+        },
+    ]
+}
+
 class ChatContacts extends React.Component {
     state = {
         chats : null,
@@ -8,6 +48,8 @@ class ChatContacts extends React.Component {
 
     constructor(props){
         super(props);
+
+        this.socket = this.props.socket;
     }
 
     componentDidMount(){
@@ -25,14 +67,35 @@ class ChatContacts extends React.Component {
         // the chat window and the chat contacts
     }
 
+    addNewChat = (newChatObj) => {
+        console.log("IN addNewChat in chatcontacts.js");
+        console.log(newChatObj);
+
+        this.socket.emit('new chat', newChatObj)
+
+
+        // add the new chat to the state of chats
+        // this.setState({ chats : [...this.state.chats, newChatObj]});
+    }
+
     render(){
+
+        const testChats = testContacts.chats.map(chat => {
+            return (
+                <div style={{borderBottom : "1px solid black"}}>
+                    <div>{chat.users}</div>
+                </div>
+            )
+        });
+
+
         return(
             <div>
                 <div>
-                    <CreateChat />
+                    <CreateChat socket={this.props.socket} sendChatToParent = {this.addNewChat} />
                 </div>
                 <div>
-                    HERE THE CHAT CONTACTS
+                    {testChats}
                 </div>
             </div>
         )
