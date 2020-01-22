@@ -7,7 +7,6 @@ import axios from 'axios';
 class CreateChat extends React.Component {
     state = {
         recipients : '',
-        userId : null,
     }
 
     constructor(props){
@@ -17,21 +16,8 @@ class CreateChat extends React.Component {
         this.socket = this.props.socket;
     }
 
-    componentDidMount(){
-        axios.get('/api/user')
-            .then(res => {
-                console.log("HERE IS THE RES OF THE COMPONENT DID MOUNT ");
-                if(res.data.user) {
-                    this.setState({userId : res.data.user._id});
+    componentDidMount() {
 
-                    console.log("CREATING A SOCKET LISTENER");
-                    this.socket.on(`new chat ${this.state.userId}`, (newChat) => {
-                        console.log("IN THE NEW CHAT RESPONSE HERE");
-                        console.log("HERE IS THE NEW CHAT YOU ARE IN");
-                        console.log(newChat);
-                    });
-                }
-            })
     }
 
     submit = (e) => {
@@ -43,9 +29,10 @@ class CreateChat extends React.Component {
                 .then(res => {
                     console.log("HERE THE RES FOR THE NEW CHAT POST ", res);
 
-
-                    if(res.data) {
-                        this.props.sendChatToParent(res.data);
+                    // if the call was a success send the new chat Obj to parent component (ChatContacts.js)
+                    if(res.data.success) {
+                        this.props.sendChatToParent(res.data.success.chatObj);
+                        this.setState({recipients : ''});
                     }
                 })
                 .catch(err => console.log(err))

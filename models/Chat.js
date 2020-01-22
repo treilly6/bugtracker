@@ -1,9 +1,17 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const ChatSchema = mongoose.Schema({
+
+const ChatSchema = Schema({
     users : [{
-        type : String,
-        ref : 'User',
+        userId : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'User',
+        },
+        username : {
+            type: String,
+        }
+
     }],
     messages : [{
         body : String,

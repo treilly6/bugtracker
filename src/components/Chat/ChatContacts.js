@@ -1,49 +1,12 @@
 import React from 'react';
 import CreateChat from './CreateChat';
+import axios from 'axios'
 
 
-const testContacts = {
-    chats : [
-        {
-            users : [1,4,6,7],
-            messages : [
-                {
-                body : "Test Message 1",
-                author : 1
-                },
-                {
-                body : "Test Message 2",
-                author : 4
-                },
-                {
-                body : "Test Message 3",
-                author : 6
-                },
-            ]
-        },
-        {
-            users : [1,4],
-            messages : [
-                {
-                body : "Test Message 1",
-                author : 1
-                },
-                {
-                body : "Test Message 2",
-                author : 4
-                },
-                {
-                body : "Test Message 3",
-                author : 6
-                },
-            ]
-        },
-    ]
-}
 
 class ChatContacts extends React.Component {
     state = {
-        chats : null,
+        chats : [],
     }
 
     constructor(props){
@@ -54,6 +17,23 @@ class ChatContacts extends React.Component {
 
     componentDidMount(){
         console.log("CHAT CONTACTS HAS MOUNTED");
+        console.log(this.props.userId);
+
+        // get the chats the user is involved in
+        axios.get(`/api/chats`)
+            .then(res => {
+                console.log("HERE IS THE RES ", res);
+                this.setState({chats : res.data.chats});
+            })
+            .catch(err => console.log(err));
+
+
+        // listen for new chats the user is added to
+        this.socket.on(`new chat ${this.props.userId}`, chatObj => {
+            console.log("ON THE RECIEVE END OF THE SOCKET ");
+            console.log(chatObj);
+            this.setState({chats : [...this.state.chats, chatObj]})
+        });
 
         // axios call to get all the chats the user is in
 
@@ -71,22 +51,33 @@ class ChatContacts extends React.Component {
         console.log("IN addNewChat in chatcontacts.js");
         console.log(newChatObj);
 
-        this.socket.emit('new chat', newChatObj)
+        // emit new chat to the server
+        this.socket.emit(`new chat`, newChatObj);
 
-
-        // add the new chat to the state of chats
-        // this.setState({ chats : [...this.state.chats, newChatObj]});
     }
 
     render(){
 
-        const testChats = testContacts.chats.map(chat => {
-            return (
-                <div style={{borderBottom : "1px solid black"}}>
-                    <div>{chat.users}</div>
-                </div>
-            )
-        });
+        var chatItems;
+        if(this.state.chats) {
+            chatItems = this.state.chats.map(chat => {
+
+                // format the users in the chat
+                var chatUsers = chat.users.map( user => {
+                    return(
+                        <span style={{padding : "0px 6px"}}>{user.username}</span>
+                    )
+                });
+
+
+                return (
+                    <div style={{borderBottom : "1px solid black"}}>
+                        <div>{chatUsers}</div>
+                    </div>
+                )
+            });
+        }
+
 
 
         return(
@@ -95,7 +86,7 @@ class ChatContacts extends React.Component {
                     <CreateChat socket={this.props.socket} sendChatToParent = {this.addNewChat} />
                 </div>
                 <div>
-                    {testChats}
+                    {chatItems}
                 </div>
             </div>
         )

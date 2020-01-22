@@ -10,8 +10,16 @@ router.post('/newChat', (req, res) => {
     console.log("/api/chats/newChat Request ");
     console.log(req.body);
 
+
+    console.log(req.user.username);
+
     // set the recipients variable
     const recipients = req.body;
+
+    if(!recipients.includes(req.user.username)) {
+        console.log("USERNAME NOT IN RECIPIENTS");
+        recipients.push(req.user.username);
+    }
 
     // init a new chat obj
     var newChat = new Chat();
@@ -19,50 +27,81 @@ router.post('/newChat', (req, res) => {
     var validUserNames = [];
     var invalidUserNames = [];
 
-    var checkRecipients = new Promise((resolve, reject) => {
-        const promiseArray = [];
-        recipients.forEach(username => {
-            promiseArray.push(new Promise((resolve, reject) => {
-                console.log("IN THE FOR EACH HERE THE USERNAME", username);
-                User.findOne({username : username})
-                    .then(user => {
-                        console.log("HERE IS QUERY RESULT HERE ", user)
-                        if(user) {
-                            validUserNames.push(username);
-                        } else {
-                            invalidUserNames.push(username)
-                        }
-                        resolve();
-                    })
-                    .catch(err => {
-                        console.log(err, "THERE AN ERROR IN THSI FOR EACH")
-                    })
-            }));
-        });
-
-        Promise.all(promiseArray)
-            .then(() => {
-                console.log("RESOLVING THE CONTAINER PROMISE");
-                resolve();
+    const checkRecipients = async () => {
+        console.log("IN CHECK RECIPT ASYN AWAIT")
+        for (username of recipients) {
+            await User.findOne({username : username}, (err, user) => {
+                console.log("HERE THE USENAME USED ", username);
+                console.log("HERE THE QUERY RES ", user, "\n", "\n");
+                if(user) {
+                    validUserNames.push({userId : user._id, username : user.username});
+                } else {
+                    invalidUserNames.push(username)
+                }
             })
-    });
+        }
 
-
-    checkRecipients.then(() => {
         console.log("IN THE COMPLETED CHAK RECIPIENTS MAN ");
         console.log("REAL END OF THE ROUTE SHIT");
         console.log(validUserNames);
         console.log(invalidUserNames);
 
-        if(invalidUserNames.length === 0){
-            res.json({success : "Will create chat"});
-        } else {
-            res.json({success : "Will NOT create chat"});
-        }
-    });
+        if(invalidUserNames.length === 0) {
+            // Add the user's ids to the chat object
+            validUserNames.forEach(userObj => {
+                console.log("HERE IS THE FOR EACH ON THE USER ID's ", userObj, typeof(userObj), "\n", "\n");
+                newChat.users.push(userObj);
+            })
 
+            newChat.save((err) => {
+                if(err) {
+                    res.json({error : {type : save}});
+                } else {
+                    console.log("SAVING THE CHAT ");
+                    console.log(typeof(newChat.users[0].id));
+                    // Return success with the new chat object
+                    res.json({success : {message : "Success : New Chat Created", chatObj : newChat}});
+                }
+            })
+
+
+        } else {
+            // Return an error with an array containing the invalid usernames
+            res.json({error : {type : "usernames", usernames : invalidUserNames}});
+        }
+
+    };
+
+    checkRecipients();
+
+    console.log("HERE IS THEN END AFTER THE ASYNC ", validUserNames, invalidUserNames);
     console.log("END OF THE ROUTE");
 
+});
+
+router.get('/', (req, res) => {
+    console.log("IN THE GET REQ");
+
+    const userId = req.session.passport.user;
+
+    console.log(req.user._id, "HERE THE REQ USER");
+    console.log(typeof(userId), typeof(req.user._id));
+
+    console.log("HERE IS THE USERS ID");
+
+    // find the chats a user is in
+    Chat.find({"users.userId" : req.user._id})
+        .then(chats => {
+            console.log("HERE THE CHATS ON THE SERVER QUERY");
+            console.log(chats);
+            // Return the chats
+            res.json({chats : chats});
+
+
+        })
+        .catch(err => {
+            console.log(err)
+        })
 })
 
 module.exports = router;

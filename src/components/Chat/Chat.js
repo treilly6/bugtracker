@@ -3,13 +3,17 @@ import '../../App.css';
 import './Chat.css';
 import ChatWindow from './ChatWindow';
 import ChatContacts from './ChatContacts';
+import axios from 'axios';
 
 import io from 'socket.io-client';
 
 let socket;
 
 class Chat extends React.Component {
-    state = {}
+    state = {
+        userId : null,
+        userFetched : false,
+    }
 
     constructor(props){
         super(props);
@@ -24,6 +28,13 @@ class Chat extends React.Component {
     componentDidMount() {
         console.log("CHAT MOUNTED");
 
+        axios.get('/api/user')
+            .then(res => {
+                console.log("HERE IS THE RES OF THE COMPONENT DID MOUNT ");
+                if(res.data.user) {
+                    this.setState({userId : res.data.user._id, userFetched : true});
+                }
+            })
 
 
         // when a chat is selected in the chat contacts I can pass it up to here then down to the Chat window to display the proper chat
@@ -34,19 +45,23 @@ class Chat extends React.Component {
     }
 
     render() {
-        return (
-            <div className="itemBorder chatCont">
-                <div className="chatTitle">Chat</div>
-                <div className="chatComponentContainer">
-                    <div className = "chatContacts">
-                        <ChatContacts socket = {socket}  />
-                    </div>
-                    <div className = "chatWindow">
-                        <ChatWindow socket = {socket} />
+        if(this.state.userId) {
+            return (
+                <div className="itemBorder chatCont">
+                    <div className="chatTitle">Chat</div>
+                    <div className="chatComponentContainer">
+                        <div className = "chatContacts">
+                            <ChatContacts socket = {socket} userId={this.state.userId} />
+                        </div>
+                        <div className = "chatWindow">
+                            <ChatWindow socket = {socket} />
+                        </div>
                     </div>
                 </div>
-            </div>
-        )
+            )
+        } else {
+            return null;
+        }
     }
 }
 
