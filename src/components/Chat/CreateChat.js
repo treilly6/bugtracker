@@ -42,6 +42,7 @@ class CreateChat extends React.Component {
     changeInput = (e) => {
         this.setState({ [e.target.name] : e.target.value});
     }
+    
     render(){
         return(
             <div>

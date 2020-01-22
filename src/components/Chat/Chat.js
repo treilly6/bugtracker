@@ -13,6 +13,7 @@ class Chat extends React.Component {
     state = {
         userId : null,
         userFetched : false,
+        selectedChat : null,
     }
 
     constructor(props){
@@ -44,6 +45,11 @@ class Chat extends React.Component {
         // The chat will update it's unread messages count
     }
 
+    selectedChat = (chatObj) => {
+        console.log("IN THE SELECTED CHAT OF THE CHAT.js ", chatObj);
+        this.setState({selectedChat : chatObj});
+    }
+
     render() {
         if(this.state.userId) {
             return (
@@ -51,10 +57,10 @@ class Chat extends React.Component {
                     <div className="chatTitle">Chat</div>
                     <div className="chatComponentContainer">
                         <div className = "chatContacts">
-                            <ChatContacts socket = {socket} userId={this.state.userId} />
+                            <ChatContacts socket={socket} getSelectedChat={this.selectedChat} userId={this.state.userId} />
                         </div>
                         <div className = "chatWindow">
-                            <ChatWindow socket = {socket} />
+                            <ChatWindow socket = {socket} selectedChat={this.state.selectedChat} />
                         </div>
                     </div>
                 </div>

@@ -23,7 +23,18 @@ class ChatContacts extends React.Component {
         axios.get(`/api/chats`)
             .then(res => {
                 console.log("HERE IS THE RES ", res);
+                console.log(res.data.chats);
                 this.setState({chats : res.data.chats});
+
+                for (const chat of res.data.chats) {
+                    console.log("IN OF LOOP OF THE RES DATA CHATS ", chat._id);
+                    this.socket.on(`new chat message ${chat._id}`, newMessage => {
+                        console.log("HERE IS THE NEW MESSAGE FOR ON THE CLIENTS SIDE ");
+                        console.log(newMessage);
+
+                        // find the chat by id and append the new message to the messages
+                    })
+                }
             })
             .catch(err => console.log(err));
 
@@ -33,6 +44,13 @@ class ChatContacts extends React.Component {
             console.log("ON THE RECIEVE END OF THE SOCKET ");
             console.log(chatObj);
             this.setState({chats : [...this.state.chats, chatObj]})
+
+            this.socket.on(`new chat message ${chatObj._id}`, newMessage => {
+                console.log("HERE IS THE NEW MESSAGE FOR ON THE CLIENTS SIDE ");
+                console.log(newMessage);
+
+                // find the chat by id and append the new message to the messages
+            })
         });
 
         // axios call to get all the chats the user is in
@@ -56,6 +74,11 @@ class ChatContacts extends React.Component {
 
     }
 
+    selectChat = (chatObj) => {
+        console.log("HERE IS THE CHATObj chatcontacts.js ", chatObj);
+        this.props.getSelectedChat(chatObj);
+    }
+
     render(){
 
         var chatItems;
@@ -71,7 +94,7 @@ class ChatContacts extends React.Component {
 
 
                 return (
-                    <div style={{borderBottom : "1px solid black"}}>
+                    <div style={{borderBottom : "1px solid black"}} onClick={() => this.selectChat(chat)}>
                         <div>{chatUsers}</div>
                     </div>
                 )
