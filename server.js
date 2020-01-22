@@ -115,7 +115,10 @@ io.on('connection', (socket) => {
         console.log("SERVER SIDE HER TEH MESSAGE OBJ ");
         console.log(messageObj);
 
-        // emit to clients of the chatId the new message
+        // emit to clients of the chatId the new message (ChatContacts.js)
         io.emit(`new chat message ${messageObj.chatId}`, messageObj.message);
+
+        // emit to the chat window of that chat Obj (ChatWindow.js)
+        io.emit(`chat window ${messageObj.chatId}`, messageObj.message);
     })
 });

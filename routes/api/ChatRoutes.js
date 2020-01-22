@@ -5,7 +5,7 @@ var ObjectId = require('mongodb').ObjectId;
 let Chat = require('../../models/Chat');
 let User = require('../../models/User');
 
-
+// create a new chat
 router.post('/newChat', (req, res) => {
     console.log("/api/chats/newChat Request ");
     console.log(req.body);
@@ -79,6 +79,7 @@ router.post('/newChat', (req, res) => {
 
 });
 
+// get the chats the user is in
 router.get('/', (req, res) => {
     console.log("IN THE GET REQ");
 
@@ -102,6 +103,40 @@ router.get('/', (req, res) => {
         .catch(err => {
             console.log(err)
         })
+});
+
+// post a new chat message
+router.post('/newMessage', (req, res) => {
+    console.log("IN THE POST NEW MESSAHE ROUTE ");
+    console.log(req.body);
+
+    const { chatId, message } = req.body;
+
+    console.log("HERE THE DESTRUCTED SHIT ", chatId, message);
+
+    Chat.findOne({_id : chatId})
+        .then(chat => {
+            console.log("HERE THE SERVER CHAT ", chat);
+            if(chat) {
+                console.log("HERE THE SAVE MSG TO THE CHATOBJ");
+
+                console.log("HERE CHAT MESSAGES BEFOER ", chat.messages);
+                chat.messages.push(message);
+                console.log("CHAT MESSAGES AFTER ", chat.messages);
+
+                chat.save(err => {
+                    if(err) {
+                        console.log(err, "Error on chat save post new message route ");
+                        res.json({error : {message : "Error : Failed to properly save. Refresh page and try again"}});
+                    } else {
+                        res.json({success : {message : "Success : Message Sent"}});
+                    }
+                })
+            }
+        })
+        .catch(err => {
+            res.json({error : {message : "Error : Failed to save message properly. Try refreshing the page"}})
+        });
 })
 
 module.exports = router;

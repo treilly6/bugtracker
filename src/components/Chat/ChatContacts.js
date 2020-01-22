@@ -32,6 +32,8 @@ class ChatContacts extends React.Component {
                         console.log("HERE IS THE NEW MESSAGE FOR ON THE CLIENTS SIDE ");
                         console.log(newMessage);
 
+                        this.updateChatStateWithNewMessage(newMessage, chat._id);
+
                         // find the chat by id and append the new message to the messages
                     })
                 }
@@ -50,6 +52,13 @@ class ChatContacts extends React.Component {
                 console.log(newMessage);
 
                 // find the chat by id and append the new message to the messages
+
+                console.log("LOKING FOR THE CORRECT CHAT");
+                console.log(this.state.chats);
+                console.log(chatObj._id);
+
+                this.updateChatStateWithNewMessage(newMessage, chatObj._id);
+
             })
         });
 
@@ -63,6 +72,35 @@ class ChatContacts extends React.Component {
 
         // might want to put that into the Main chat.js component b/c then i can pass the chats down to both
         // the chat window and the chat contacts
+    }
+
+    updateChatStateWithNewMessage = (newMessage, chatObjId) => {
+        console.log("UPDATE STATE CHAT MESSAGE NEW THING YOU MADE ", newMessage);
+
+        // get the chat obj from the state array
+        const changedChat = this.state.chats.find(chat => chat._id === chatObjId);
+
+        // get the index of it probably combine with above return a tuple somewhere
+        const chatIndex = this.state.chats.indexOf(changedChat);
+
+        console.log("HERE ID THE CHAT FOUND ", changedChat, chatIndex);
+
+        // copy the chat
+        var copyChat = Object.assign({},changedChat);
+
+        console.log("CHAT BEFORE ", copyChat);
+        // add the new message
+        copyChat.messages.push(newMessage);
+        console.log("CHAT AFETR ", copyChat);
+
+        // copy the state
+        var copyState = [...this.state.chats];
+
+        // replace the old chat with the updated chat
+        copyState[chatIndex] = copyChat;
+
+        // set the state of chats to the updated chats
+        this.setState({chats : copyState});
     }
 
     addNewChat = (newChatObj) => {
@@ -82,6 +120,7 @@ class ChatContacts extends React.Component {
     render(){
 
         var chatItems;
+        console.log("CHATCONTACTS RENDER STATE INFOR ", this.state.chats);
         if(this.state.chats) {
             chatItems = this.state.chats.map(chat => {
 

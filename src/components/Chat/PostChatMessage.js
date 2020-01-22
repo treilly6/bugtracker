@@ -17,6 +17,8 @@ class PostChatMessage extends React.Component {
 
     submit = (e) => {
         e.preventDefault();
+        
+        // send to parent component (chatWindow.js)
         this.props.sendMessageToParent({body :this.state.message, author : "Me"});
         this.setState({message : ''});
     }
