@@ -56,14 +56,15 @@ class ChatWindow extends React.Component {
                 this.socket.on(`chat window ${this.props.selectedChat._id}`, (newMessage) => {
                     console.log("HERE IS THE NEW MESSAGE", newMessage);
 
-                    console.log("IN THE SOCKET ON CHAT WINDWO ID HERE THE ID AND SHIT ", this.props.selectedChat._id)
+                    console.log("IN THE SOCKET ON CHAT WINDWO ID HERE THE ID AND SHIT ", this.props.selectedChat._id);
+                    console.log(this.props.selectedChat);
+                    console.log(this.state.chatObj);
 
                     // copy the chatObj
-                    const chatCopy = Object.assign({}, this.props.selectedChat);
+                    const chatCopy = Object.assign({}, this.state.chatObj);
 
                     // add new message
-                    // chatCopy.messages = [...chatCopy.messages, newMessage];
-                    chatCopy.messages.push(newMessage);
+                    chatCopy.messages = [...chatCopy.messages, newMessage];
 
                     // set the state
                     this.setState({chatObj : chatCopy});

@@ -51,6 +51,9 @@ class Chat extends React.Component {
     }
 
     render() {
+        console.log("HERE IS THE SELECTED CHAT ON THE CHAT.js RENDER");
+        console.log(this.state.selectChat);
+        console.log("\n","\n","\n");
         if(this.state.userId) {
             return (
                 <div className="itemBorder chatCont">

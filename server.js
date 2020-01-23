@@ -111,10 +111,11 @@ io.on('connection', (socket) => {
         console.log(messageObj);
         console.log(messageObj.chatId);
 
-        // emit to clients of the chatId the new message (ChatContacts.js)
-        // io.emit(`new chat message ${messageObj.chatId}`, messageObj.message);
+        // // emit to clients of the chatId the new message (ChatContacts.js)
+        io.emit(`new chat message ${messageObj.chatId}`, messageObj.message);
 
-        // emit to the chat window of that chat Obj (ChatWindow.js)
+        // // emit to the chat window of that chat Obj (ChatWindow.js)
         io.emit(`chat window ${messageObj.chatId}`, messageObj.message);
+
     })
 });

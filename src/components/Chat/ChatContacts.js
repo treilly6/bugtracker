@@ -89,10 +89,26 @@ class ChatContacts extends React.Component {
         // copy the chat
         var copyChat = Object.assign({},changedChat);
 
-        console.log("CHAT BEFORE ", copyChat);
+        copyChat.messages = [...copyChat.messages, newMessage];
+
+
+        // var messagesCopy = [...copyChat.messages];
+
+        // console.log("MESSAGES COPY BEFORE THE PUSH THING", messagesCopy);
+
+        // messagesCopy.push(newMessage);
+
+        // console.log("MESSAGES COPY ADFTER THE EHFHHFHF", messagesCopy);
+
+        // console.log("CHAT BEFORE ", copyChat);
         // add the new message
-        copyChat.messages.push(newMessage);
-        console.log("CHAT AFETR ", copyChat);
+        // copyChat.messages.push(newMessage);
+
+        // add the message to the messages copy
+        // copyChat.messages = messagesCopy;
+
+
+        // console.log("CHAT AFETR ", copyChat);
 
         // copy the state
         var copyState = [...this.state.chats];
