@@ -1,4 +1,5 @@
 import React from 'react';
+import './Chat.css';
 
 class PostChatMessage extends React.Component {
     state = {
@@ -17,7 +18,7 @@ class PostChatMessage extends React.Component {
 
     submit = (e) => {
         e.preventDefault();
-        
+
         // send to parent component (chatWindow.js)
         this.props.sendMessageToParent({body :this.state.message, author : "Me"});
         this.setState({message : ''});
@@ -26,8 +27,8 @@ class PostChatMessage extends React.Component {
     render(){
         return (
             <div>
-                <form onSubmit={this.submit}>
-                    <input type="text" placeholder="Type Message ..." name="message" value={this.state.message} onChange={this.changeInput} />
+                <form onSubmit={this.submit} className="chat-post-form">
+                    <textarea type="text" placeholder="Type Message ..." name="message" value={this.state.message} onChange={this.changeInput} />
                     <button type="submit">Send</button>
                 </form>
             </div>

@@ -42,11 +42,11 @@ class CreateChat extends React.Component {
     changeInput = (e) => {
         this.setState({ [e.target.name] : e.target.value});
     }
-    
+
     render(){
         return(
             <div>
-                <div>Separate usernames by a comma to add multiple recipients</div>
+                <div style={{fontSize : ".65em"}}>Separate usernames by a comma to add multiple recipients</div>
                 <form onSubmit={this.submit}>
                     <div className="inputCont">
                         <input className="formInput" type="text" name="recipients" value={this.state.recipients} onChange={this.changeInput} placeholder="Enter Recipients" />

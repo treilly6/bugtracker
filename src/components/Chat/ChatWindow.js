@@ -91,9 +91,7 @@ class ChatWindow extends React.Component {
         if(!this.state.chatObj) {
             return (
                 <div>
-                    <div>
-                        Select a chat
-                    </div>
+                    Select a chat
                 </div>
             )
         } else {
@@ -109,9 +107,7 @@ class ChatWindow extends React.Component {
 
             return (
                 <div>
-                    <div>
-                        {messages}
-                    </div>
+                    {messages}
                     <PostChatMessage sendMessageToParent={this.getNewMessage} />
                 </div>
             )

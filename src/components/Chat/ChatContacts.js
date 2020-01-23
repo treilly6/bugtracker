@@ -134,7 +134,7 @@ class ChatContacts extends React.Component {
 
                 return (
                     <div className="chatContactCont" onClick={() => this.selectChat(chat)}>
-                        <div>{chatUsers}</div>
+                        <div style={{overflow : "hidden", textOverflow : "ellipsis"}}>{chatUsers}</div>
                     </div>
                 )
             });

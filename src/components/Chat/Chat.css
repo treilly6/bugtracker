@@ -5,7 +5,8 @@
 
 .chatComponentContainer {
     padding : 0px 15px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 30% 70%;
 }
 
 .chatContacts {
@@ -17,6 +18,7 @@
 .chatWindow {
     flex : 2;
     padding-left: 10px;
+    overflow-x : hidden;
 }
 
 .chatTitle {
@@ -28,19 +30,40 @@
 .chatContactCont {
     border-bottom : 1px solid #d5d8dd;
     padding: 7px 0px;
+    text-overflow: ellipsis;
 }
 
 .messageCont {
     display: flex;
     justify-content: flex-start;
-    padding : 7px 5px;
+    padding : 7px 5px 7px 0px;
     align-items: center;
+    border-bottom: 1px solid #d5d8dd;
 }
 
 .author {
     padding : 0px 8px;
+    font-size: .85em;
 }
 
 .message {
+    font-size: .85em;
+    word-break: break-all;
+}
 
+.chat-post-form {
+    display: grid;
+    grid-template-columns: 85% 15%;
+}
+
+@media (max-width : 767px) {
+    .chatComponentContainer {
+        padding : 0px 7px;
+        grid-template-columns: 40% 60%;
+    }
+
+    .chat-post-form {
+        display: grid;
+        grid-template-columns: 70% 30%;
+    }
 }
