@@ -47,6 +47,7 @@ class ChatContacts extends React.Component {
             console.log(chatObj);
             this.setState({chats : [...this.state.chats, chatObj]})
 
+
             this.socket.on(`new chat message ${chatObj._id}`, newMessage => {
                 console.log("HERE IS THE NEW MESSAGE FOR ON THE CLIENTS SIDE ");
                 console.log(newMessage);

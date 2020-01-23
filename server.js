@@ -70,7 +70,8 @@ const port = 5000;
 const server = app.listen(port, () => console.log(`Server started at port ${port}`));
 
 // Socket config
-const io = require('socket.io')(server);
+const socket = require('socket.io');
+const io = socket(server);
 
 // make a dict to map socket connections
 const socketMap = {};
@@ -80,16 +81,9 @@ const socketMap = {};
 
 
 io.on('connection', (socket) => {
-    console.log("Server socket connection");
+    console.log("Server socket connection ", "HERE IS SOCKET", socket, "\n", "\n","\n","\n");
 
-    // // used for ticketItem
-    // socket.on('ticketId', (ticketId) => {
-    //     console.log("HERE THE TICKET ID ON THE SERVER SIDE ", ticketId);
-    //
-    //     // might need a conditional here to prevent re assingment
-    //     socketMap[ticketId] = socket.id;
-    // })
-
+    // when a ticket comment is passed
     socket.on('ticket comments', (updatedTicketItem) => {
         console.log("HERE IS updated ticket item ", updatedTicketItem);
         console.log("HERE IS THE ID OF THE TICKET ", updatedTicketItem._id)
@@ -99,6 +93,7 @@ io.on('connection', (socket) => {
         io.emit(`${updatedTicketItem._id}`, updatedTicketItem);
     });
 
+    // when new chat is made
     socket.on('new chat', (chatObj) => {
         console.log("HERE IS THE CHAT OBJ ON SERVER SIDE ", chatObj);
 
@@ -110,13 +105,14 @@ io.on('connection', (socket) => {
 
     });
 
-    // on new chat message emmited from client
+    // on new chat message
     socket.on('new chat message', (messageObj) => {
         console.log("SERVER SIDE HER TEH MESSAGE OBJ ");
         console.log(messageObj);
+        console.log(messageObj.chatId);
 
         // emit to clients of the chatId the new message (ChatContacts.js)
-        io.emit(`new chat message ${messageObj.chatId}`, messageObj.message);
+        // io.emit(`new chat message ${messageObj.chatId}`, messageObj.message);
 
         // emit to the chat window of that chat Obj (ChatWindow.js)
         io.emit(`chat window ${messageObj.chatId}`, messageObj.message);

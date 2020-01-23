@@ -120,9 +120,8 @@ router.post('/newMessage', (req, res) => {
             if(chat) {
                 console.log("HERE THE SAVE MSG TO THE CHATOBJ");
 
-                console.log("HERE CHAT MESSAGES BEFOER ", chat.messages);
+                // push the new message into the array of messages
                 chat.messages.push(message);
-                console.log("CHAT MESSAGES AFTER ", chat.messages);
 
                 chat.save(err => {
                     if(err) {
