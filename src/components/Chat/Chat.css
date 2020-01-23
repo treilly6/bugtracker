@@ -24,3 +24,23 @@
     border-bottom: 1px solid #d5d8dd;
     text-align: center;
 }
+
+.chatContactCont {
+    border-bottom : 1px solid #d5d8dd;
+    padding: 7px 0px;
+}
+
+.messageCont {
+    display: flex;
+    justify-content: flex-start;
+    padding : 7px 5px;
+    align-items: center;
+}
+
+.author {
+    padding : 0px 8px;
+}
+
+.message {
+
+}

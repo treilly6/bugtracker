@@ -1,6 +1,7 @@
 import React from 'react';
 import PostChatMessage from './PostChatMessage';
 import axios from 'axios';
+import './Chat.css';
 
 class ChatWindow extends React.Component {
     state = {
@@ -22,43 +23,27 @@ class ChatWindow extends React.Component {
             console.log("PROPS DIFF UPDATE");
             this.setState({chatObj : this.props.selectedChat});
 
-            // Dup being made b/c on inital click of a chat the props differ from null to an actual chat and make a
-            // socket listener for that chat, however, that socket is already made in Chat contacts so there are now 2 socket listeners for
-            // the same event. this repeats if you click to a different chat and then come back there will  now be 3 instances of the new message
-
             console.log("HERE IS THE SOCKET")
             console.log(this.socket);
 
-            console.log("HERE IS THE PREV SELECTED CHAT ID AND THE CURRENT");
-            console.log(this.props.selectedChat._id);
-            console.log(prevProps.selectedChat);
-
+            // check if there was a chat obj for the previous selected chat props
             if(prevProps.selectedChat && prevProps.selectedChat._id) {
-                console.log("THERE IS A PREV ID I SHOULD CHEC THE SOCKET AND REMOVE THE WINDOW CONNECTION IF EXISTS");
-                console.log(`$chat window ${prevProps.selectedChat._id}` in this.socket._callbacks);
+                // if the chat obj had a socket listener clear that listener
                 if(`$chat window ${prevProps.selectedChat._id}` in this.socket._callbacks) {
-                    console.log("THERE EXISTS AN OLD WINDOW LISTENER");
-                    console.log(this.socket);
+                    // remove the listener
                     this.socket.off(`chat window ${prevProps.selectedChat._id}`)
-                    console.log(this.socket);
                 }
             }
 
             console.log("HERE THE SELECTED CHAT", this.props.selectedChat);
+
+            // if there is a selected chat and there is not already a socket listener for the chat item
             if(this.props.selectedChat && !(`$chat window ${this.props.selectedChat._id}` in this.socket._callbacks)) {
                 console.log("Adding socket listener");
                 console.log(this.socket);
 
-                // console.log(typeof(this.socket._callbacks), this.socket._callbacks);
-                //
-                // console.log(`$chat window ${this.props.selectedChat._id}` in this.socket._callbacks);
-
+                // create a listener for the chat window
                 this.socket.on(`chat window ${this.props.selectedChat._id}`, (newMessage) => {
-                    console.log("HERE IS THE NEW MESSAGE", newMessage);
-
-                    console.log("IN THE SOCKET ON CHAT WINDWO ID HERE THE ID AND SHIT ", this.props.selectedChat._id);
-                    console.log(this.props.selectedChat);
-                    console.log(this.state.chatObj);
 
                     // copy the chatObj
                     const chatCopy = Object.assign({}, this.state.chatObj);
@@ -116,8 +101,8 @@ class ChatWindow extends React.Component {
             var messages = this.state.chatObj.messages.map(message => {
                 return (
                     <div className="messageCont">
-                        <div>{message.author}</div>
-                        <div>{message.body}</div>
+                        <div className="author">{message.author}</div>
+                        <div className="message">{message.body}</div>
                     </div>
                 )
             });

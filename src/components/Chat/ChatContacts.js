@@ -1,6 +1,7 @@
 import React from 'react';
 import CreateChat from './CreateChat';
-import axios from 'axios'
+import axios from 'axios';
+import './Chat.css';
 
 
 
@@ -89,26 +90,8 @@ class ChatContacts extends React.Component {
         // copy the chat
         var copyChat = Object.assign({},changedChat);
 
+        // add new message to the array of messages
         copyChat.messages = [...copyChat.messages, newMessage];
-
-
-        // var messagesCopy = [...copyChat.messages];
-
-        // console.log("MESSAGES COPY BEFORE THE PUSH THING", messagesCopy);
-
-        // messagesCopy.push(newMessage);
-
-        // console.log("MESSAGES COPY ADFTER THE EHFHHFHF", messagesCopy);
-
-        // console.log("CHAT BEFORE ", copyChat);
-        // add the new message
-        // copyChat.messages.push(newMessage);
-
-        // add the message to the messages copy
-        // copyChat.messages = messagesCopy;
-
-
-        // console.log("CHAT AFETR ", copyChat);
 
         // copy the state
         var copyState = [...this.state.chats];
@@ -150,7 +133,7 @@ class ChatContacts extends React.Component {
 
 
                 return (
-                    <div style={{borderBottom : "1px solid black"}} onClick={() => this.selectChat(chat)}>
+                    <div className="chatContactCont" onClick={() => this.selectChat(chat)}>
                         <div>{chatUsers}</div>
                     </div>
                 )
