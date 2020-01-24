@@ -6,14 +6,14 @@ import './Chat.css';
 class ChatWindow extends React.Component {
     state = {
         chatObj : null,
+        userId : null,
     }
 
     constructor(props){
         super(props);
         this.state.chatObj = this.props.selectedChat;
         this.socket = this.props.socket;
-
-
+        this.state.userId = this.props.userId;
     }
 
     componentDidUpdate(prevProps) {
@@ -68,7 +68,7 @@ class ChatWindow extends React.Component {
         console.log("HERE THE OBJ STATE ", this.state.chatObj);
 
         // make the message object
-        const messageObj = { message : msg, chatId : this.state.chatObj._id};
+        var messageObj = { message : msg, chatId : this.state.chatObj._id};
 
         // post new message to api
         axios.post(`/api/chats/newMessage`, messageObj)
@@ -77,6 +77,10 @@ class ChatWindow extends React.Component {
                 if(res.data.success) {
                     // maybe have the server return the actual message obj
                     console.log("SUCCESS AND GOUNG TO SEND TO THE SERVER BY EMIT", "\n", "\n", "\n");
+
+                    // overwrite the message key with the saved message from the server
+                    messageObj.message = res.data.success.savedMessage;
+
                     // emit new chat to the server
                     this.socket.emit(`new chat message`, messageObj);
                 }
@@ -97,9 +101,10 @@ class ChatWindow extends React.Component {
         } else {
 
             var messages = this.state.chatObj.messages.map(message => {
+                const author = (message.author.userId == this.state.userId ? "Me" : message.author.username)
                 return (
-                    <div className="messageCont">
-                        <div className="author">{message.author}</div>
+                    <div className="chatMessageCont">
+                        <div className="author">{author}:</div>
                         <div className="message">{message.body}</div>
                     </div>
                 )

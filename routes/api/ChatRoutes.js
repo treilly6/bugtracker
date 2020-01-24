@@ -110,7 +110,9 @@ router.post('/newMessage', (req, res) => {
     console.log("IN THE POST NEW MESSAHE ROUTE ");
     console.log(req.body);
 
-    const { chatId, message } = req.body;
+    var { chatId, message } = req.body;
+
+    console.log("HERE IS THE USER SHIT ", req.user);
 
     console.log("HERE THE DESTRUCTED SHIT ", chatId, message);
 
@@ -120,6 +122,21 @@ router.post('/newMessage', (req, res) => {
             if(chat) {
                 console.log("HERE THE SAVE MSG TO THE CHATOBJ");
 
+                console.log(message, "START");
+
+                message.author = {};
+
+                message.author.userId = req.user.id;
+
+                console.log(message, "/neat");
+
+                message.author.username = req.user.username;
+
+                console.log(message, "Yeet");
+
+
+                console.log("HERE IS THE MESSAHE BEFORE THE SAVE OF THE CHAT ", message);
+
                 // push the new message into the array of messages
                 chat.messages.push(message);
 
@@ -128,7 +145,7 @@ router.post('/newMessage', (req, res) => {
                         console.log(err, "Error on chat save post new message route ");
                         res.json({error : {message : "Error : Failed to properly save. Refresh page and try again"}});
                     } else {
-                        res.json({success : {message : "Success : Message Sent"}});
+                        res.json({success : {message : "Success : Message Sent", savedMessage : message}});
                     }
                 })
             }

@@ -19,7 +19,7 @@ import Chat from './components/Chat/Chat';
 import NotFoundPage from './components/404/NotFoundPage';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faUser, faTrashAlt, faEnvelopeOpenText, faComments } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faUser, faTrashAlt, faEnvelopeOpenText, faComments, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { faGithubSquare, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
 
 // Style
@@ -32,6 +32,7 @@ library.add(faUser);
 library.add(faGithubSquare);
 library.add(faGooglePlus);
 library.add(faComments);
+library.add(faPaperPlane);
 
 class App extends React.Component {
     state = {}

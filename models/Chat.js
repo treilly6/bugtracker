@@ -16,8 +16,13 @@ const ChatSchema = Schema({
     messages : [{
         body : String,
         author : {
-            type : String,
-            ref : 'User',
+            userId : {
+                type : mongoose.Schema.Types.ObjectId,
+                ref : 'User',
+            },
+            username : {
+                type : String,
+            }
         }
     }]
 });

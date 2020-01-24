@@ -48,8 +48,8 @@ class CreateChat extends React.Component {
             <div>
                 <div style={{fontSize : ".65em"}}>Separate usernames by a comma to add multiple recipients</div>
                 <form onSubmit={this.submit}>
-                    <div className="inputCont">
-                        <input className="formInput" type="text" name="recipients" value={this.state.recipients} onChange={this.changeInput} placeholder="Enter Recipients" />
+                    <div className="inputCont" style={{gridTemplateColumns : "85% 15%"}}>
+                        <input className="formInput" style={{borderRadius : "5px 0px 0px 5px"}} type="text" name="recipients" value={this.state.recipients} onChange={this.changeInput} placeholder="Enter Recipients" />
                         <button className="plusButton" type="submit">+</button>
                     </div>
                 </form>
