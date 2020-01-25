@@ -111,10 +111,13 @@ class ChatWindow extends React.Component {
             });
 
             return (
-                <div>
-                    {messages}
+                <div className="chat-window-cont">
+                    <div className="chat-window-messages">
+                        {messages}
+                    </div>
                     <PostChatMessage sendMessageToParent={this.getNewMessage} />
                 </div>
+
             )
         }
     }

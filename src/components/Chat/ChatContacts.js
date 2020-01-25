@@ -14,6 +14,9 @@ class ChatContacts extends React.Component {
         super(props);
 
         this.socket = this.props.socket;
+
+        // init variable to keep track of the selected div
+        this.selectedDiv = null;
     }
 
     componentDidMount(){
@@ -112,9 +115,20 @@ class ChatContacts extends React.Component {
 
     }
 
-    selectChat = (chatObj) => {
+    selectChat = (e, chatObj) => {
         console.log("HERE IS THE CHATObj chatcontacts.js ", chatObj);
         this.props.getSelectedChat(chatObj);
+        console.log("HERE IS THE E THING MEAJFJ");
+        console.log(e.currentTarget);
+
+        // take background color off of previously selected Div if it exists
+        if(this.selectedDiv) {
+            this.selectedDiv.classList.remove("selected-chat");
+        }
+
+        // set background color of the new div
+        e.currentTarget.classList.add("selected-chat");
+        this.selectedDiv = e.currentTarget;
     }
 
     render(){
@@ -131,9 +145,9 @@ class ChatContacts extends React.Component {
                     )
                 });
 
-
+                // return the clickable div
                 return (
-                    <div className="chatContactCont" onClick={() => this.selectChat(chat)}>
+                    <div className="chatContactCont" onClick={(e) => this.selectChat(e, chat)}>
                         <div style={{overflow : "hidden", textOverflow : "ellipsis"}}>{chatUsers}</div>
                     </div>
                 )

@@ -41,13 +41,19 @@
     border-bottom: 1px solid #d5d8dd;
 }
 
+.chat-window-messages {
+    max-height: 420px;
+    overflow-y: scroll;
+}
+
 .chat-post-form {
     display: grid;
     grid-template-columns: 85% 15%;
 }
 
 .chat-post-form-cont {
-    margin : 15px 0px;
+    margin-bottom: 15px;
+    padding-top : 15px;
 }
 
 .chat-post-input {
@@ -58,12 +64,17 @@
     border-radius: 5px 0px 5px 5px;
 }
 
+.selected-chat {
+    background-color: #f2f2f2;
+}
+
 .chat-post-form-btn {
     height : 50px;
     background-color: green;
     border : none;
     border-radius: 0px 5px 5px 0px;
     background-color: #2eb82e;
+    color : #fff;
 }
 
 .author {
@@ -73,7 +84,7 @@
 
 .message {
     font-size: .85em;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 @media (max-width : 767px) {
