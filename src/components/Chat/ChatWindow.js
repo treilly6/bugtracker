@@ -139,7 +139,7 @@ class ChatWindow extends React.Component {
                 console.log("RES FROM THE NEW MESSAGE POST ", res);
                 if(res.data.success) {
                     // maybe have the server return the actual message obj
-                    console.log("SUCCESS AND GOUNG TO SEND TO THE SERVER BY EMIT", "\n", "\n", "\n");
+                    console.log("SUCCESS AND GOUNG TO SEND TO THE SERVER BY EMIT ", res.data.success.savedMessage, "\n", "\n", "\n");
 
                     // overwrite the message key with the saved message from the server
                     messageObj.message = res.data.success.savedMessage;
@@ -157,8 +157,8 @@ class ChatWindow extends React.Component {
     render(){
         if(!this.state.chatObj) {
             return (
-                <div>
-                    Select a chat
+                <div style={{display : "flex", height : "100%", alignItems : "center", justifyContent : "center"}}>
+                    <div>Select a chat</div>
                 </div>
             )
         } else {
@@ -172,6 +172,10 @@ class ChatWindow extends React.Component {
                     </div>
                 )
             });
+
+            if(messages.length === 0) {
+                messages = <div><div style={{padding : "15px 0px", textAlign : "center"}}>No Messages in Chat</div></div>
+            }
 
             return (
                 <div className="chat-window-cont">

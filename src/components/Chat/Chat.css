@@ -46,6 +46,13 @@
     overflow-y: scroll;
 }
 
+.chat-window-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
 .chat-post-form {
     display: grid;
     grid-template-columns: 85% 15%;
