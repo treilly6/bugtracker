@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../App.css';
+import './Chat.css';
 import axios from 'axios';
 
 
@@ -31,7 +32,7 @@ class TypingTracker extends React.Component {
             const arrUsers = [...this.props.users];
             typingBoxes = arrUsers.map(user => {
                 return (
-                    <div>{user} is typing...</div>
+                    <div className="user-typing">{user} is typing...</div>
                 )
             });
         }

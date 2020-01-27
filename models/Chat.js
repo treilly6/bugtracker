@@ -23,7 +23,10 @@ const ChatSchema = Schema({
             username : {
                 type : String,
             }
-        }
+        },
+        date : {
+            type : Date,
+        },
     }]
 });
 

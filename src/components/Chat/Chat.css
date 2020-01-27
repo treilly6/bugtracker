@@ -52,8 +52,8 @@
 }
 
 .chat-post-form-cont {
-    margin-bottom: 15px;
-    padding-top : 15px;
+    margin-bottom: 10px;
+    padding-top : 10px;
 }
 
 .chat-post-input {
@@ -85,6 +85,13 @@
 .message {
     font-size: .85em;
     word-break: break-word;
+}
+
+.user-typing {
+    padding : 7px 8px;
+    font-size: .75em;
+    color : #808080;
+    font-style: italic;
 }
 
 @media (max-width : 767px) {
