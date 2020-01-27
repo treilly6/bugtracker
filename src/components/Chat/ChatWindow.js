@@ -14,6 +14,9 @@ class ChatWindow extends React.Component {
         this.state.chatObj = this.props.selectedChat;
         this.socket = this.props.socket;
         this.state.userId = this.props.userId;
+
+        // create scroll ref so when new message comes in can scroll to bottom
+        this.endScrollRef = React.createRef();
     }
 
     componentDidUpdate(prevProps) {
@@ -53,6 +56,10 @@ class ChatWindow extends React.Component {
 
                     // set the state
                     this.setState({chatObj : chatCopy});
+
+
+                    // scroll the messages to the bottom
+                    this.scrollToBottom();
                 })
             }
 
@@ -61,6 +68,11 @@ class ChatWindow extends React.Component {
 
     componentDidMount(){
         console.log(this.socket);
+    }
+
+    scrollToBottom = () => {
+        console.log("scrolling to the bottom of the window...");
+        this.endScrollRef.current.scrollIntoView({ behavior : 'smooth', block : 'nearest'});
     }
 
     getNewMessage = (msg) => {
@@ -114,8 +126,9 @@ class ChatWindow extends React.Component {
                 <div className="chat-window-cont">
                     <div className="chat-window-messages">
                         {messages}
+                        <div ref={this.endScrollRef}></div>
                     </div>
-                    <PostChatMessage sendMessageToParent={this.getNewMessage} />
+                    <PostChatMessage sendMessageToParent={this.getNewMessage} scrollToBottom = {this.scrollToBottom} />
                 </div>
 
             )
