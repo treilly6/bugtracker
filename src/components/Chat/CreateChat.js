@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../App.css';
 import axios from 'axios';
-
+import SearchUsersChatInput from './SearchUsersChatInput';
 
 
 class CreateChat extends React.Component {
@@ -53,6 +53,7 @@ class CreateChat extends React.Component {
                         <button className="plusButton" type="submit">+</button>
                     </div>
                 </form>
+                <SearchUsersChatInput />
             </div>
 
         )

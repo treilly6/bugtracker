@@ -44,6 +44,7 @@ const headerStyle = {
 const brandStyle = {
     alignSelf : "center",
     fontSize : "1.8em",
+    color : "#fff",
 }
 
 export default Header;

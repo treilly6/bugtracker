@@ -270,4 +270,20 @@ router.post('/setName', (req, res) => {
 
 });
 
+// get all the users * Going to modify this route for the search users on create chat *
+router.get('/users', (req, res) => {
+    console.log("IN THE GET ALL USERS");
+    console.log(req.query);
+
+    // get the search value from the request query
+    const reqUsername = req.query.search;
+
+
+    User.find({"username" : new RegExp(`${reqUsername}`, 'gi')})
+        .then(users => {
+            res.json({users : users});
+        })
+        .catch(err => console.log(err));
+})
+
 module.exports = router;
