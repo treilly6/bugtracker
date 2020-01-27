@@ -31,7 +31,7 @@ class SearchUsersChatInput extends React.Component {
                   return;
                 }
 
-                console.log("HERE THE RES FROM THE FETHCING OF THE USERS ", res);
+                console.log("HERE THE RES FROM THE FETHCING OF THE USERS ", res.data.users);
 
                 // map the users into data array
                 const data = res.data.users.map(user => ({
@@ -40,6 +40,7 @@ class SearchUsersChatInput extends React.Component {
                     value: user.username,
                 }));
 
+                // set the state to the new search results
                 this.setState({ data, fetching: false });
             })
             .catch(err => console.log(err));
