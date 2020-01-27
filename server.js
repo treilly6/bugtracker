@@ -117,5 +117,14 @@ io.on('connection', (socket) => {
         // // emit to the chat window of that chat Obj (ChatWindow.js)
         io.emit(`chat window ${messageObj.chatId}`, messageObj.message);
 
+    });
+
+    // when a user is typing
+    socket.on('typing', (obj) => {
+        // destructure the object to get variables chatId and username
+        const { chatId, username, typing } = obj;
+
+        // emit that the user is typing
+        socket.broadcast.emit(`user typing ${chatId}`, {username, typing});
     })
 });

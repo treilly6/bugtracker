@@ -1,5 +1,6 @@
 import React from 'react';
 import PostChatMessage from './PostChatMessage';
+import TypingTracker from './TypingTracker';
 import axios from 'axios';
 import './Chat.css';
 
@@ -7,22 +8,33 @@ class ChatWindow extends React.Component {
     state = {
         chatObj : null,
         userId : null,
+        username : null,
+        typingMessageSet : new Set(),
     }
 
     constructor(props){
         super(props);
         this.state.chatObj = this.props.selectedChat;
+
+        // need to fugure out how to use context or a reducer so I dont have to pass these variables to children
         this.socket = this.props.socket;
         this.state.userId = this.props.userId;
+        this.state.username = this.props.username;
 
         // create scroll ref so when new message comes in can scroll to bottom
         this.endScrollRef = React.createRef();
+        this.typingDivRef = React.createRef();
     }
 
     componentDidUpdate(prevProps) {
         console.log("IN UPDATE FUNCTION");
         console.log(this.socket);
         if(prevProps.selectedChat !== this.props.selectedChat) {
+
+            // reset the typing tracker dict
+            this.typingTrackerDict = {};
+
+
             console.log("PROPS DIFF UPDATE");
             this.setState({chatObj : this.props.selectedChat});
 
@@ -33,8 +45,9 @@ class ChatWindow extends React.Component {
             if(prevProps.selectedChat && prevProps.selectedChat._id) {
                 // if the chat obj had a socket listener clear that listener
                 if(`$chat window ${prevProps.selectedChat._id}` in this.socket._callbacks) {
-                    // remove the listener
-                    this.socket.off(`chat window ${prevProps.selectedChat._id}`)
+                    // remove the listeners
+                    this.socket.off(`chat window ${prevProps.selectedChat._id}`);
+                    this.socket.off(`user typing ${prevProps.selectedChat._id}`);
                 }
             }
 
@@ -60,7 +73,45 @@ class ChatWindow extends React.Component {
 
                     // scroll the messages to the bottom
                     this.scrollToBottom();
-                })
+                });
+
+                // create a listenr for users typing in the chat window
+                this.socket.on(`user typing ${this.props.selectedChat._id}`, (obj) => {
+
+                    // pull username and typing variables out of the object
+                    const { username, typing } = obj;
+
+                    console.log("HERE THE CLIENT VALS FOR THE TYPING ", obj);
+
+                    if(typing) {
+                        // copy the set from state
+                        var setCopy = new Set(this.state.typingMessageSet);
+
+                        // add the username to the set
+                        setCopy.add(username);
+
+                        // update the state
+                        this.setState({typingMessageSet : setCopy});
+
+                        // scroll the window to the bottom
+                        this.scrollToBottom();
+
+                    } else {
+                        console.log(`${username} IS NO LONGER TYPING`);
+
+                        // copy the set from state
+                        var setCopy = new Set(this.state.typingMessageSet);
+
+                        // delete the username from the set
+                        setCopy.delete(username);
+
+                        // set the state to the new set
+                        this.setState({typingMessageSet : setCopy})
+                    }
+
+
+                    // add a user is typing a message into the div holding the people typing messages
+                });
             }
 
         }
@@ -126,9 +177,10 @@ class ChatWindow extends React.Component {
                 <div className="chat-window-cont">
                     <div className="chat-window-messages">
                         {messages}
+                        <TypingTracker users={this.state.typingMessageSet} />
                         <div ref={this.endScrollRef}></div>
                     </div>
-                    <PostChatMessage sendMessageToParent={this.getNewMessage} scrollToBottom = {this.scrollToBottom} />
+                    <PostChatMessage sendMessageToParent={this.getNewMessage} scrollToBottom = {this.scrollToBottom} chatId={this.state.chatObj._id} username={this.state.username} socket = {this.socket} />
                 </div>
 
             )

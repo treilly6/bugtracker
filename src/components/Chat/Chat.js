@@ -12,6 +12,7 @@ let socket;
 class Chat extends React.Component {
     state = {
         userId : null,
+        username : null,
         userFetched : false,
         selectedChat : null,
     }
@@ -33,7 +34,7 @@ class Chat extends React.Component {
             .then(res => {
                 console.log("HERE IS THE RES OF THE COMPONENT DID MOUNT ");
                 if(res.data.user) {
-                    this.setState({userId : res.data.user._id, userFetched : true});
+                    this.setState({userId : res.data.user._id, username : res.data.user.username, userFetched : true});
                 }
             })
 
@@ -63,7 +64,7 @@ class Chat extends React.Component {
                             <ChatContacts socket={socket} getSelectedChat={this.selectedChat} userId={this.state.userId} />
                         </div>
                         <div className = "chatWindow">
-                            <ChatWindow socket = {socket} selectedChat={this.state.selectedChat} userId={this.state.userId} />
+                            <ChatWindow socket = {socket} selectedChat={this.state.selectedChat} userId={this.state.userId} username={this.state.username} />
                         </div>
                     </div>
                 </div>

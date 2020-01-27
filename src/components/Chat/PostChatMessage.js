@@ -5,10 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 class PostChatMessage extends React.Component {
     state = {
         message : '',
+        typing : false,
     }
 
     constructor(props){
         super(props);
+
+        this.socket = this.props.socket;
     }
 
     componentDidMount(){}
@@ -18,6 +21,31 @@ class PostChatMessage extends React.Component {
         console.log("HERE IS THE SCORLL HEIGHT OF THE BOX" , e.target.scrollHeight);
         e.target.style.height = 'inherit';
         e.target.style.height = `${e.target.scrollHeight}px`;
+
+
+        console.log("HERE IS THE LENGTH OF THE VALUE ", e.target.value.length)
+
+        if(e.target.value.length === 0) {
+            // emit that user is not typing anymore
+            console.log("THE LENGTH OF THE INPUT VALUE IS NOW ZERO");
+
+            // if the user was previously typing
+            if(this.state.typing) {
+                this.setState({typing : false});
+                // emit that the user is no longer typing
+                this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : false})
+            }
+
+
+        } else {
+            // if the user was not previously typing
+            if(!this.state.typing) {
+                this.setState({typing : true});
+                // emit that the user is typing
+                this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : true});
+            }
+
+        }
     }
 
     submit = (e) => {
@@ -28,9 +56,11 @@ class PostChatMessage extends React.Component {
         this.setState({message : ''});
 
         // reset the height of the text input
-        console.log("IN THE SUBMIT HERE IS THE SHIT", e.target);
         console.log(e.target.querySelector('textarea'));
         e.target.querySelector('textarea').style.height = "50px";
+
+        // emit that the user is no longer typing
+        this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : false})
     }
 
     render(){
