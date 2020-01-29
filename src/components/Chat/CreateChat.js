@@ -6,7 +6,7 @@ import SearchUsersChatInput from './SearchUsersChatInput';
 
 class CreateChat extends React.Component {
     state = {
-        recipients : '',
+        users : [],
     }
 
     constructor(props){
@@ -21,10 +21,19 @@ class CreateChat extends React.Component {
     }
 
     submit = (e) => {
+        // prevent form submit
         e.preventDefault();
-        const recipients = this.state.recipients.split(",").map(name => name.trim());
-        console.log("HERE ARE THE RECIPIENTS ON THE SEND ", recipients);
 
+        console.log("HERE STATE OF THE USERS ", this.state.users);
+
+        // map new array of the usernames coming from the users state variable (which comes from SearchUsersChatInput.js)
+        const recipients = this.state.users.map(userObj => {
+            return userObj.key;
+        })
+
+        console.log("HERE THE RECIPIENTS ", console.log(recipients));
+
+        // make an API post request to create a new chat
         axios.post('/api/chats/newChat', recipients)
                 .then(res => {
                     console.log("HERE THE RES FOR THE NEW CHAT POST ", res);
@@ -32,11 +41,22 @@ class CreateChat extends React.Component {
                     // if the call was a success send the new chat Obj to parent component (ChatContacts.js)
                     if(res.data.success) {
                         this.props.sendChatToParent(res.data.success.chatObj);
-                        this.setState({recipients : ''});
+                        this.setState({users : []});
                     }
                 })
                 .catch(err => console.log(err))
 
+    }
+
+    getUserValues = (values) => {
+        console.log("HERE IS THE CURRENt STATE " , this.state);
+        console.log("HERE THE INCOMING VALUES ", values);
+
+        // set the state of the users for inviting to the chat
+        this.setState({users : values});
+
+        console.log("STATE AFTER THE SETSTATE");
+        console.log(this.state);
     }
 
     changeInput = (e) => {
@@ -46,14 +66,13 @@ class CreateChat extends React.Component {
     render(){
         return(
             <div>
-                <div style={{fontSize : ".65em"}}>Separate usernames by a comma to add multiple recipients</div>
+                <div style={{fontSize : "1em", fontWeight : "bold", textAlign : "center"}}>Create New Chat</div>
                 <form onSubmit={this.submit}>
                     <div className="inputCont" style={{gridTemplateColumns : "85% 15%"}}>
-                        <input className="formInput" style={{borderRadius : "5px 0px 0px 5px"}} type="text" name="recipients" value={this.state.recipients} onChange={this.changeInput} placeholder="Enter Recipients" />
-                        <button className="plusButton" type="submit">+</button>
+                        <SearchUsersChatInput sendUserValues = {this.getUserValues} users={this.state.users} />
+                        <button className="plusButton" style={{margin : "0px"}} type="submit">+</button>
                     </div>
                 </form>
-                <SearchUsersChatInput />
             </div>
 
         )

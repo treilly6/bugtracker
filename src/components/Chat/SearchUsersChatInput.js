@@ -8,7 +8,6 @@ class SearchUsersChatInput extends React.Component {
 
     state = {
         data: [],
-        value: [],
         fetching: false,
     };
 
@@ -47,20 +46,29 @@ class SearchUsersChatInput extends React.Component {
     };
 
     handleChange = value => {
+
+        // set the state
         this.setState({
-            value,
             data: [],
             fetching: false,
         });
+
+        // send the user values to parent element (CreateChat.js)
+        this.props.sendUserValues(value);
     };
 
     render() {
-        const { fetching, data, value } = this.state;
+        // pull variables out of the state
+        const { fetching, data } = this.state;
+        const users = this.props.users;
+
+        console.log("HERE THE VARS FROM SEARCH USERS JS ", fetching, data, users);
+        
         return (
             <Select
             mode="multiple"
             labelInValue
-            value={value}
+            value={users}
             placeholder="Select users"
             notFoundContent={fetching ? <Spin size="small" /> : null}
             filterOption={false}

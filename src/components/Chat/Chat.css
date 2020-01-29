@@ -1,6 +1,7 @@
 .chatCont {
     max-width: 800px;
     margin: 20px auto;
+    padding-bottom: 15px;
 }
 
 .chatComponentContainer {
@@ -25,6 +26,13 @@
     padding : 10px 0px;
     border-bottom: 1px solid #d5d8dd;
     text-align: center;
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+.chat-items-container {
+    overflow-y: scroll;
+    max-height: 420px;
 }
 
 .chatContactCont {
@@ -59,13 +67,12 @@
 }
 
 .chat-post-form-cont {
-    margin-bottom: 10px;
     padding-top : 10px;
 }
 
 .chat-post-input {
     resize: none;
-    min-height: 50px;
+    min-height: 64px;
     overflow: hidden;
     border: 1px solid #d5d8dd;
     border-radius: 5px 0px 5px 5px;
@@ -76,8 +83,7 @@
 }
 
 .chat-post-form-btn {
-    height : 50px;
-    background-color: green;
+    height : 64px;
     border : none;
     border-radius: 0px 5px 5px 0px;
     background-color: #2eb82e;

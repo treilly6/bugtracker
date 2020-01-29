@@ -16,6 +16,7 @@ router.post('/newChat', (req, res) => {
     // set the recipients variable
     const recipients = req.body;
 
+    // if req user is not in the recipients add them to the array
     if(!recipients.includes(req.user.username)) {
         console.log("USERNAME NOT IN RECIPIENTS");
         recipients.push(req.user.username);
@@ -24,9 +25,11 @@ router.post('/newChat', (req, res) => {
     // init a new chat obj
     var newChat = new Chat();
 
+    // init the valid and invalid username arrays
     var validUserNames = [];
     var invalidUserNames = [];
 
+    // filter the valid and invalid usernames into their arrays
     const checkRecipients = async () => {
         console.log("IN CHECK RECIPT ASYN AWAIT")
         for (username of recipients) {
@@ -72,6 +75,7 @@ router.post('/newChat', (req, res) => {
 
     };
 
+    // call the function created above
     checkRecipients();
 
     console.log("HERE IS THEN END AFTER THE ASYNC ", validUserNames, invalidUserNames);

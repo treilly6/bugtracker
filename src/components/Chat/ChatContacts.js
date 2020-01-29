@@ -138,11 +138,31 @@ class ChatContacts extends React.Component {
         if(this.state.chats) {
             chatItems = this.state.chats.map(chat => {
 
+                // find the number of users in the chat
+                var chatUserLength = chat.users.length;
+
                 // format the users in the chat
-                var chatUsers = chat.users.map( user => {
-                    return(
-                        <span style={{padding : "0px 6px"}}>{user.username}</span>
-                    )
+                var chatUsers = chat.users.map((user, index) => {
+                    // if the username is the current user
+                    // don't add it to the chat display b/c
+                    // it is cleaner and it should be implied that the current user
+                    // is in their chats
+                    if(user.username === this.props.username) {
+                        return
+                    }
+
+                    // if last item or (second to last item and last item username is current user) format without a comma
+                    if(index + 1 === chatUserLength || (index + 2 === chatUserLength && chat.users[index + 1].username === this.props.username)) {
+                        return(
+                            <span style={{padding : "0px 3px"}}>{user.username}</span>
+                        )
+                    // if not last item add comma
+                    } else {
+                        return(
+                            <span style={{padding : "0px 3px"}}>{user.username},</span>
+                        )
+                    }
+
                 });
 
                 // return the clickable div
@@ -161,7 +181,7 @@ class ChatContacts extends React.Component {
                 <div>
                     <CreateChat socket={this.props.socket} sendChatToParent = {this.addNewChat} />
                 </div>
-                <div>
+                <div className="chat-items-container">
                     {chatItems}
                 </div>
             </div>
