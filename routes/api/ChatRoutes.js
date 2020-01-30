@@ -4,6 +4,7 @@ var ObjectId = require('mongodb').ObjectId;
 
 let Chat = require('../../models/Chat');
 let User = require('../../models/User');
+const { makeUTC } = require('../../tools/dateFormat');
 
 // create a new chat
 router.post('/newChat', (req, res) => {
@@ -128,16 +129,24 @@ router.post('/newMessage', (req, res) => {
 
                 console.log(message, "START");
 
+                // init author obj
                 message.author = {};
 
+                // assign user Id to the author obj
                 message.author.userId = req.user.id;
 
-                console.log(message, "/neat");
-
+                // add the username to the author obj
                 message.author.username = req.user.username;
 
-                console.log(message, "Yeet");
+                // get the current utc date
+                var utcDate = makeUTC();
 
+                console.log("HERE UTC DATE ");
+                console.log(utcDate);
+                console.log(typeof(utcDate));
+
+                // save the utc date
+                message.date = utcDate;
 
                 console.log("HERE IS THE MESSAHE BEFORE THE SAVE OF THE CHAT ", message);
 

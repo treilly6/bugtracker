@@ -22,6 +22,11 @@
     overflow-x : hidden;
 }
 
+.contact-user {
+    padding-right : 3px;
+    font-size: .85em;
+}
+
 .chatTitle {
     padding : 10px 0px;
     border-bottom: 1px solid #d5d8dd;

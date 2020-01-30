@@ -154,12 +154,12 @@ class ChatContacts extends React.Component {
                     // if last item or (second to last item and last item username is current user) format without a comma
                     if(index + 1 === chatUserLength || (index + 2 === chatUserLength && chat.users[index + 1].username === this.props.username)) {
                         return(
-                            <span style={{padding : "0px 3px"}}>{user.username}</span>
+                            <span className="contact-user">{user.username}</span>
                         )
                     // if not last item add comma
                     } else {
                         return(
-                            <span style={{padding : "0px 3px"}}>{user.username},</span>
+                            <span className="contact-user">{user.username},</span>
                         )
                     }
 

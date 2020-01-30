@@ -4,6 +4,8 @@ import TypingTracker from './TypingTracker';
 import axios from 'axios';
 import './Chat.css';
 
+import { convertISOtoLocal } from '../../clientTools/dateFormat';
+
 class ChatWindow extends React.Component {
     state = {
         chatObj : null,
@@ -163,8 +165,19 @@ class ChatWindow extends React.Component {
             )
         } else {
 
+            const currentTime = new Date();
+
             var messages = this.state.chatObj.messages.map(message => {
                 const author = (message.author.userId == this.state.userId ? "Me" : message.author.username)
+
+                if(message.date) {
+                    console.log("HERE IS THE DATE IF IT EXISTS FROM THE OBJ ", message.date);
+                    console.log("HERE IS CLIENT DATE SHIT ", new Date());
+                    console.log("MAYBE CONVERTED ??? ", new Date(message.date));
+                    console.log(convertISOtoLocal(currentTime, message.date));
+                    console.log("END");
+                }
+
                 return (
                     <div className="chatMessageCont">
                         <div className="author">{author}:</div>
