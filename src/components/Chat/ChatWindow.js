@@ -170,18 +170,22 @@ class ChatWindow extends React.Component {
             var messages = this.state.chatObj.messages.map(message => {
                 const author = (message.author.userId == this.state.userId ? "Me" : message.author.username)
 
+                var date;
+
+
                 if(message.date) {
                     console.log("HERE IS THE DATE IF IT EXISTS FROM THE OBJ ", message.date);
                     console.log("HERE IS CLIENT DATE SHIT ", new Date());
                     console.log("MAYBE CONVERTED ??? ", new Date(message.date));
                     console.log(convertISOtoLocal(currentTime, message.date));
                     console.log("END");
+                    date = convertISOtoLocal(currentTime, message.date);
                 }
 
                 return (
                     <div className="chatMessageCont">
                         <div className="author">{author}:</div>
-                        <div className="message">{message.body}</div>
+                        <div className="message">{message.body}, {date}</div>
                     </div>
                 )
             });
