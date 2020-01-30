@@ -22,7 +22,6 @@ export function convertISOtoLocal(clientTime, itemISODate) {
     var time = timeSplit[0].split(":").slice(0,2).join(":");
 
 
-
     // compare the local string days with the client time day
     // if the days are the same exclude them and only use time
     if(localStringArray[0] === clientTimeArray[0]) {
@@ -30,6 +29,6 @@ export function convertISOtoLocal(clientTime, itemISODate) {
         return `${time} ${AmPm}`;
     } else {
         // else use the date and the time
-        return `${time} ${AmPm} ${localStringArray[1]}`;
+        return `${time} ${AmPm} ${localStringArray[0]}`;
     }
 }

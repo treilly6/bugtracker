@@ -183,10 +183,16 @@ class ChatWindow extends React.Component {
                 }
 
                 return (
-                    <div className="chatMessageCont">
-                        <div className="author">{author}:</div>
-                        <div className="message">{message.body}, {date}</div>
+                    <div className="full-message-cont">
+                        <div className="message-cont">
+                            <div className="author">{author}:</div>
+                            <div className="message">{message.body}</div>
+                        </div>
+                        <div className="date-container">
+                            <div className="date-text">{date}</div>
+                        </div>
                     </div>
+
                 )
             });
 
