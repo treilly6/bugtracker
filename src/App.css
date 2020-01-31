@@ -208,6 +208,26 @@ body {
     margin: 0px 3px;
 }
 
+.approve-button {
+    padding : 5px;
+    border-radius: 5px;
+    background-color: #33cc33;
+    color : #fff;
+    border : none;
+    margin : 0px 3px;
+    cursor: pointer;
+}
+
+.reject-button {
+    padding : 5px;
+    border-radius: 5px;
+    background-color: #ff3333;
+    color : #fff;
+    border : none;
+    margin : 0px 3px;
+    cursor: pointer;
+}
+
 .errorMsg {
     background-color : #ffcccc;
     border : 1px solid #ff3333;

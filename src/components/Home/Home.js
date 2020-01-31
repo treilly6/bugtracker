@@ -23,9 +23,7 @@ class Home extends React.Component {
         console.log("MOUNTING PROJECTS HOME...");
         axios.get('/api/user')
             .then(res => {
-                console.log("HERE THE USER RESULT");
                 if(!res.data.user.username) {
-                    console.log("THIS MUTHAFUCK NEEDS A USERNAME");
                     this.setState({missingUsername : true});
                 } else {
                     this.setState({freshLogin : res.data.freshLogin});
@@ -57,7 +55,7 @@ class Home extends React.Component {
                 <h1 style={{fontSize:"1.5em", textAlign : "center", margin:"15px 0px"}}>Projects</h1>
                 <div style={{display : "flex", justifyContent : "center"}}>
                     {message}
-                </div>                
+                </div>
                 <AddProject getAddedProject = {this.getAddedProject.bind(this)} />
                 <Projects addedProjectData={this.state.addedProjectData} deleteProject={this.deleteProject} />
             </div>

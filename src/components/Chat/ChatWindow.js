@@ -174,11 +174,7 @@ class ChatWindow extends React.Component {
 
 
                 if(message.date) {
-                    console.log("HERE IS THE DATE IF IT EXISTS FROM THE OBJ ", message.date);
-                    console.log("HERE IS CLIENT DATE SHIT ", new Date());
-                    console.log("MAYBE CONVERTED ??? ", new Date(message.date));
-                    console.log(convertISOtoLocal(currentTime, message.date));
-                    console.log("END");
+                    // pass the current timestamp and the message timestamp into the function
                     date = convertISOtoLocal(currentTime, message.date);
                 }
 

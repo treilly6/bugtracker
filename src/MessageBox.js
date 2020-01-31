@@ -53,7 +53,7 @@ class MessageBox extends React.Component {
                 return(
                     <div style={styles}>
                         <div>
-                            <h5>{this.props.message}</h5>
+                            <h5 style={{margin : "0"}}>{this.props.message}</h5>
                         </div>
                     </div>
                 )
@@ -70,7 +70,7 @@ class MessageBox extends React.Component {
 var messageBoxCont = {
     padding : "10px",
     margin : "8px 0px",
-    maxWidth : "400px",
+    maxWidth : "600px",
     textAlign : "center",
     borderRadius : "5px",
     transition : ".5s",

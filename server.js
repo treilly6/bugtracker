@@ -81,7 +81,7 @@ const socketMap = {};
 
 
 io.on('connection', (socket) => {
-    console.log("Server socket connection ", "HERE IS SOCKET", socket, "\n", "\n","\n","\n");
+    console.log("Server socket connection...");
 
     // when a ticket comment is passed
     socket.on('ticket comments', (updatedTicketItem) => {

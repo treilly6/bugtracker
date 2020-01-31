@@ -12,8 +12,11 @@ class TicketStatus extends React.Component {
         super(props);
         console.log("HERE THE PROPS");
         console.log(props);
-        console.log(this.props.ticketItem.project_id);
-        axios.get(`/api/auth/manager/${this.props.ticketItem.project_id}`)
+    }
+
+    componentDidMount(){
+        // check to see if the user is a manager
+        axios.get(`/api/auth/manager/${this.props.ticketItem.project_id}/${this.props.folderPath}`)
             .then(res => {
                 console.log("MANAGER RES");
                 console.log(res);
@@ -28,18 +31,16 @@ class TicketStatus extends React.Component {
             .catch(err => console.log(err));
     }
 
-    componentDidMount(){
-
-    }
-
     render() {
         if(this.state.dataFetched === false) {
             return null
         } else {
             if(this.props.ticketItem.closed) {
+                // change the time of the message to a local string
+                var ticketDate = new Date(this.props.ticketItem.approved.date).toLocaleString();
                 return(
                     <div>
-                        <h6><span style={closedSpan} className="statusSpan">Closed</span> - Approved by {this.props.ticketItem.approved.user} on {this.props.ticketItem.approved.date}</h6>
+                        <h6><span style={closedSpan} className="statusSpan">Closed</span> - Approved by {this.props.ticketItem.approved.user} on {ticketDate}</h6>
                     </div>
                 )
             } else {
@@ -48,8 +49,8 @@ class TicketStatus extends React.Component {
                         return (
                             <div>
                                 <h6><span style={openSpan} className="statusSpan">Pending Approval</span></h6>
-                                <button onClick={() => this.props.evalRequest({"command":"approve"})}>Approve Completion</button>
-                                <button onClick={() => this.props.evalRequest({"command":"reject"})}>Reject Completion</button>
+                                <button className="approve-button" onClick={() => this.props.evalRequest({"command":"approve"})}>Approve Completion</button>
+                                <button className="reject-button" onClick={() => this.props.evalRequest({"command":"reject"})}>Reject Completion</button>
                             </div>
                         )
                     } else {

@@ -47,10 +47,12 @@ class AddProject extends React.Component {
 
     render() {
         return (
-            <div style={{display : "inline-block", padding: "0px 5px"}}>
-                <MessageBox key={this.state.submitAttempt} message={this.state.message} />
+            <div style={{display : "inline-block", padding: "0px 5px", width : "100%"}}>
+                <div style={{display : "flex", justifyContent : "center"}}>
+                    <MessageBox key={this.state.submitAttempt} message={this.state.message} />
+                </div>
                 <div className={this.state.showForm ? "toolbar-selected" : ""} style={{display:"inline-block", cursor : "pointer", border : "1px solid #d5d8dd", padding : "10px", borderRadius:"5px"}}>Add Project</div>
-                <div className="itemBorder" style={{display : this.state.showForm ? "block" : "none", padding : "10px"}}>
+                <div className="itemBorder" style={{display : this.state.showForm ? "block" : "none", padding : "10px", maxWidth : "420px"}}>
                     <form onSubmit={this.submit}>
                         <div className="inputCont">
                             <input className="formInput" type="text" name="title" value={this.state.title} onChange={this.changeInput} />

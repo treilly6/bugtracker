@@ -129,13 +129,16 @@ class ProjectItem extends React.Component {
             return (
                 <div>
                     <BreadCrumb match={this.props.match} projectItem={{title : this.state.projectItem.title, id : this.state.projectItem._id}}/>
-                    <MessageBox key={this.state.messageNum} message={this.state.message} />
+                    <div style={{display : "flex", justifyContent : "center"}}>
+                        <MessageBox key={this.state.messageNum} message={this.state.message} />
+                    </div>
+
                     <AssignManager projectId={this.state.projectItem._id} folderPath={this.state.folderPath} manager={this.state.manager} setMessage={this.setMessage.bind(this)} />
                     <div className="toolbar-div">
                         <Toolbar projectItem={this.state.projectItem} folderPath={this.state.folderPath} manager={this.state.manager} getAddedTask={this.getAddedTask.bind(this)} getAddedFolder={this.getAddedFolder.bind(this)} getAddedTicket={this.getAddedTicket.bind(this)} setMessage={this.setMessage.bind(this)} />
                     </div>
-                    <Tasks projectId={this.state.projectItem._id}  manager={this.state.manager} folderPath={this.state.folderPath} addedTaskData={this.state.addedTaskData} />
                     <Folders projectId={this.state.projectItem._id}  folderPath={this.state.folderPath} addedFolderData={this.state.addedFolderData}/>
+                    <Tasks projectId={this.state.projectItem._id}  manager={this.state.manager} folderPath={this.state.folderPath} addedTaskData={this.state.addedTaskData} />
                     <Tickets projectId={this.state.projectItem._id}  manager={this.state.manager} folderPath={this.state.folderPath} addedTicketData={this.state.addedTicketData} />
                 </div>
             )

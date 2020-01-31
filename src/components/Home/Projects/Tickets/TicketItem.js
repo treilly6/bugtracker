@@ -130,7 +130,7 @@ class TicketItem extends React.Component {
                 <div style={mainCont}>
                     <div className="itemBorder" style={{padding : "10px"}}>
                         <div style={{display : "flex", alignItems : "flex-start", margin : "5px 0px"}}>
-                            <TicketStatus evalRequest={this.evalRequest.bind(this)} ticketItem={this.state.ticketItem} />
+                            <TicketStatus evalRequest={this.evalRequest.bind(this)} ticketItem={this.state.ticketItem} folderPath={this.props.match.params.folders} />
                         </div>
 
                         <h2 style={titleStyle}>{this.state.ticketItem.title}</h2>

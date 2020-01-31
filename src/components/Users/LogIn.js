@@ -99,7 +99,6 @@ class LogIn extends React.Component {
                 <div className="authMethodCont">
                     <div className="authMethod google" onClick={this.googleLogin}>Login with Google</div>
                     <div className="authMethod github" onClick={this.githubLogin}>Login with GitHub</div>
-                    <div className="authMethod amazon" onClick={this.githubLogin}>Login with Amazon</div>
                 </div>
 
             </div>

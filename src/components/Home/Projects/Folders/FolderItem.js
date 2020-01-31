@@ -12,7 +12,7 @@ class FolderItem extends React.Component {
         var path = window.location.pathname;
         return (
             <div style={divStyle} className="itemBorder">
-                <Link className="linkStyle hoverLink" to={`${path}` + `${this.props.folder.title}` + "/"}><h5>{this.props.folder.title}</h5></Link>
+                <Link className="linkStyle hoverLink" to={`${path}` + `${this.props.folder.title}` + "/"}><h5 style={{color : "#0366d6"}}>{this.props.folder.title}</h5></Link>
             </div>
         )
     }

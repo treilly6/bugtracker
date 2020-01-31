@@ -9,12 +9,22 @@ router.get('/:projectId/:folderPath*', (req,res) => {
     console.log("HERE THE SINGLE TICKET REQ");
     console.log(req.params);
     var fullPath = (req.params.folderPath == 'undefined' ? '' : req.params.folderPath + req.params["0"]);
+    console.log("HERE IS THE FULL PATH FOR TICKET ");
+    console.log(fullPath);
     console.log(fullPath.split("ticket/"));
     var folderPath = fullPath.split("ticket/")[0];
     var ticketName = fullPath.split("ticket/")[1];
     console.log("IMPORTANT QUERY STUFF HERE");
     console.log(folderPath);
     console.log(ticketName);
+
+    console.log("Index checking that shoit ", folderPath[folderPath.length - 1]);
+
+    // if there is a trailing slash remove it b/c ticket folder paths do not save trailing slashes, so the query will fail if not removed
+    if(folderPath[folderPath.length - 1] === "/") {
+        folderPath = folderPath.slice(0, folderPath.length - 1);
+        console.log("HERE IS THE FODLER PATH AFTER THE TURM ", folderPath);
+    }
 
     var valid = true;
 
