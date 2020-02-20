@@ -2,6 +2,7 @@ import React from 'react';
 import CreateChat from './CreateChat';
 import axios from 'axios';
 import './Chat.css';
+import tools from './chatSort';
 
 
 
@@ -96,14 +97,23 @@ class ChatContacts extends React.Component {
         // add new message to the array of messages
         copyChat.messages = [...copyChat.messages, newMessage];
 
-        // copy the state
+        // copy the chats state
         var copyState = [...this.state.chats];
 
         // replace the old chat with the updated chat
         copyState[chatIndex] = copyChat;
 
+        console.log("just before the sort chats fuinction here isd the param");
+        console.log(copyState);
+
+        
+        // sort the chats from chats with newest messages to chats with oldest messages
+        tools.sortChats(copyState)
+
         // set the state of chats to the updated chats
         this.setState({chats : copyState});
+
+        console.log("HERE ARE THE STATE OF aLL chats ", this.state.chats);
     }
 
     addNewChat = (newChatObj) => {

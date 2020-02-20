@@ -11,7 +11,6 @@ const ChatSchema = Schema({
         username : {
             type: String,
         }
-
     }],
     messages : [{
         body : String,
