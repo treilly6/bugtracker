@@ -100,6 +100,12 @@ class ChatContacts extends React.Component {
         // add new message to the array of messages
         copyChat.messages = [...copyChat.messages, newMessage];
 
+        // if the chat with a new message is not the one currently viewed in the chat window
+        // mark uread to true for that chat
+        if(copyChat._id !== this.props.selectedChat._id) {
+            copyChat.unreadMessages = true;
+        }
+
         // copy the chats state
         var copyState = [...this.state.chats];
 
@@ -115,10 +121,6 @@ class ChatContacts extends React.Component {
 
         // set the state of chats to the updated chats
         this.setState({chats : copyState});
-
-        // run the slected chat again so the chatContacts will re render
-        // and correctly highlight the selected Chat in its new order
-        this.props.getSelectedChat(this.props.selectedChat);
 
         console.log("HERE ARE THE STATE OF aLL chats ", this.state.chats);
     }
@@ -188,13 +190,13 @@ class ChatContacts extends React.Component {
                 let selected = false;
 
                 if(this.props.selectedChat && chat) {
-                    console.log(this.props.selectedChat._id);
-                    console.log(chat._id);
-                    console.log("EQUALOITY CHECK");
-                    console.log(this.props.selectedChat._id === chat._id);
+                    // console.log(this.props.selectedChat._id);
+                    // console.log(chat._id);
+                    // console.log("EQUALOITY CHECK");
+                    // console.log(this.props.selectedChat._id === chat._id);
                     if(this.props.selectedChat._id === chat._id) {
-                        console.log("SETTING SELECTED TO TRUE for thsi chat");
-                        console.log(chat._id);
+                        // console.log("SETTING SELECTED TO TRUE for thsi chat");
+                        // console.log(chat._id);
                         selected = true;
                     }
                 }
@@ -203,7 +205,7 @@ class ChatContacts extends React.Component {
                 // return the clickable div
                 return (
                     <div className={"chatContactCont " + (selected ? "selected-chat" : "")}  onClick={(e) => this.selectChat(e, chat)}>
-                        <div style={{overflow : "hidden", textOverflow : "ellipsis"}}>{chatUsers}</div>
+                        <div style={{overflow : "hidden", textOverflow : "ellipsis", fontWeight : (chat.unreadMessages ? "bold" : "")}}>{chatUsers}</div>
                     </div>
                 )
             });
