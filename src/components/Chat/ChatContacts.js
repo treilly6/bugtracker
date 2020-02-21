@@ -88,7 +88,7 @@ class ChatContacts extends React.Component {
         // the chat window and the chat contacts
     }
 
-    updateChatStateWithNewMessage = (newMessage, chatObjId) => {
+    updateChatStateWithNewMessage = async (newMessage, chatObjId) => {
         console.log("UPDATE STATE CHAT MESSAGE NEW THING YOU MADE ", newMessage);
 
         // get the chat obj from the state array
@@ -107,8 +107,17 @@ class ChatContacts extends React.Component {
 
         // if the chat with a new message is not the one currently viewed in the chat window
         // mark uread to true for that chat
-        if(copyChat._id !== this.props.selectedChat._id) {
-            copyChat.unreadMessages = true;
+        if(!this.props.selectedChat || copyChat._id !== this.props.selectedChat._id) {
+            await axios.post('/api/chats/toggleRead', {chatId : copyChat._id, unreadStatus : true})
+                .then(res => {
+                    console.log("HERE THE TOGGLE READ RESULT");
+                    console.log(res);
+                    if(res.data.success) {
+                        console.log("Here is the chat object thing goung dooooown ", res.data.success.chatObj);
+                        copyChat = res.data.success.chatObj;
+                    }
+                })
+                .catch(err => console.log(err))
         }
 
         // copy the chats state
@@ -148,6 +157,34 @@ class ChatContacts extends React.Component {
         this.props.getSelectedChat(chatObj);
         console.log("HERE IS THE E THING MEAJFJ");
         console.log(e.currentTarget);
+
+
+        axios.post('/api/chats/toggleRead', {chatId : chatObj._id, unreadStatus : false})
+            .then(res => {
+                console.log("HERE THE TOGGLE READ RESULT");
+                console.log(res);
+                if(res.data.success) {
+                    console.log("Here is the chat object from chat.js ", res.data.success.chatObj);
+
+                    // get the chat index
+                    var chatIndex = this.state.chats.findIndex(chat => chat._id === res.data.success.chatObj._id)
+                    console.log("Here is the chat index ", chatIndex);
+
+                    // copy the chats state
+                    var copyState = [...this.state.chats];
+
+                    // replace the old chat with the updated chat
+                    copyState[chatIndex] = res.data.success.chatObj;
+
+                    console.log("just before the sort chats fuinction here isd the param");
+                    console.log(copyState);
+
+                    // set the state of chats to the updated chats
+                    this.setState({chats : copyState});
+
+                }
+            })
+            .catch(err => console.log(err))
 
         // take background color off of previously selected Div if it exists
         if(this.selectedDiv) {
@@ -210,11 +247,22 @@ class ChatContacts extends React.Component {
                     }
                 }
 
+                // init the unread variable
+                let unread = false;
+
+                // find the index of the user
+                const userIndex = chat.users.findIndex(elem => elem.username === this.props.username);
+
+                // see if the unreadMessages bool variable is true
+                if(chat.users[userIndex].unreadMessages) {
+                    unread = true;
+                }
+
 
                 // return the clickable div
                 return (
                     <div className={"chatContactCont " + (selected ? "selected-chat" : "")}  onClick={(e) => this.selectChat(e, chat)}>
-                        <div style={{overflow : "hidden", textOverflow : "ellipsis", fontWeight : (chat.unreadMessages ? "bold" : "")}}>{chatUsers}</div>
+                        <div style={{overflow : "hidden", textOverflow : "ellipsis", fontWeight : (unread ? "bold" : "")}}>{chatUsers}</div>
                     </div>
                 )
             });

@@ -10,6 +10,10 @@ const ChatSchema = Schema({
         },
         username : {
             type: String,
+        },
+        unreadMessages : {
+            type : Boolean,
+            default : false,
         }
     }],
     messages : [{
@@ -27,10 +31,6 @@ const ChatSchema = Schema({
             type : Date,
         },
     }],
-    unreadMessages : {
-        type : Boolean,
-        default : false,
-    }
 });
 
 module.exports = mongoose.model("Chat", ChatSchema);

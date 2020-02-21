@@ -199,6 +199,45 @@ router.post('/newMessage', (req, res) => {
         .catch(err => {
             res.json({error : {message : "Error : Failed to save message properly. Try refreshing the page"}})
         });
+});
+
+// used to toggle the read status of users in the chat
+router.post('/toggleRead', (req, res) => {
+    console.log("IN THE TOGGLE READ API CALL ");
+    console.log(req.body);
+
+    console.log("HERE IS THE USER ", req.user);
+    console.log("HERE IS THE BODY ", req.body);
+
+    try {
+        var chatId = new ObjectId(req.body.chatId);
+    } catch {
+        return res.json({error : {message : "Invalid chat Id"}})
+    }
+
+    Chat.findOne({_id : chatId})
+        .then(chat => {
+            console.log("HERE IS THE CHAT FORM THE QUERY ");
+            console.log(chat);
+            console.log("IT IS MUTHA TRUCK LIT OUT HER");
+            const objIndex = chat.users.findIndex(elem => elem.username === req.user.username);
+
+            console.log("HERE IS THE INDEX OF THE OBJ INDEX ");
+            console.log(objIndex);
+
+            // change the read status
+            chat.users[objIndex].unreadMessages = req.body.unreadStatus;
+
+            chat.save(err => {
+                if(err) {
+                    console.log("ERROR ON SAVE OF CHAT");
+                    res.json({error : "error on save chat"});
+                } else {
+                    res.json({success : {message : "Saved the chat", chatObj : chat}});
+                }
+            })
+        })
+        .catch(err => console.log(err))
 })
 
 module.exports = router;
