@@ -31,7 +31,7 @@ class CreateChat extends React.Component {
             return userObj.key;
         })
 
-        console.log("HERE THE RECIPIENTS ", console.log(recipients));
+        console.log("HERE THE RECIPIENTS ", recipients);
 
         // make an API post request to create a new chat
         axios.post('/api/chats/newChat', recipients)
@@ -40,7 +40,7 @@ class CreateChat extends React.Component {
 
                     // if the call was a success send the new chat Obj to parent component (ChatContacts.js)
                     if(res.data.success) {
-                        this.props.sendChatToParent(res.data.success.chatObj);
+                        this.props.sendChatToParent(res.data.success.chatObj, res.data.success.repeat);
                         this.setState({users : []});
                     }
                 })

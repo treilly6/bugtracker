@@ -167,6 +167,13 @@ class ChatWindow extends React.Component {
 
             const currentTime = new Date();
 
+            console.log("HERE IS THE Chat Obj IN THE CHAT WINDOW ", this.state.chatObj);
+            console.log(this.state.chatObj.messages);
+            console.log(this.state.chatObj.messages.length);
+
+
+        // if there are messages in the chatObj map them into proper format
+
             var messages = this.state.chatObj.messages.map(message => {
                 const author = (message.author.userId == this.state.userId ? "Me" : message.author.username)
 

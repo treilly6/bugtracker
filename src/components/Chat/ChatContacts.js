@@ -125,13 +125,17 @@ class ChatContacts extends React.Component {
         console.log("HERE ARE THE STATE OF aLL chats ", this.state.chats);
     }
 
-    addNewChat = (newChatObj) => {
+    addNewChat = (newChatObj, repeat) => {
         console.log("IN addNewChat in chatcontacts.js");
         console.log(newChatObj);
 
-        // emit new chat to the server
-        this.socket.emit(`new chat`, newChatObj);
-
+        if(repeat) {
+            // select the new chat obj
+            this.props.getSelectedChat(newChatObj);
+        } else {
+            // emit new chat to the server
+            this.socket.emit(`new chat`, newChatObj);
+        }
     }
 
     selectChat = (e, chatObj) => {

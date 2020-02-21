@@ -98,9 +98,11 @@ io.on('connection', (socket) => {
         console.log("HERE IS THE CHAT OBJ ON SERVER SIDE ", chatObj);
 
         // emit to all the userIds that are in the new chat
-        for (const user of chatObj.users) {
-            console.log("SERVER USER ", user);
-            io.emit(`new chat ${user.userId}`, chatObj);
+        if(chatObj.users) {
+            for (const user of chatObj.users) {
+                console.log("SERVER USER ", user);
+                io.emit(`new chat ${user.userId}`, chatObj);
+            }
         }
 
     });

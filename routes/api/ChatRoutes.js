@@ -17,10 +17,18 @@ router.post('/newChat', (req, res) => {
     // set the recipients variable
     const recipients = req.body;
 
-    // if req user is not in the recipients add them to the array
-    if(!recipients.includes(req.user.username)) {
+    // if recipients is empty
+    if(recipients.length === 0) {
+        console.log("THERE ARE NOT RECIPIENTS");
+        return res.json({error : {message : "Must include users to create a chat"}})
+    } else if(!recipients.includes(req.user.username)) {
+        // if req user is not in the recipients add them to the array
         console.log("USERNAME NOT IN RECIPIENTS");
         recipients.push(req.user.username);
+    } else if(recipients.includes(req.user.username) && recipients.length === 1) {
+         // if the requesting user is in the recipeients but no other user are
+        console.log("ONLY THE CURRENT USER IS IN RECIPIENTS");
+        return res.json({error : {message : "Chat cannot only include self"}})
     }
 
     // init a new chat obj
@@ -33,6 +41,29 @@ router.post('/newChat', (req, res) => {
     // filter the valid and invalid usernames into their arrays
     const checkRecipients = async () => {
         console.log("IN CHECK RECIPT ASYN AWAIT")
+        console.log("HERE ARE THE RECIPIENTS ", recipients, typeof(recipients))
+
+        // check to see if the chat already exists
+        let chatCheck = await Chat.find({"users.username" : {$all : recipients}, "users" : {$size : recipients.length}}, (err, chat) => {
+            if(chat.length > 0) {
+                console.log("THIS CHAT ALREADY EXISTS ")
+                console.log(chat);
+                console.log(chat.users);
+                console.log("END OF THE ALREADY EXISTING CHAT");
+                // Return success with the existing chat obj
+                res.json({success : {chatObj : chat[0], repeat : true}});
+            }
+        })
+
+        console.log("HERE IS THE CHAT CHECK VALUE ", chatCheck);
+
+        // return out of function if the above query yields an existing chat
+        if(chatCheck.length > 0) {
+            console.log("CHAT is a repeat");
+            return
+        }
+
+        // check if the usernames are valid or invalid
         for (username of recipients) {
             await User.findOne({username : username}, (err, user) => {
                 console.log("HERE THE USENAME USED ", username);
@@ -44,6 +75,8 @@ router.post('/newChat', (req, res) => {
                 }
             })
         }
+
+
 
         console.log("IN THE COMPLETED CHAK RECIPIENTS MAN ");
         console.log("REAL END OF THE ROUTE SHIT");
@@ -64,7 +97,7 @@ router.post('/newChat', (req, res) => {
                     console.log("SAVING THE CHAT ");
                     console.log(typeof(newChat.users[0].id));
                     // Return success with the new chat object
-                    res.json({success : {message : "Success : New Chat Created", chatObj : newChat}});
+                    res.json({success : {message : "Success : New Chat Created", chatObj : newChat, repeat : false}});
                 }
             })
 

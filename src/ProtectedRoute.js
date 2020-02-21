@@ -64,7 +64,7 @@ class AuthRoute extends React.Component {
                         this.setState({isLoading : false, isAuthenticated : false, message : res.data.message});
                     }
                 })
-                .catch(err => console.log("ERROR ON THE PROTECTED ROUTE CLASS"));
+                .catch(err => console.log("ERROR ON THE PROTECTED ROUTE CLASS ", err));
         }
     }
 
