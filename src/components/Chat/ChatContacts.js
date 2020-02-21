@@ -32,7 +32,12 @@ class ChatContacts extends React.Component {
             .then(res => {
                 console.log("HERE IS THE RES ", res);
                 console.log(res.data.chats);
-                this.setState({chats : res.data.chats});
+
+                // sort the incoming chats
+                const sortedChats = tools.sortChats(res.data.chats)
+
+                // set the state of the chats
+                this.setState({chats : sortedChats});
 
                 for (const chat of res.data.chats) {
                     console.log("IN OF LOOP OF THE RES DATA CHATS ", chat._id);
