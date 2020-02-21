@@ -14,6 +14,9 @@ class ChatContacts extends React.Component {
     constructor(props){
         super(props);
 
+        console.log("HERE ALL THE CHAT CONTACTS PROPS");
+        console.log(props);
+
         this.socket = this.props.socket;
 
         // init variable to keep track of the selected div
@@ -106,12 +109,16 @@ class ChatContacts extends React.Component {
         console.log("just before the sort chats fuinction here isd the param");
         console.log(copyState);
 
-        
+
         // sort the chats from chats with newest messages to chats with oldest messages
         tools.sortChats(copyState)
 
         // set the state of chats to the updated chats
         this.setState({chats : copyState});
+
+        // run the slected chat again so the chatContacts will re render
+        // and correctly highlight the selected Chat in its new order
+        this.props.getSelectedChat(this.props.selectedChat);
 
         console.log("HERE ARE THE STATE OF aLL chats ", this.state.chats);
     }
@@ -175,9 +182,27 @@ class ChatContacts extends React.Component {
 
                 });
 
+                console.log("here props chat ", this.props.selectedChat);
+                console.log("here map chat ", chat)
+
+                let selected = false;
+
+                if(this.props.selectedChat && chat) {
+                    console.log(this.props.selectedChat._id);
+                    console.log(chat._id);
+                    console.log("EQUALOITY CHECK");
+                    console.log(this.props.selectedChat._id === chat._id);
+                    if(this.props.selectedChat._id === chat._id) {
+                        console.log("SETTING SELECTED TO TRUE for thsi chat");
+                        console.log(chat._id);
+                        selected = true;
+                    }
+                }
+
+
                 // return the clickable div
                 return (
-                    <div className="chatContactCont" onClick={(e) => this.selectChat(e, chat)}>
+                    <div className={"chatContactCont " + (selected ? "selected-chat" : "")}  onClick={(e) => this.selectChat(e, chat)}>
                         <div style={{overflow : "hidden", textOverflow : "ellipsis"}}>{chatUsers}</div>
                     </div>
                 )

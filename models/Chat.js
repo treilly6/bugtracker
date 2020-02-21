@@ -26,7 +26,11 @@ const ChatSchema = Schema({
         date : {
             type : Date,
         },
-    }]
+    }],
+    unreadMessages : {
+        type : Boolean,
+        default : false,
+    }
 });
 
 module.exports = mongoose.model("Chat", ChatSchema);

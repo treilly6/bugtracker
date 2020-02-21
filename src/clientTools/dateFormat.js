@@ -4,8 +4,8 @@ export function convertISOtoLocal(clientTime, itemISODate) {
     // Input : client time stamp, variable is initialized on the front end and passed into this function so that the proper local timezone is used
     // Output : timestamp that will show only the time id the itemISODate is the same date as the client time OR a timestamp showing time and date if the dates are different
 
-    console.log("FROM TTOOLS HERE THE DATE STRING ", clientTime, itemISODate);
-    console.log(typeof(clientTime), typeof(itemISODate));
+    // console.log("FROM TTOOLS HERE THE DATE STRING ", clientTime, itemISODate);
+    // console.log(typeof(clientTime), typeof(itemISODate));
 
     // make itemISODate into a local string and split into an array
     // this is changing the time from UTC to whatever the local timezone is
@@ -14,8 +14,8 @@ export function convertISOtoLocal(clientTime, itemISODate) {
     // make the client time into a local string and split into an array
     var clientTimeArray = clientTime.toLocaleString().split(", ");
 
-    console.log("HERE LOCAL STINF ", localStringArray);
-    console.log("HERE THE CLIENT TIME ", clientTimeArray);
+    // console.log("HERE LOCAL STINF ", localStringArray);
+    // console.log("HERE THE CLIENT TIME ", clientTimeArray);
 
 
     // split the time from the am pm

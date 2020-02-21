@@ -61,7 +61,7 @@ class Chat extends React.Component {
                     <div className="chatTitle">Chat</div>
                     <div className="chatComponentContainer">
                         <div className = "chatContacts">
-                            <ChatContacts socket={socket} getSelectedChat={this.selectedChat} userId={this.state.userId} username={this.state.username} />
+                            <ChatContacts socket={socket} getSelectedChat={this.selectedChat} selectedChat={this.state.selectedChat} userId={this.state.userId} username={this.state.username} />
                         </div>
                         <div className = "chatWindow">
                             <ChatWindow socket = {socket} selectedChat={this.state.selectedChat} userId={this.state.userId} username={this.state.username} />
