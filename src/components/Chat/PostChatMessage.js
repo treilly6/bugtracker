@@ -60,7 +60,10 @@ class PostChatMessage extends React.Component {
         e.target.querySelector('textarea').style.height = "50px";
 
         // emit that the user is no longer typing
-        this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : false})
+        this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : false});
+
+        // change the typing state to false
+        this.setState({typing : false});
     }
 
     render(){

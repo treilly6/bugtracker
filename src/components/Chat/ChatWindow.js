@@ -36,6 +36,11 @@ class ChatWindow extends React.Component {
             // reset the typing tracker dict
             this.typingTrackerDict = {};
 
+            // since a new chat is selected, clear the set
+            const resetTypingSet = new Set();
+
+            // set the typing set state
+            this.setState({typingMessageSet : resetTypingSet});
 
             console.log("PROPS DIFF UPDATE");
             this.setState({chatObj : this.props.selectedChat});
