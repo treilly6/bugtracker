@@ -29,7 +29,14 @@ class ChatWindow extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log("IN UPDATE FUNCTION");
+        console.log("IN UPDATE FUNCTION for CHAT WINDOW");
+        console.log("HERE THE IMPORTANT REF ", this.endScrollRef);
+
+        // jump to the bottom of the scroll (this makes a chat window open at the newest messages)
+        if(this.endScrollRef.current) {
+            this.jumpToBottom();
+        }
+
         console.log(this.socket);
         if(prevProps.selectedChat !== this.props.selectedChat) {
 
@@ -125,12 +132,21 @@ class ChatWindow extends React.Component {
     }
 
     componentDidMount(){
+        console.log("COMPONENT DID MOUNT OF THE CHAT WINDOW");
         console.log(this.socket);
     }
 
+    // method to scroll to the bottom of the chat
     scrollToBottom = () => {
         console.log("scrolling to the bottom of the window...");
         this.endScrollRef.current.scrollIntoView({ behavior : 'smooth', block : 'nearest'});
+    }
+
+    // method to jump to the bottom of the chat
+    jumpToBottom = () => {
+        console.log("Jump to the bottom of the window...");
+        console.log(this.endScrollRef.current);
+        this.endScrollRef.current.scrollIntoView({ behavior : 'auto', block : 'nearest'});
     }
 
     getNewMessage = (msg) => {
@@ -162,6 +178,7 @@ class ChatWindow extends React.Component {
     }
 
     render(){
+        console.log("CHAT WINDOW RENDER ");
         if(!this.state.chatObj) {
             return (
                 <div style={{display : "flex", height : "100%", alignItems : "center", justifyContent : "center"}}>
@@ -177,7 +194,7 @@ class ChatWindow extends React.Component {
             console.log(this.state.chatObj.messages.length);
 
 
-        // if there are messages in the chatObj map them into proper format
+            // if there are messages in the chatObj map them into proper format
 
             var messages = this.state.chatObj.messages.map(message => {
                 const author = (message.author.userId == this.state.userId ? "Me" : message.author.username)

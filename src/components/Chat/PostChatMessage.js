@@ -29,21 +29,30 @@ class PostChatMessage extends React.Component {
             // emit that user is not typing anymore
             console.log("THE LENGTH OF THE INPUT VALUE IS NOW ZERO");
 
-            // if the user was previously typing
-            if(this.state.typing) {
-                this.setState({typing : false});
-                // emit that the user is no longer typing
-                this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : false})
-            }
+            // emit that the user is no longer typing
+            this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : false})
+
+            // // if the user was previously typing
+            // if(this.state.typing) {
+            //     this.setState({typing : false});
+            //     // emit that the user is no longer typing
+            //     this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : false})
+            // }
 
 
         } else {
-            // if the user was not previously typing
-            if(!this.state.typing) {
-                this.setState({typing : true});
-                // emit that the user is typing
-                this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : true});
-            }
+            console.log("HERE IN THE ELSE OF ONCHANGE");
+            console.log(this.state.typing);
+
+            // emit that the user is typing
+            this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : true});
+
+            // // if the user was not previously typing
+            // if(!this.state.typing) {
+            //     this.setState({typing : true});
+            //     // emit that the user is typing
+            //     this.socket.emit('typing', {chatId : this.props.chatId, username : this.props.username, typing : true});
+            // }
 
         }
     }

@@ -25,6 +25,7 @@ class TypingTracker extends React.Component {
 
     render(){
         console.log("HERE SI THE TYPING MESSAGE PROPS ");
+        // this.props.user is a set passed in from parent (chatWindow.js)
         console.log(this.props.users);
 
         var typingBoxes;
