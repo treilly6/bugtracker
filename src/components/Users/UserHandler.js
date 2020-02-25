@@ -23,6 +23,8 @@ class UserHandler extends React.Component {
     }
 
     componentDidMount() {
+        // need to add a method for finding the number of new chats and emails for a user
+
         console.log("MOUNT OF THE USER HANDLER");
         axios.post('/api/auth')
             .then(res => {

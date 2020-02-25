@@ -23,11 +23,14 @@ class Mail extends React.Component {
         var mailItems;
         console.log("MAIL ITEMS IN MAIL JS ", this.props.mail);
 
-        if (this.props.mail === undefined) {
+        // if the mail is undefined or empty render empty mailbox message
+        if (this.props.mail === undefined || this.props.mail.length === 0) {
             mailItems =
             <div style={{margin : "60px 0px"}}>
                 <h5 style={{textAlign : "center"}}>Inbox Empty</h5>
             </div>
+
+        // return the mail items
         } else {
             mailItems = this.props.mail.map((mail) => {
                 return(
