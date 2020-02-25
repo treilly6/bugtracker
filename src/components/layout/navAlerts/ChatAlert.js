@@ -1,11 +1,15 @@
 import React, {useContext} from 'react';
-import { ChatAlertsContext } from '../../../context/ChatAlertsContext';
+import { NavAlertsContext } from '../../../context/NavAlertsContext';
 
 export default function ChatAlert() {
 
-    const { chatCount } = useContext(ChatAlertsContext);
+    const { chatCount } = useContext(NavAlertsContext);
 
-    return (
-        <div className="alert-circle">{chatCount}</div>
-    )
+    if(chatCount === null || chatCount === 0) {
+        return null;
+    } else {
+        return (
+            <div className="alert-circle">{chatCount}</div>
+        )
+    }
 }

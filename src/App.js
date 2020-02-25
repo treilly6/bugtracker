@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ProtectedRoute } from './ProtectedRoute';
 import { NoAuthRoute } from './components/ProtectedRoutes/NoAuthRoute';
+
+// user context\
+import { UserContext } from './context/UserContext';
 
 // Components
 import Header from './components/layout/Header';
@@ -34,38 +37,70 @@ library.add(faGooglePlus);
 library.add(faComments);
 library.add(faPaperPlane);
 
-class App extends React.Component {
-    state = {}
+function App() {
+    // user that is passed to the user context
+    const [user, setUser] = useState(null);
 
-    componentDidMount() {}
+    // userId whcih is used as a dependency in the useEffect function below
+    // I did this becasue if an object is used in the dependency the UseEffect
+    // ran in an infinite loop
+    const [userId, setUserId] = useState(null);
 
-    render() {
+    // variable to check if the user data was fetched yet
+    // used to prevent render unless data fetched
+    const [dataFetched, setDataFetched] = useState(false);
+
+    useEffect(() => {
+        console.log("USE EFFECT IS CALLED")
+        console.log("User before the axios call ", user);
+        axios.post('/api/auth')
+            .then(res => {
+                console.log("HERE IS FULL RES ", res);
+                console.log("HERE IS THE DATA ", res.data.auth);
+                if(res.data.authenticated) {
+                    setUser(res.data.user);
+                    setUserId(res.data.user._id);
+                } else {
+                    setUser(null);
+                    setUserId(null);
+                }
+                setDataFetched(true);
+
+            })
+            .catch(err => console.log(err));
+    }, [userId]);
+
+    if(dataFetched) {
         return(
             <Router>
                 <div className="App">
-                    <Header />
-                    <div className="mainContentContainer">
-                        <Switch>
-                            <Route exact path="/" render={props => (
-                                <React.Fragment>
-                                    <LandingPage />
-                                </React.Fragment>
-                            )} />
-                            <NoAuthRoute path="/signup" exact component={SignUp} />
-                            <NoAuthRoute path="/login" exact component={LogIn} />
-                            <ProtectedRoute path="/projects" exact component={Home} />
-                            <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
-                            <ProtectedRoute path="/mail" exact component={MailBox} />
-                            <ProtectedRoute path="/mail/:mailId" exact component={MailItem} />
-                            <ProtectedRoute path="/chat" exact component={Chat} />
-                            <ProtectedRoute path="/profile" exact component={UserProfile} />
-                            <NotFoundPage />
-                        </Switch>
-                    </div>
-                    <Footer />
+                    <UserContext.Provider value ={{ user, setUser }}>
+                        <Header />
+                        <div className="mainContentContainer">
+                            <Switch>
+                                <Route exact path="/" render={props => (
+                                    <React.Fragment>
+                                        <LandingPage />
+                                    </React.Fragment>
+                                )} />
+                                <NoAuthRoute path="/signup" exact component={SignUp} />
+                                <NoAuthRoute path="/login" exact component={LogIn} />
+                                <ProtectedRoute path="/projects" exact component={Home} />
+                                <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
+                                <ProtectedRoute path="/mail" exact component={MailBox} />
+                                <ProtectedRoute path="/mail/:mailId" exact component={MailItem} />
+                                <ProtectedRoute path="/chat" exact component={Chat} />
+                                <ProtectedRoute path="/profile" exact component={UserProfile} />
+                                <NotFoundPage />
+                            </Switch>
+                        </div>
+                        <Footer />
+                    </UserContext.Provider>
                 </div>
             </Router>
         );
+    } else {
+        return null;
     }
 }
 
