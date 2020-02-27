@@ -15,6 +15,7 @@ const MailBox = require('./routes/api/MailBoxRoutes');
 const Task = require('./routes/api/TaskRoutes');
 const AuthLogin = require('./routes/api/AuthLoginRoutes');
 const Chats = require('./routes/api/ChatRoutes');
+const UnreadMessages = require('./routes/api/UnreadMessages');
 
 const passport = require('passport');
 
@@ -53,6 +54,7 @@ app.use('/api/mailBox', MailBox);
 app.use('/api/tasks', Task);
 app.use('/authLogin', AuthLogin);
 app.use('/api/chats', Chats);
+app.use('/api/unreadMessages', UnreadMessages);
 
 // Connect to DB
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser : true }, (err) =>

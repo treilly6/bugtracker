@@ -238,6 +238,53 @@ router.post('/toggleRead', (req, res) => {
             })
         })
         .catch(err => console.log(err))
-})
+});
+
+
+// used to get the number of chats with an unread message
+router.get('/unreadChatCount', (req,res) => {
+    console.log("HERE THE chat count");
+
+    // if there is not an authenticated user
+    if(!req.user) {
+        return res.json({error : "No user exists"})
+    }
+
+    Chat.find({"users.userId" : req.user._id})
+        .then(chats => {
+            if(chats.length) {
+                console.log("There are chats ");
+
+                // find the number of unread messages in the mailbox
+                const chatCount = chats.reduce((countDict, chatObj) => {
+                    console.log("HERE IS THE CHAT OBJ's USERS ");
+                    console.log(chatObj.users);
+                    // find the user obj in the chat users array
+                    const userObj = chatObj.users.find((userObj) => {
+                        if(userObj.username === req.user.username) {
+                            return userObj;
+                        }
+                    });
+
+                    if(userObj && userObj.unreadMessages) {
+                        // increment the count in the dict
+                        countDict.chatCount++;
+                    }
+
+                    return countDict
+                }, {chatCount : 0});
+
+                console.log("JUST BEFORE THE RETURN HERE IS THE CHAT COUNT ");
+                console.log(chatCount);
+                console.log("\n","\n");
+
+                // return the chatCount
+                // no need for curly braces b/c chatCount is already an object
+                return res.json(chatCount);
+            } else {
+                return res.json({ chatCount : 0});
+            }
+        })
+});
 
 module.exports = router;

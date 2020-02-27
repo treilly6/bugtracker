@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MailToolbar from './MailToolbar';
 import MobileMailToolbar from './MobileMailToolbar';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { NavAlertsContext } from '../../../context/NavAlertsContext';
 import axios from 'axios';
 
 class MailBoxItem extends React.Component {
@@ -42,15 +43,19 @@ class MailBoxItem extends React.Component {
                 console.log(res);
                 if(res.data.deleted == true) {
                     this.setState({mailItem : null});
-                }                
+                }
             })
             .catch(err => {
                 console.log(err);
             })
     }
 
+    // this method's api call needs to be modified so that the context can properly add up or down
+    // could just add a variable to the returned object that specifies either 1 or -1
     markMail = (mailId) => {
         console.log("MARKING THE MAIL", mailId);
+        console.log("HERE is the context ");
+        console.log(this.context);
         var updatedMail = Object.assign({}, this.state.mailItem);
         updatedMail.read = !updatedMail.read;
         this.setState({mailItem : updatedMail});
@@ -61,6 +66,9 @@ class MailBoxItem extends React.Component {
                 var mailCopy = Object.assign({}, this.state.mailItem);
                 mailCopy.read = res.data.read;
                 this.setState({mailItem : mailCopy});
+
+                // update the context
+                this.context.setMailCount(this.context.mailCount - 1);
             })
             .catch(err => {
                 console.log(err);
@@ -105,5 +113,11 @@ class MailBoxItem extends React.Component {
 
     }
 }
+
+// set the context
+MailBoxItem.contextType = NavAlertsContext;
+console.log(NavAlertsContext);
+console.log("SUPER IMPORTANT MAN");
+
 
 export default MailBoxItem;

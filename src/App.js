@@ -7,6 +7,9 @@ import { NoAuthRoute } from './components/ProtectedRoutes/NoAuthRoute';
 // user context\
 import { UserContext } from './context/UserContext';
 
+// alerts context
+import { NavAlertsContext } from './context/NavAlertsContext';
+
 // Components
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
@@ -46,6 +49,11 @@ function App() {
     // ran in an infinite loop
     const [userId, setUserId] = useState(null);
 
+
+    // alert values that will be passed into the context
+    const [chatCount, setChatCount ] = useState(null);
+    const [mailCount, setMailCount ] = useState(null);
+
     // variable to check if the user data was fetched yet
     // used to prevent render unless data fetched
     const [dataFetched, setDataFetched] = useState(false);
@@ -60,6 +68,17 @@ function App() {
                 if(res.data.authenticated) {
                     setUser(res.data.user);
                     setUserId(res.data.user._id);
+                    // make call to both the message count and the chat count
+                    axios.all([axios.get('/api/chats/unreadChatCount'), axios.get('/api/unreadMessages')])
+                        .then(axios.spread((chats, messages) => {
+                            console.log("HERE IS THE NAV SPREAD AXIOS CALL FOR CHATS AND MESSAGES");
+                            console.log(chats);
+                            console.log(messages);
+                            setChatCount(chats.data.chatCount);
+                            setMailCount(messages.data.messageCount);
+                            console.log("END OF THE SPREAD AXIOS SHIT");
+                        }))
+                        .catch(err => console.log(err));
                 } else {
                     setUser(null);
                     setUserId(null);
@@ -75,26 +94,28 @@ function App() {
             <Router>
                 <div className="App">
                     <UserContext.Provider value ={{ user, setUser }}>
-                        <Header />
-                        <div className="mainContentContainer">
-                            <Switch>
-                                <Route exact path="/" render={props => (
-                                    <React.Fragment>
-                                        <LandingPage />
-                                    </React.Fragment>
-                                )} />
-                                <NoAuthRoute path="/signup" exact component={SignUp} />
-                                <NoAuthRoute path="/login" exact component={LogIn} />
-                                <ProtectedRoute path="/projects" exact component={Home} />
-                                <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
-                                <ProtectedRoute path="/mail" exact component={MailBox} />
-                                <ProtectedRoute path="/mail/:mailId" exact component={MailItem} />
-                                <ProtectedRoute path="/chat" exact component={Chat} />
-                                <ProtectedRoute path="/profile" exact component={UserProfile} />
-                                <NotFoundPage />
-                            </Switch>
-                        </div>
-                        <Footer />
+                        <NavAlertsContext.Provider value={{ mailCount, setMailCount, chatCount, setChatCount}}>
+                            <Header />
+                            <div className="mainContentContainer">
+                                <Switch>
+                                    <Route exact path="/" render={props => (
+                                        <React.Fragment>
+                                            <LandingPage />
+                                        </React.Fragment>
+                                    )} />
+                                    <NoAuthRoute path="/signup" exact component={SignUp} />
+                                    <NoAuthRoute path="/login" exact component={LogIn} />
+                                    <ProtectedRoute path="/projects" exact component={Home} />
+                                    <ProtectedRoute path="/projects/:projectID/:folders*" exact component = {ProjectHandler} />
+                                    <ProtectedRoute path="/mail" exact component={MailBox} />
+                                    <ProtectedRoute path="/mail/:mailId" exact component={MailItem} />
+                                    <ProtectedRoute path="/chat" exact component={Chat} />
+                                    <ProtectedRoute path="/profile" exact component={UserProfile} />
+                                    <NotFoundPage />
+                                </Switch>
+                            </div>
+                            <Footer />
+                        </NavAlertsContext.Provider>
                     </UserContext.Provider>
                 </div>
             </Router>

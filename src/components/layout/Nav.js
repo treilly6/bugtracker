@@ -11,6 +11,8 @@ import ChatAlert from './navAlerts/ChatAlert';
 import MailAlert from './navAlerts/MailAlert';
 import './navStyle.css';
 
+import axios from 'axios';
+
 export default function Nav(props) {
 
     const [showMobileNav, setShowMobileNav ] = useState(false);
@@ -20,18 +22,34 @@ export default function Nav(props) {
     const [chatCount, setChatCount ] = useState(null);
     const [mailCount, setMailCount ] = useState(null);
 
-    useEffect(() => {
-        console.log("NAVBAR IS MOUNTING HERE");
-
-        // make api request to find the users unread messages and unread chats
-        // axios.all([])
-
-        // save them to the chatCount and mailCount variables
-
-        // pass them into the context providers below
-
-        // console.log("HERE IS THE NAV COMPONENT MOUNT HERE IS THE CONTEXT");
-    }, [])
+    // useEffect(() => {
+    //     console.log("NAVBAR IS MOUNTING HERE");
+    //
+    //     if(props.userAuthenticated) {
+    //         console.log("Making network request for some shit ");
+    //
+    //         // make call to both the message count and the chat count
+    //         axios.all([axios.get('/api/chats/unreadChatCount'), axios.get('/api/unreadMessages')])
+    //             .then(axios.spread((chats, messages) => {
+    //                 console.log("HERE IS THE NAV SPREAD AXIOS CALL FOR CHATS AND MESSAGES");
+    //                 console.log(chats);
+    //                 console.log(messages);
+    //                 setChatCount(chats.data.chatCount);
+    //                 setMailCount(messages.data.messageCount);
+    //                 console.log("END OF THE SPREAD AXIOS SHIT");
+    //             }))
+    //             .catch(err => console.log(err));
+    //     }
+    //
+    //     // make api request to find the users unread messages and unread chats
+    //     // axios.all([])
+    //
+    //     // save them to the chatCount and mailCount variables
+    //
+    //     // pass them into the context providers below
+    //
+    //     // console.log("HERE IS THE NAV COMPONENT MOUNT HERE IS THE CONTEXT");
+    // }, []);
 
 
     const toggleMobileNav = () => {
@@ -55,7 +73,7 @@ export default function Nav(props) {
         navBar =
         <div className="navBar">
             <div>
-                <Link className="navLink hoverLink" to="/">Home</Link> | <Link className="navLink hoverLink" to="/projects">Projects</Link> | <Link className="navLink hoverLink rel-link" to="/mail"><FontAwesomeIcon icon="envelope" /><NavAlertsContext.Provider value={{ mailCount, setMailCount}}><MailAlert /></NavAlertsContext.Provider></Link> | <Link className="navLink hoverLink rel-link" to="/chat"><FontAwesomeIcon icon="comments" /><NavAlertsContext.Provider value={{ chatCount, setChatCount}}><ChatAlert /></NavAlertsContext.Provider></Link>
+                <Link className="navLink hoverLink" to="/">Home</Link> | <Link className="navLink hoverLink" to="/projects">Projects</Link> | <Link className="navLink hoverLink rel-link" to="/mail"><FontAwesomeIcon icon="envelope" /><MailAlert /></Link> | <Link className="navLink hoverLink rel-link" to="/chat"><FontAwesomeIcon icon="comments" /><ChatAlert /></Link>
             </div>
         </div>;
 
@@ -72,8 +90,8 @@ export default function Nav(props) {
                     <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/profile" onClick={() => closeMobileNav()}><UserLoginIcon loginType={props.loginType} /><span>{props.username}</span></Link></div>
                     <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/" onClick={() => closeMobileNav()}>Home</Link></div>
                     <div className="mobileNavDiv"><Link className="navLink hoverLink" to="/projects" onClick={() => closeMobileNav()}>Projects</Link></div>
-                    <div className="mobileNavDiv"><Link className="navLink hoverLink rel-link" to="/mail" onClick={() => closeMobileNav()}><FontAwesomeIcon icon="envelope" /><NavAlertsContext.Provider value={{ mailCount, setMailCount}}><MailAlert /></NavAlertsContext.Provider></Link></div>
-                    <div className="mobileNavDiv"><Link className="navLink hoverLink rel-link" to="/chat" onClick={() => closeMobileNav()}><FontAwesomeIcon icon="comments" /><NavAlertsContext.Provider value={{ chatCount, setChatCount}}><ChatAlert /></NavAlertsContext.Provider></Link></div>
+                    <div className="mobileNavDiv"><Link className="navLink hoverLink rel-link" to="/mail" onClick={() => closeMobileNav()}><FontAwesomeIcon icon="envelope" /><MailAlert /></Link></div>
+                    <div className="mobileNavDiv"><Link className="navLink hoverLink rel-link" to="/chat" onClick={() => closeMobileNav()}><FontAwesomeIcon icon="comments" /><ChatAlert /></Link></div>
                     <div className="mobileNavDiv"><LogOut></LogOut></div>
                 </div>
             </div>

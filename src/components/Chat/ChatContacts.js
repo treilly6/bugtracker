@@ -4,6 +4,9 @@ import axios from 'axios';
 import './Chat.css';
 import tools from './chatSort';
 
+// import nav alerts context
+import { NavAlertsContext } from '../../context/NavAlertsContext';
+
 
 
 class ChatContacts extends React.Component {
@@ -115,6 +118,9 @@ class ChatContacts extends React.Component {
                     if(res.data.success) {
                         console.log("Here is the chat object thing goung dooooown ", res.data.success.chatObj);
                         copyChat = res.data.success.chatObj;
+
+                        // increment the chat count context
+                        this.context.setChatCount(this.context.chatCount + 1);
                     }
                 })
                 .catch(err => console.log(err))
@@ -152,14 +158,16 @@ class ChatContacts extends React.Component {
         }
     }
 
-    selectChat = (e, chatObj) => {
+    selectChat = (e, chatObj, prevUnreadStatus) => {
         console.log("HERE IS THE CHATObj chatcontacts.js ", chatObj);
         this.props.getSelectedChat(chatObj);
         console.log("HERE IS THE E THING MEAJFJ");
         console.log(e.currentTarget);
 
-
-        axios.post('/api/chats/toggleRead', {chatId : chatObj._id, unreadStatus : false})
+        // if the chat is unread then change the context and make an api call to save the toggle on server
+        if(prevUnreadStatus) {
+            this.context.setChatCount(this.context.chatCount - 1);
+            axios.post('/api/chats/toggleRead', {chatId : chatObj._id, unreadStatus : false})
             .then(res => {
                 console.log("HERE THE TOGGLE READ RESULT");
                 console.log(res);
@@ -185,6 +193,9 @@ class ChatContacts extends React.Component {
                 }
             })
             .catch(err => console.log(err))
+        }
+
+
 
         // take background color off of previously selected Div if it exists
         if(this.selectedDiv) {
@@ -261,7 +272,7 @@ class ChatContacts extends React.Component {
 
                 // return the clickable div
                 return (
-                    <div className={"chatContactCont " + (selected ? "selected-chat" : "")}  onClick={(e) => this.selectChat(e, chat)}>
+                    <div className={"chatContactCont " + (selected ? "selected-chat" : "")}  onClick={(e) => this.selectChat(e, chat, unread)}>
                         <div style={{overflow : "hidden", textOverflow : "ellipsis", fontWeight : (unread ? "bold" : "")}}>{chatUsers}</div>
                     </div>
                 )
@@ -282,5 +293,7 @@ class ChatContacts extends React.Component {
         )
     }
 }
+
+ChatContacts.contextType = NavAlertsContext;
 
 export default ChatContacts;
