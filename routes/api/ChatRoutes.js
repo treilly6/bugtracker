@@ -225,15 +225,25 @@ router.post('/toggleRead', (req, res) => {
             console.log("HERE IS THE INDEX OF THE OBJ INDEX ");
             console.log(objIndex);
 
-            // change the read status
-            chat.users[objIndex].unreadMessages = req.body.unreadStatus;
+            // init the change variable to zero
+            var change;
+            if(req.body.unreadStatus === chat.users[objIndex].unreadMessages) {
+                change = 0;
+            } else if(req.body.unreadStatus) {
+                chat.users[objIndex].unreadMessages = req.body.unreadStatus;
+                change = 1;
+            } else if (!req.body.unreadStatus) {
+                chat.users[objIndex].unreadMessages = req.body.unreadStatus;
+                change = -1;
+            }
+
 
             chat.save(err => {
                 if(err) {
                     console.log("ERROR ON SAVE OF CHAT");
                     res.json({error : "error on save chat"});
                 } else {
-                    res.json({success : {message : "Saved the chat", chatObj : chat}});
+                    res.json({success : {message : "Saved the chat", chatObj : chat, change}});
                 }
             })
         })

@@ -120,7 +120,7 @@ class ChatContacts extends React.Component {
                         copyChat = res.data.success.chatObj;
 
                         // increment the chat count context
-                        this.context.setChatCount(this.context.chatCount + 1);
+                        this.context.setChatCount(this.context.chatCount + res.data.success.change);
                     }
                 })
                 .catch(err => console.log(err))
