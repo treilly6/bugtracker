@@ -110,10 +110,21 @@ io.on('connection', (socket) => {
     });
 
     // on new chat message
-    socket.on('new chat message', (messageObj) => {
+    socket.on('new chat message', (messageObj, chatObj) => {
         console.log("SERVER SIDE HER TEH MESSAGE OBJ ");
         console.log(messageObj);
         console.log(messageObj.chatId);
+
+        console.log("SUPER IMPRTOANT SEVRER SIDFE SSHSHSHSHSHSHHSHSHFSDKFKASDJFASDFSDAF");
+        console.log(chatObj);
+
+        for (const userObj of chatObj.users) {
+            console.log("ITERATOR HERE ");
+            console.log(userObj);
+
+            // emit to the nav bar socket (look at nav.js)
+            io.emit(`alerts chat message ${userObj.userId}`)
+        }
 
         // // emit to clients of the chatId the new message (ChatContacts.js)
         io.emit(`new chat message ${messageObj.chatId}`, messageObj.message);

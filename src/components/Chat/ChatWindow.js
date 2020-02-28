@@ -168,7 +168,7 @@ class ChatWindow extends React.Component {
                     messageObj.message = res.data.success.savedMessage;
 
                     // emit new chat to the server
-                    this.socket.emit(`new chat message`, messageObj);
+                    this.socket.emit(`new chat message`, messageObj, this.state.chatObj);
                 }
             })
             .catch(err => {

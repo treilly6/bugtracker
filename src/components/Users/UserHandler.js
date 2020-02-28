@@ -50,6 +50,7 @@ class UserHandler extends React.Component {
             var userBox;
             var divStyle = {};
             var username = this.state.user.username || this.state.user.name;
+            var userId = this.state.user._id;
             var loginType = this.state.loginType;
             if(this.state.authenticated == true) {
                 userBox =
@@ -71,7 +72,7 @@ class UserHandler extends React.Component {
                     <div style={{marginTop : "5px"}}>
                         {userBox}
                     </div>
-                    <Nav userAuthenticated={this.state.authenticated} username={username} loginType={loginType} />
+                    <Nav userAuthenticated={this.state.authenticated} username={username} loginType={loginType} userId={userId} />
                 </div>
             )
         }

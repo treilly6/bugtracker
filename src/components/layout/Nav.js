@@ -11,49 +11,40 @@ import ChatAlert from './navAlerts/ChatAlert';
 import MailAlert from './navAlerts/MailAlert';
 import './navStyle.css';
 
+import io from 'socket.io-client';
+
 import axios from 'axios';
+
+let socket;
 
 export default function Nav(props) {
 
     const [showMobileNav, setShowMobileNav ] = useState(false);
     const [countsFetched, setCountsFetched ] = useState(false);
 
-    // alert values that will be passed into the context
-    const [chatCount, setChatCount ] = useState(null);
-    const [mailCount, setMailCount ] = useState(null);
+    const { setChatCount, chatCount, mailCount, setMailCount } = useContext(NavAlertsContext);
 
-    // useEffect(() => {
-    //     console.log("NAVBAR IS MOUNTING HERE");
-    //
-    //     if(props.userAuthenticated) {
-    //         console.log("Making network request for some shit ");
-    //
-    //         // make call to both the message count and the chat count
-    //         axios.all([axios.get('/api/chats/unreadChatCount'), axios.get('/api/unreadMessages')])
-    //             .then(axios.spread((chats, messages) => {
-    //                 console.log("HERE IS THE NAV SPREAD AXIOS CALL FOR CHATS AND MESSAGES");
-    //                 console.log(chats);
-    //                 console.log(messages);
-    //                 setChatCount(chats.data.chatCount);
-    //                 setMailCount(messages.data.messageCount);
-    //                 console.log("END OF THE SPREAD AXIOS SHIT");
-    //             }))
-    //             .catch(err => console.log(err));
-    //     }
-    //
-    //     // make api request to find the users unread messages and unread chats
-    //     // axios.all([])
-    //
-    //     // save them to the chatCount and mailCount variables
-    //
-    //     // pass them into the context providers below
-    //
-    //     // console.log("HERE IS THE NAV COMPONENT MOUNT HERE IS THE CONTEXT");
-    // }, []);
+    // if no socket then create one listening to the server port
+    if(!socket) {
+        console.log("CREATING A SOCKET IN THE nav");
+        socket = io(':5000');
 
+        socket.on(`alerts chat message ${props.userId}`, () => {
+            console.log("IN THE USER SOCKET CHECK FOR MESSGAE SHIT ");
 
+            // if not on the chat page
+            if(window.location.pathname !== "/chat") {
+                // increment the chat count by 1
+                setChatCount(chatCount + 1)
+            }
+
+            console.log("END OF THE BULLSHIT");
+        })
+    }
+
+    // toggle the mobile nav bar
     const toggleMobileNav = () => {
-        setShowMobileNav({showMobileNav : !showMobileNav});
+        setShowMobileNav(!showMobileNav);
     }
 
     const closeMobileNav = () => {
