@@ -114,6 +114,64 @@ router.delete('/:mailId', async (req,res) => {
 
 });
 
+// used to chnage the read status of mail (specifically, this route is used by the web socket in the nav bar to update the mail notification)
+router.post('/mailMessage', (req,res) => {
+    console.log("HERE THE MESSAGE COUNT HEHEHEHE HAHAHA");
+    console.log("extra important \n \n \n \n \n \n \n")
+
+    // if there is not an authenticated user
+    if(!req.user) {
+        console.log("THERE IS NO USER");
+        return res.json({error : "No user exists"});
+    }
+
+    // pull the variables out of the req.body
+    const { mailId, readStatus } = req.body;
+
+    MailBox.findOne({"user" : req.user._id})
+        .then(mailbox => {
+            console.log("HERE IS THE MAILBOCX FOUND MAAAAN ");
+            console.log(mailbox);
+            console.log("\n", "\n", "\n");
+            if(mailbox) {
+                mailItem = mailbox.messages.find(mail => mail._id.toString() === mailId);
+
+                if(mailItem != undefined) {
+                    // init the change variable
+                    var change;
+
+                    // if already the same value
+                    if(mailItem.read === req.body.readStatus) {
+                        change = 0;
+                    } else if(mailItem.read) {
+                        // if mail item is read and the read status in request is false
+                        mailItem.read = req.body.readStatus;
+                        change = 1;
+                    } else if(!mailItem.read) {
+                        // if mail item is  not read and the read status in request is true
+                        mailItem.read = req.body.readStatus;
+                        change = -1;
+                    }
+
+                    mailbox.save()
+                        .then(item => {
+                            res.json({success : {change}});
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                }
+            } else {
+                return res.json({ error : "Failed to find mailbox"});
+            }
+        })
+        .catch(err => {
+            console.log("UH OH SPAGHETTI OHS");
+            console.log(err);
+        })
+});
+
+
 
 
 module.exports = router;

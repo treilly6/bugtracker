@@ -237,7 +237,6 @@ router.post('/toggleRead', (req, res) => {
                 change = -1;
             }
 
-
             chat.save(err => {
                 if(err) {
                     console.log("ERROR ON SAVE OF CHAT");

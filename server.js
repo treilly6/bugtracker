@@ -142,4 +142,9 @@ io.on('connection', (socket) => {
         // emit that the user is typing
         socket.broadcast.emit(`user typing ${chatId}`, {username, typing});
     })
+
+    // socket that will listen for an event of new mail message
+    // and will broadcast to client sockets so that the
+    // mail status notification will be updated accordingly
+    // socket.on(`new mail message ${}`)
 });

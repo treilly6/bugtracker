@@ -29,6 +29,7 @@ export default function Nav(props) {
         console.log("CREATING A SOCKET IN THE nav");
         socket = io(':5000');
 
+        // chat for handling new messgaes
         socket.on(`alerts chat message ${props.userId}`, (chatId) => {
             console.log("IN THE USER SOCKET CHECK FOR MESSGAE SHIT ");
 
@@ -47,6 +48,7 @@ export default function Nav(props) {
                     if(res.data.success && res.data.success.change === 1) {
                         console.log("incrementing the chatcount...")
                         console.log("HERE THE ORIGINAL CHAT COUTN ", chatCount);
+
                         // increment the chat count by 1
                         setChatCount(chatCount + 1)
                     }
@@ -56,6 +58,41 @@ export default function Nav(props) {
 
             console.log("END OF THE BULLSHIT");
         })
+
+
+        // this socket is doing the same as the chat socket above but for mail messages
+        // might need to add socket to mailbox page so that the messages can come in similar to chats
+        
+
+        // // for handling new mail messgaes
+        // socket.on(`alerts mail message ${props.userId}`, (chatId) => {
+        //     console.log("IN THE USER SOCKET CHECK FOR Mail mail mail MESSGAE SHIT ");
+        //
+        //     // if not on the chat page
+        //     if(window.location.pathname !== "/mail") {
+        //         axios.post('/api/mailBox/mailMessage', {mailId, readStatus : false})
+        //         .then(res => {
+        //             console.log("In the res");
+        //             console.log(res);
+        //
+        //             (res.data.success ? console.log("true") : console.log("false"));
+        //
+        //             console.log(res.data.success.change);
+        //
+        //             // if api call was successful and the returned count is an increment of 1
+        //             if(res.data.success && res.data.success.change === 1) {
+        //                 console.log("incrementing the messagecount...")
+        //                 console.log("HERE THE ORIGINAL CHAT COUTN ", messageCount);
+        //
+        //                 // increment the chat count by 1
+        //                 setMessageCount(messageCount + 1)
+        //             }
+        //         })
+        //         .catch(err => console.log(err));
+        //     }
+        //
+        //     console.log("END OF THE BULLSHIT");
+        // })
     }
 
     // toggle the mobile nav bar
