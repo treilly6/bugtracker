@@ -29,13 +29,29 @@ export default function Nav(props) {
         console.log("CREATING A SOCKET IN THE nav");
         socket = io(':5000');
 
-        socket.on(`alerts chat message ${props.userId}`, () => {
+        socket.on(`alerts chat message ${props.userId}`, (chatId) => {
             console.log("IN THE USER SOCKET CHECK FOR MESSGAE SHIT ");
 
             // if not on the chat page
             if(window.location.pathname !== "/chat") {
-                // increment the chat count by 1
-                setChatCount(chatCount + 1)
+                axios.post('/api/chats/toggleRead', {chatId, unreadStatus : true})
+                .then(res => {
+                    console.log("In the res");
+                    console.log(res);
+
+                    (res.data.success ? console.log("true") : console.log("false"));
+
+                    console.log(res.data.success.change);
+
+                    // if api call was successful and the returned count is an increment of 1
+                    if(res.data.success && res.data.success.change === 1) {
+                        console.log("incrementing the chatcount...")
+                        console.log("HERE THE ORIGINAL CHAT COUTN ", chatCount);
+                        // increment the chat count by 1
+                        setChatCount(chatCount + 1)
+                    }
+                })
+                .catch(err => console.log(err));
             }
 
             console.log("END OF THE BULLSHIT");

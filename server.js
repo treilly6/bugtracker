@@ -123,7 +123,7 @@ io.on('connection', (socket) => {
             console.log(userObj);
 
             // emit to the nav bar socket (look at nav.js)
-            io.emit(`alerts chat message ${userObj.userId}`)
+            io.emit(`alerts chat message ${userObj.userId}`, chatObj._id);
         }
 
         // // emit to clients of the chatId the new message (ChatContacts.js)

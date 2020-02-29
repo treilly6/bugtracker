@@ -68,6 +68,11 @@ class ChatContacts extends React.Component {
                 console.log("HERE IS THE NEW MESSAGE FOR ON THE CLIENTS SIDE ");
                 console.log(newMessage);
 
+                if(window.location.pathname !== "/chat") {
+                    console.log("NOT ON THE CHATS PAGE GONNA RETURN ");
+                    return;
+                }
+
                 // find the chat by id and append the new message to the messages
 
                 console.log("LOKING FOR THE CORRECT CHAT");

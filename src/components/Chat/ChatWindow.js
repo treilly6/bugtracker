@@ -139,7 +139,9 @@ class ChatWindow extends React.Component {
     // method to scroll to the bottom of the chat
     scrollToBottom = () => {
         console.log("scrolling to the bottom of the window...");
-        this.endScrollRef.current.scrollIntoView({ behavior : 'smooth', block : 'nearest'});
+        if(this.endScrollRef.current) {
+            this.endScrollRef.current.scrollIntoView({ behavior : 'smooth', block : 'nearest'});
+        }
     }
 
     // method to jump to the bottom of the chat
