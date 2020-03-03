@@ -75,6 +75,8 @@ class ChatWindow extends React.Component {
                 // create a listener for the chat window
                 this.socket.on(`chat window ${this.props.selectedChat._id}`, (newMessage) => {
 
+                    console.log("IN THE CHAT WINDOW SOCKET");
+
                     // copy the chatObj
                     const chatCopy = Object.assign({}, this.state.chatObj);
 
@@ -192,7 +194,7 @@ class ChatWindow extends React.Component {
             const currentTime = new Date();
 
             console.log("HERE IS THE Chat Obj IN THE CHAT WINDOW ", this.state.chatObj);
-            console.log(this.state.chatObj.messages);
+            // console.log(this.state.chatObj.messages);
             console.log(this.state.chatObj.messages.length);
 
 

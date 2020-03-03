@@ -115,11 +115,20 @@ class ChatContacts extends React.Component {
 
         // if the chat with a new message is not the one currently viewed in the chat window
         // mark uread to true for that chat
+        console.log("JUST BEFORE THE EVALUATION CHECK ");
+        console.log(this.props.selectedChat);
+        console.log(copyChat._id);
+        console.log((this.props.selectedChat ? this.props.selectChat._id : "No chat id here"));
+
+
+
         if(!this.props.selectedChat || copyChat._id !== this.props.selectedChat._id) {
             await axios.post('/api/chats/toggleRead', {chatId : copyChat._id, unreadStatus : true})
                 .then(res => {
                     console.log("HERE THE TOGGLE READ RESULT");
                     console.log(res);
+                    console.log("HERE IS THE CONTEXT VALUE FOR NUMBER OF CHATS ", this.context.chatCount);
+
                     if(res.data.success) {
                         console.log("Here is the chat object thing goung dooooown ", res.data.success.chatObj);
                         copyChat = res.data.success.chatObj;
@@ -171,33 +180,34 @@ class ChatContacts extends React.Component {
 
         // if the chat is unread then change the context and make an api call to save the toggle on server
         if(prevUnreadStatus) {
+            console.log("HERE ON THE CLICK IS THE CONTEXT CHAT COUNT ", this.context.chatCount);
             this.context.setChatCount(this.context.chatCount - 1);
             axios.post('/api/chats/toggleRead', {chatId : chatObj._id, unreadStatus : false})
-            .then(res => {
-                console.log("HERE THE TOGGLE READ RESULT");
-                console.log(res);
-                if(res.data.success) {
-                    console.log("Here is the chat object from chat.js ", res.data.success.chatObj);
+                .then(res => {
+                    console.log("HERE THE TOGGLE READ RESULT");
+                    console.log(res);
+                    if(res.data.success) {
+                        console.log("Here is the chat object from chat.js ", res.data.success.chatObj);
 
-                    // get the chat index
-                    var chatIndex = this.state.chats.findIndex(chat => chat._id === res.data.success.chatObj._id)
-                    console.log("Here is the chat index ", chatIndex);
+                        // get the chat index
+                        var chatIndex = this.state.chats.findIndex(chat => chat._id === res.data.success.chatObj._id)
+                        console.log("Here is the chat index ", chatIndex);
 
-                    // copy the chats state
-                    var copyState = [...this.state.chats];
+                        // copy the chats state
+                        var copyState = [...this.state.chats];
 
-                    // replace the old chat with the updated chat
-                    copyState[chatIndex] = res.data.success.chatObj;
+                        // replace the old chat with the updated chat
+                        copyState[chatIndex] = res.data.success.chatObj;
 
-                    console.log("just before the sort chats fuinction here isd the param");
-                    console.log(copyState);
+                        console.log("just before the sort chats fuinction here isd the param");
+                        console.log(copyState);
 
-                    // set the state of chats to the updated chats
-                    this.setState({chats : copyState});
+                        // set the state of chats to the updated chats
+                        this.setState({chats : copyState});
 
-                }
-            })
-            .catch(err => console.log(err))
+                    }
+                })
+                .catch(err => console.log(err))
         }
 
 
@@ -246,8 +256,8 @@ class ChatContacts extends React.Component {
 
                 });
 
-                console.log("here props chat ", this.props.selectedChat);
-                console.log("here map chat ", chat)
+                // console.log("here props chat ", this.props.selectedChat);
+                // console.log("here map chat ", chat)
 
                 let selected = false;
 
