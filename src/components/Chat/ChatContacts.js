@@ -118,11 +118,20 @@ class ChatContacts extends React.Component {
         console.log("JUST BEFORE THE EVALUATION CHECK ");
         console.log(this.props.selectedChat);
         console.log(copyChat._id);
-        console.log((this.props.selectedChat ? this.props.selectChat._id : "No chat id here"));
+        // console.log((this.props.selectedChat ? this.props.selectChat._id : "No chat id here"));
 
 
 
         if(!this.props.selectedChat || copyChat._id !== this.props.selectedChat._id) {
+            console.log("SENDING THE API TOGGLE READ API REQUEST ");
+            console.log(this.props.selectedChat);
+            console.log(copyChat._id);
+            if(this.props.selectedChat) {
+                console.log("IMPORTANT IF BLOCK LOGGING");
+                console.log(this.props.selectedChat._id);
+                console.log(typeof(this.props.selectedChat._id));
+                console.log(typeof(copyChat._id));
+            }
             await axios.post('/api/chats/toggleRead', {chatId : copyChat._id, unreadStatus : true})
                 .then(res => {
                     console.log("HERE THE TOGGLE READ RESULT");

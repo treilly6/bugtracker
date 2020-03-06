@@ -29,8 +29,8 @@ class ChatWindow extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log("IN UPDATE FUNCTION for CHAT WINDOW");
-        console.log("HERE THE IMPORTANT REF ", this.endScrollRef);
+        // console.log("IN UPDATE FUNCTION for CHAT WINDOW");
+        // console.log("HERE THE IMPORTANT REF ", this.endScrollRef);
 
         // jump to the bottom of the scroll (this makes a chat window open at the newest messages)
         if(this.endScrollRef.current) {

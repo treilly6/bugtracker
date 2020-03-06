@@ -1,8 +1,8 @@
 module.exports = {
     sortChats : (chats) => {
-        console.log("HERE THE CHATS")
-        console.log(chats);
-        console.log("In the sort chats")
+        // console.log("HERE THE CHATS")
+        // console.log(chats);
+        // console.log("In the sort chats")
         return chats.sort((a,b) => {
 
             // check if either of the chats contain no messages
