@@ -46,6 +46,20 @@ class Chat extends React.Component {
         // The chat will update it's unread messages count
     }
 
+    componentWillUnmount(){
+        console.log("SUPER MOST IMPORTNSDFSDFGJSGJ  ");
+        console.log("\n");
+        console.log("\n");
+        console.log("\n");
+        console.log("\n");
+        console.log(socket);
+        console.log("CLEAR THE SOCKET SHIT HERE");
+        console.log("\n");
+        console.log("\n");
+        console.log("\n");
+        console.log("\n");
+    }
+
     selectedChat = (chatObj) => {
         console.log("IN THE SELECTED CHAT OF THE CHAT.js ", chatObj);
         this.setState({selectedChat : chatObj});
