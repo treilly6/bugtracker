@@ -138,6 +138,10 @@ class ChatWindow extends React.Component {
         console.log(this.socket);
     }
 
+    componentWillUnmount(){
+        console.log("CHAT WINDOW COMPONENT GOING TO UNMPIUNT HERE MAN ");
+    }
+
     // method to scroll to the bottom of the chat
     scrollToBottom = () => {
         console.log("scrolling to the bottom of the window...");

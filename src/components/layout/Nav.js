@@ -40,20 +40,19 @@ export default function Nav(props) {
                         console.log("In the res");
                         console.log(res);
 
-                        (res.data.success ? console.log("true") : console.log("false"));
-
-                        console.log(res.data.success.change);
 
                         // if api call was successful and the returned count is an increment of 1
-                        if(res.data.success && res.data.success.change === 1) {
+                        if(res.data.success) {
                             console.log("incrementing the chatcount...")
                             console.log("HERE THE ORIGINAL CHAT COUTN ", chatCount);
 
-                            // increment the chat count by 1
-                            setChatCount(chatCount + 1)
+                            // change the chat count
+                            setChatCount(res.data.success.chatCount);
                         }
                     })
                     .catch(err => console.log(err));
+            } else {
+                console.log("path not /chat so socket in the nav is going to do nothing");
             }
 
             console.log("END OF THE BULLSHIT");

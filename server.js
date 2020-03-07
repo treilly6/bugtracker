@@ -97,7 +97,7 @@ io.on('connection', (socket) => {
 
     // when new chat is made
     socket.on('new chat', (chatObj) => {
-        console.log("HERE IS THE CHAT OBJ ON SERVER SIDE ", chatObj);
+        console.log("HERE IS THE CHAT OBJ ON SERVER SIDE new chat socket ", chatObj);
 
         // emit to all the userIds that are in the new chat
         if(chatObj.users) {

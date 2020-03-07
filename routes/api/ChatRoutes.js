@@ -203,11 +203,13 @@ router.post('/newMessage', (req, res) => {
 
 // used to toggle the read status of users in the chat
 router.post('/toggleRead', (req, res) => {
+    console.log("\n", "\n");
     console.log("IN THE TOGGLE READ API CALL ");
     console.log(req.body);
-
+    console.log("Important host shit ")
+    console.log(req.path);
     console.log("HERE IS THE USER ", req.user);
-    console.log("HERE IS THE BODY ", req.body);
+    console.log("\n", "\n");
 
     try {
         var chatId = new ObjectId(req.body.chatId);
@@ -218,7 +220,7 @@ router.post('/toggleRead', (req, res) => {
     Chat.findOne({_id : chatId})
         .then(chat => {
             console.log("HERE IS THE CHAT FORM THE QUERY ");
-            console.log(chat);
+            console.log(chat._id);
             console.log("IT IS MUTHA TRUCK LIT OUT HER");
             const objIndex = chat.users.findIndex(elem => elem.username === req.user.username);
 
@@ -227,11 +229,14 @@ router.post('/toggleRead', (req, res) => {
 
             // init the change variable to zero
             var change;
+            // the incoming unread status is the same as the chatObj
             if(req.body.unreadStatus === chat.users[objIndex].unreadMessages) {
                 change = 0;
+            // if unread status is true
             } else if(req.body.unreadStatus) {
                 chat.users[objIndex].unreadMessages = req.body.unreadStatus;
                 change = 1;
+            // if the unread status is false
             } else if (!req.body.unreadStatus) {
                 chat.users[objIndex].unreadMessages = req.body.unreadStatus;
                 change = -1;
@@ -242,7 +247,46 @@ router.post('/toggleRead', (req, res) => {
                     console.log("ERROR ON SAVE OF CHAT");
                     res.json({error : "error on save chat"});
                 } else {
-                    res.json({success : {message : "Saved the chat", chatObj : chat, change}});
+                    console.log("ABOUT TO RETURN THE CHANGE HERE IS CHAT ID AND CHANGE COUNT ");
+                    console.log(chat._id, change);
+                    console.log("HERE THE SAVED CHAT ")
+                    console.log(chat);
+                    console.log("\n");
+                    console.log("\n");
+
+                    Chat.find({"users.userId" : req.user._id})
+                        .then(chats => {
+                            if(chats.length) {
+                                // find the number of unread messages in the mailbox
+                                const chatCount = chats.reduce((countDict, chatObj) => {
+                                    console.log("HERE IS THE CHAT OBJ's USERS ");
+                                    console.log(chatObj.users);
+                                    // find the user obj in the chat users array
+                                    const userObj = chatObj.users.find((userObj) => {
+                                        if(userObj.username === req.user.username) {
+                                            return userObj;
+                                        }
+                                    });
+
+                                    if(userObj && userObj.unreadMessages) {
+                                        // increment the count in the dict
+                                        countDict.chatCount++;
+                                    }
+
+                                    return countDict
+                                }, {chatCount : 0});
+
+                                console.log("JUST BEFORE THE RETURN HERE IS THE CHAT COUNT ");
+                                console.log(chatCount);
+                                console.log("\n","\n");
+
+                                // return the chatCount
+                                // no need for curly braces b/c chatCount is already an object
+                                return res.json({success : {message : "Saved the chat", chatObj : chat, chatCount : chatCount.chatCount}});
+                            } else {
+                                return res.json({success : {message : "Saved the chat", chatObj : chat, chatCount : 0}});
+                            }
+                        })
                 }
             })
         })

@@ -44,14 +44,31 @@ class ChatContacts extends React.Component {
 
                 for (const chat of res.data.chats) {
                     console.log("IN OF LOOP OF THE RES DATA CHATS ", chat._id);
-                    this.socket.on(`new chat message ${chat._id}`, newMessage => {
-                        console.log("HERE IS THE NEW MESSAGE FOR ON THE CLIENTS SIDE ");
-                        console.log(newMessage);
 
-                        this.updateChatStateWithNewMessage(newMessage, chat._id);
+                    console.log("CHECK THE SOCKET IF THE OTHER SHIT ALREADY THERE ");
+                    console.log(typeof(this.socket._callbacks));
 
-                        // find the chat by id and append the new message to the messages
-                    })
+                    console.log(`$new chat message ${chat._id}` in this.socket._callbacks);
+
+                    // if listener is not already created then make one //
+                    if (!(`$new chat message ${chat._id}` in this.socket._callbacks)) {
+
+                        console.log("CREATING SOCKET LISTENERS FOR THE CHAT CONTACTS LINE 54");
+
+                        this.socket.on(`new chat message ${chat._id}`, newMessage => {
+                            console.log("HERE IS THE NEW MESSAGE FOR ON THE CLIENTS SIDE ");
+                            console.log(newMessage);
+
+                            console.log("HERE IS THE chatId ", chat._id);
+                            console.log("Here is the new message ", newMessage);
+
+                            this.updateChatStateWithNewMessage(newMessage, chat._id);
+
+                            // find the chat by id and append the new message to the messages
+                        })
+                    } else {
+                        console.log("THE SOCKET LISTENER THING FAILED MAN");
+                    }
                 }
             })
             .catch(err => console.log(err));
@@ -132,7 +149,7 @@ class ChatContacts extends React.Component {
                 console.log(typeof(this.props.selectedChat._id));
                 console.log(typeof(copyChat._id));
             }
-            await axios.post('/api/chats/toggleRead', {chatId : copyChat._id, unreadStatus : true})
+            await axios.post('/api/chats/toggleRead', {chatId : copyChat._id, unreadStatus : true, origin : window.location.pathname, currentChatCount : this.context.chatCount})
                 .then(res => {
                     console.log("HERE THE TOGGLE READ RESULT");
                     console.log(res);
@@ -142,8 +159,14 @@ class ChatContacts extends React.Component {
                         console.log("Here is the chat object thing goung dooooown ", res.data.success.chatObj);
                         copyChat = res.data.success.chatObj;
 
+                        console.log("HERE WHAT THE CHAT VALUE GONNA CHANGE TO ", this.context.chatCount + res.data.success.change);
+
+                        // const copyContext = Number(this.context.chatCount);
+
                         // increment the chat count context
-                        this.context.setChatCount(this.context.chatCount + res.data.success.change);
+                        // this.context.setChatCount(this.context.chatCount + res.data.success.change);
+
+                        this.context.setChatCount(res.data.success.chatCount);
                     }
                 })
                 .catch(err => console.log(err))
@@ -155,8 +178,8 @@ class ChatContacts extends React.Component {
         // replace the old chat with the updated chat
         copyState[chatIndex] = copyChat;
 
-        console.log("just before the sort chats fuinction here isd the param");
-        console.log(copyState);
+        // console.log("just before the sort chats fuinction here isd the param");
+        // console.log(copyState);
 
 
         // sort the chats from chats with newest messages to chats with oldest messages
@@ -166,6 +189,9 @@ class ChatContacts extends React.Component {
         this.setState({chats : copyState});
 
         console.log("HERE ARE THE STATE OF aLL chats ", this.state.chats);
+
+        console.log("CHECK FOR THE SOCKETS SHIT");
+        console.log(this.socket);
     }
 
     addNewChat = (newChatObj, repeat) => {
@@ -187,10 +213,13 @@ class ChatContacts extends React.Component {
         console.log("HERE IS THE E THING MEAJFJ");
         console.log(e.currentTarget);
 
+
+
         // if the chat is unread then change the context and make an api call to save the toggle on server
         if(prevUnreadStatus) {
-            console.log("HERE ON THE CLICK IS THE CONTEXT CHAT COUNT ", this.context.chatCount);
             this.context.setChatCount(this.context.chatCount - 1);
+            console.log("HERE IS THE CLICKED SHIT AFTER THE change of the context ", this.context.chatCount);
+
             axios.post('/api/chats/toggleRead', {chatId : chatObj._id, unreadStatus : false})
                 .then(res => {
                     console.log("HERE THE TOGGLE READ RESULT");
@@ -233,9 +262,13 @@ class ChatContacts extends React.Component {
 
     render(){
 
+        console.log("CHAT CONTACTS GOING TO RENDER HERE S TH E STATE VALUE OF THE CHATS ");
+        console.log(this.state.chats);
+
         var chatItems;
-        console.log("CHATCONTACTS RENDER STATE INFOR ", this.state.chats);
+
         if(this.state.chats) {
+            console.log("IN THE STATE CHATS LOOP ");
             chatItems = this.state.chats.map(chat => {
 
                 // find the number of users in the chat
@@ -287,6 +320,9 @@ class ChatContacts extends React.Component {
 
                 // find the index of the user
                 const userIndex = chat.users.findIndex(elem => elem.username === this.props.username);
+
+                console.log("HERE IS THE CHECK FOR EQUALIT IF WE GONNA MAKE THAT SHIT BOLD AND STUFF ");
+                console.log(chat.users[userIndex]);
 
                 // see if the unreadMessages bool variable is true
                 if(chat.users[userIndex].unreadMessages) {
