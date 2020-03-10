@@ -20,6 +20,8 @@ class Chat extends React.Component {
     constructor(props){
         super(props);
 
+        console.log("IN THE CHAT CONSTRUCTOR HERE IS THE SOCKET ", socket);
+
         // if no socket then create one listening to the server port
         if(!socket) {
             console.log("CREATING A SOCKET IN THE create chat CONSTRUCTOR");
@@ -54,6 +56,24 @@ class Chat extends React.Component {
         console.log("\n");
         console.log(socket);
         console.log("CLEAR THE SOCKET SHIT HERE");
+
+        // socket.disconnect();
+        //
+        // // loop thru the socket and destroy ones not needed
+        for (const s of Object.keys(socket._callbacks)) {
+            console.log(s);
+
+            if(s.includes('new chat')) {
+                console.log("GONNA REMOVE ", s);
+                socket.off(s);
+            }
+        }
+
+        // socket.emit('chat unmount', (socket.id));
+        //
+        // socket.close();
+
+
         console.log("\n");
         console.log("\n");
         console.log("\n");
