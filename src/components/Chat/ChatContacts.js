@@ -127,6 +127,9 @@ class ChatContacts extends React.Component {
         // copy the chat
         var copyChat = Object.assign({},changedChat);
 
+        // init the newChatCount to null
+        var newChatCount = null;
+
         // add new message to the array of messages
         copyChat.messages = [...copyChat.messages, newMessage];
 
@@ -135,6 +138,8 @@ class ChatContacts extends React.Component {
         console.log("JUST BEFORE THE EVALUATION CHECK ");
         console.log(this.props.selectedChat);
         console.log(copyChat._id);
+
+
         // console.log((this.props.selectedChat ? this.props.selectChat._id : "No chat id here"));
 
 
@@ -149,7 +154,7 @@ class ChatContacts extends React.Component {
                 console.log(typeof(this.props.selectedChat._id));
                 console.log(typeof(copyChat._id));
             }
-            await axios.post('/api/chats/toggleRead', {chatId : copyChat._id, unreadStatus : true, origin : window.location.pathname, currentChatCount : this.context.chatCount})
+            await axios.post('/api/chats/toggleRead', {chatId : copyChat._id, unreadStatus : true})
                 .then(res => {
                     console.log("HERE THE TOGGLE READ RESULT");
                     console.log(res);
@@ -157,16 +162,21 @@ class ChatContacts extends React.Component {
 
                     if(res.data.success) {
                         console.log("Here is the chat object thing goung dooooown ", res.data.success.chatObj);
+
+                        // reassign the copy chat to the updated chat that is returned from the api req
                         copyChat = res.data.success.chatObj;
 
-                        console.log("HERE WHAT THE CHAT VALUE GONNA CHANGE TO ", this.context.chatCount + res.data.success.change);
+                        // set the newChatCount to the value returned from the api
+                        newChatCount = res.data.success.chatCount;
+
+                        console.log("HERE WHAT THE CHAT VALUE GONNA CHANGE TO ", res.data.success.chatCount);
 
                         // const copyContext = Number(this.context.chatCount);
 
                         // increment the chat count context
                         // this.context.setChatCount(this.context.chatCount + res.data.success.change);
 
-                        this.context.setChatCount(res.data.success.chatCount);
+
                     }
                 })
                 .catch(err => console.log(err))
@@ -186,7 +196,13 @@ class ChatContacts extends React.Component {
         tools.sortChats(copyState)
 
         // set the state of chats to the updated chats
+        console.log("ABOUT TO SET THE NEW STATE OF THE CHATS");
         this.setState({chats : copyState});
+
+        if(newChatCount) {
+            console.log("ABOUT TO CHANGE THE CHAT COUNT HERE");
+            this.context.setChatCount(newChatCount);
+        }
 
         console.log("HERE ARE THE STATE OF aLL chats ", this.state.chats);
 
@@ -270,6 +286,9 @@ class ChatContacts extends React.Component {
         if(this.state.chats) {
             console.log("IN THE STATE CHATS LOOP ");
             chatItems = this.state.chats.map(chat => {
+
+                console.log("HERE THE SINGLE CHAT FROM THE LOOP ");
+                console.log(chat);
 
                 // find the number of users in the chat
                 var chatUserLength = chat.users.length;

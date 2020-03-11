@@ -143,15 +143,15 @@ io.on('connection', (socket) => {
         socket.broadcast.emit(`user typing ${chatId}`, {username, typing});
     })
 
-    // socket.on('chat unmount' , (socketId) => {
-    //     console.log("CHAT UNMOUNT IM GONNA TRY AND DELETE THAT SHIT ");
-    //     console.log("HERE IS THE SOCKET FROM THE SERVER SHIT ", socket);
-    //     console.log("HERE IS SOCKET ID ", socketId);
-    //     console.log(io.sockets.connected);
-    //     console.log("HERE THE EXACT SOCKET");
-    //     console.log(io.sockets.connected[socketId]);
-    //     socket.disconnect();
-    // })
+    socket.on('chat unmount' , (socketId) => {
+        console.log("CHAT UNMOUNT IM GONNA TRY AND DELETE THAT SHIT ");
+        console.log("HERE IS THE SOCKET FROM THE SERVER SHIT ", socket);
+        console.log("HERE IS SOCKET ID ", socketId);
+        console.log(io.sockets.connected);
+        console.log("HERE THE EXACT SOCKET");
+        console.log(io.sockets.connected[socketId]);
+        socket.disconnect();
+    })
 
     // socket that will listen for an event of new mail message
     // and will broadcast to client sockets so that the
